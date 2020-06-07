@@ -31,6 +31,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 #fix irb errors
 gem 'irb', require: false
 
+# devise Login/Signup
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
