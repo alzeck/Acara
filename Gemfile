@@ -33,6 +33,8 @@ gem 'irb', require: false
 
 # devise Login/Signup
 gem 'devise'
+#google oauth
+gem 'omniauth-google-oauth2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
