@@ -1,58 +1,55 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    
-    <%= link_to 'Home', root_path, class: "navbar-brand"%>
+<nav class="navbar sticky-top navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <%= image_tag("/logo.png", size: "70x40", alt: "Homepage") %>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline mx-auto my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
 
-    <% if current_user %>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#"> <%= current_user.username %> <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <% if current_user.admin? %>
-                        <a class="dropdown-item" href="#">gestisci flag</a>
-                    <% end %>
-                    <div class="dropdown-divider"></div>
-                    <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item"%>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <ul class="navbar-nav ml-auto">
+                <% if current_user %>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#"> <%= current_user.username %> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <% if current_user.admin? %>
+                            <a class="dropdown-item" href="#">gestisci flag</a>
+                            <% end %>
+                            <div class="dropdown-divider"></div>
+                            <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item"%>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                <% else %>
+                    <li class="nav-item active">
+                        <button class="btn nav-link" id="signin" onclick="return  launchIframeModal('<%= new_user_session_path %>')"> Sign in </button>   
+                    </li>
+                    <li class="nav-item active">
+                        <button class="btn nav-link" id="signin" onclick="return  launchIframeModal('<%= new_user_registration_path %>')"> Sign up </button>   
+                    </li>
+                <% end %>
+                <li class="nav-item active">
+                    <button class="btn nav-link" id="themeUpdater" onclick="return updateColor();"> <svg class="lightbulb" > </svg> </button>
+                </li>
+            </ul>
+        </div>
     </div>
-    <% else %>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline mx-center my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <%= link_to 'Sign in', new_user_session_path, class: "nav-link"%>
-            </li>
-            <li class="nav-item active">
-                <%= link_to 'Sign up', new_user_registration_path, class: "nav-link"%>
-            </li>
-        </ul>
-    </div>
-    <% end %>
-
 </nav>

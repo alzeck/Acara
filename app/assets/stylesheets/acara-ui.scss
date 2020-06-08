@@ -1,0 +1,183 @@
+:root {
+    --jet: #2F2F2F;
+    --cultured: #F9F9F9;
+    --prussian-blue: #052F5F;
+    --cobalt-blue: #004BA8;
+    --azure: #007FFF;
+
+    --light-footer: rgba(0,0,0,.03);
+    --dark-footer: rgba(255, 255, 255, 0.096);
+    /*border*/
+    --light-border: rgba(97, 97, 97, 0.2);
+    --dark-border: rgba(255, 255, 255, 0.2);
+    
+    --cultured-transparent: rgba(255, 255, 255, 0.6);
+    --jet-transparent: rgba(30, 30, 30, 0.6);
+
+    --radius: 8px;
+
+    --bg: var(--cultured);
+    --bg-t: var(--cultured-transparent);
+    --border: var(--light-border);
+    --footer: var(--light-footer);
+    --fg: var(--jet);
+    --hl: var(--azure);
+    --hbm: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --theme-icon: url("data:image/svg+xml,<svg class='bi bi-moon' width='1em' height='1em' viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M14.53 10.53a7 7 0 0 1-9.058-9.058A7.003 7.003 0 0 0 8 15a7.002 7.002 0 0 0 6.53-4.47z'/></svg>");
+    --theme-icon-hover: url("data:image/svg+xml,<svg class='bi bi-moon' width='1em' height='1em' viewBox='0 0 16 16' fill='rgb(0,127,255)' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M14.53 10.53a7 7 0 0 1-9.058-9.058A7.003 7.003 0 0 0 8 15a7.002 7.002 0 0 0 6.53-4.47z'/></svg>");
+}
+
+[data-theme="dark"] {
+    --bg: var(--jet);
+    --bg-t: var(--jet-transparent);
+    --border: var(--dark-border);
+    --footer: var(--dark-footer);
+    --fg: var(--cultured);
+    --hl: var(--azure);
+    --hbm: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --theme-icon: url("data:image/svg+xml,<svg class='bi bi-brightness-high' width='1em' height='1em' viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z'/></svg>");
+    --theme-icon-hover: url("data:image/svg+xml,<svg class='bi bi-brightness-high' width='1em' height='1em' viewBox='0 0 16 16' fill='rgb(0,127,255)' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z'/></svg>");
+}
+
+body { 
+    color: var(--fg);
+    background-color: var(--bg);
+    transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+hr {
+    border-color: var(--border);
+}
+
+.navbar { 
+    color: var(--hl);
+    background: var(--bg-t) ;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+.navbar-brand, .nav-link{
+    color: var(--fg);
+}
+
+.navbar-brand:hover, .nav-link:hover{
+    color: var(--hl);
+}
+
+.nav-link:focus{ 
+    outline:0;
+    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+}
+
+.navbar-toggler-icon{
+    background-image: var(--hbm);
+    
+}
+
+.navbar-toggler:focus{
+    outline: 0;
+}
+
+.dropdown-menu{
+    color: var(--fg);
+    text-align: left;
+    list-style: none;
+    background-color: var(--bg);
+    background-clip: padding-box;
+    border-color: var(--border);
+}
+
+.dropdown-item{
+    color: var(--fg);
+}
+
+.dropdown-divider{
+    border-color: var(--border);
+}
+
+.card { 
+    background-color: var(--bg-t);
+    border-color: var(--border);
+    transition: background 500ms ease-in-out;
+}
+
+.card-footer {
+    padding: .75rem 1.25rem;
+    background-color: var(--footer);
+    border-top: 1px solid var(--border);
+    transition: background 500ms ease-in-out;
+}
+
+.git {
+    --size:16px;
+    width: var(--size);
+    height: var(--size);
+    filter: brightness(100);
+    content: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg");
+}
+
+.lightbulb {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-image: var(--theme-icon);
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+
+.lightbulb:hover{
+    background-image: var(--theme-icon-hover);
+}
+
+
+
+.login { 
+    background-image: url(asset-path("signin.jpg"));
+    background-size: cover;   
+    padding-left: 20%; 
+    height: 100%;
+    border-radius: var(--radius);
+}
+
+.modal-content {
+    border-radius: var(--radius);
+}
+
+.sign-form {
+    height: 100%;
+    color: bg(--fg);
+    background-color: var(--bg-t);
+    padding: 1px;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-top-right-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
+}
+
+.signup {
+    background-image: url(asset-path("signup.jpg"));
+    background-size: cover;   
+    padding-left: 20%; 
+    height: 100%;
+    border-radius: var(--radius);
+}
+
+iframe {
+    border:none;
+    height: 100%;
+    width: 100%;
+}
+
+.form-control {
+    color: var(--fg);
+    background-color: var(--bg);
+    border-color: var(--border);
+}
+
+.form-control:focus {
+    color: var(--fg);
+    background-color: var(--bg);
+}

@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Acara</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track' => true %>
-  </head>
+    
+</head>
 
-  <body>
-    <%= render 'layouts/navbar'%>
-    <%= render 'layouts/alerts'%>
-    <%= yield %>
-  </body>
+<body>
+    <%= render('layouts/navbar') if has_navbar %>
+    <%= render('layouts/modals') %>
+    <!--   <%= render 'layouts/alerts'%> -->
+    <div id="pageContent" class="<%= 'container' if has_navbar %>">
+        <%= yield %>
+    </div>
+    
+    <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "popper.js.js" %>
+    <%= javascript_include_tag "bootstrap" %>
+    <%= javascript_include_tag "dark-mode" %>
+    <%= javascript_include_tag "modal-comms" %>
+</body>
+
 </html>
