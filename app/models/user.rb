@@ -52,4 +52,12 @@ class User < ApplicationRecord
       user.skip_confirmation!
     end
   end
+
+
+  # TODO Controlla che la data di nascita sia minore uguale alla data corrente
+  #def startBeforeEnd
+  #  Time.at(birthday.to_i) <= Time.now
+  #end
+  #validate :startBeforeEnd
+
 end

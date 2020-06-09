@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_233823) do
   create_table "chats", force: :cascade do |t|
     t.bigint "user1_id", null: false
     t.bigint "user2_id", null: false
+    t.index ["user1_id", "user2_id"], name: "index_chats_on_user1_id_and_user2_id", unique: true
     t.index ["user1_id"], name: "index_chats_on_user1_id"
     t.index ["user2_id"], name: "index_chats_on_user2_id"
   end
@@ -41,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_233823) do
     t.datetime "end"
     t.string "title"
     t.text "description"
-    t.boolean "modified"
+    t.boolean "modified", default: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
   end

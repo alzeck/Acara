@@ -7,7 +7,7 @@ class CreateEvents < ActiveRecord::Migration[6.0]
       t.datetime :end
       t.string :title
       t.text :description
-      t.boolean :modified
+      t.boolean :modified, default: false
       t.references :user, null: false, foreign_key: true
     end
   end
