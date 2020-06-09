@@ -139,7 +139,6 @@ ActiveRecord::Schema.define(version: 2020_06_09_135234) do
     t.string "unconfirmed_email"
     t.string "provider"
     t.string "uid"
-    t.date "birthday"
     t.string "position", default: ""
     t.boolean "verification", default: false
     t.text "bio", default: ""

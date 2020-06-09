@@ -42,8 +42,7 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.username = auth.info.email.split("@")[0]
-      # user.birthday = auth.info.birthday # TODO
+      user.username = auth.info.email.split("@")[0] # FIXME there could be an user that already has this username 
       # user.name = auth.info.name   # assuming the user model has a name
       user.avatar = auth.info.image  # assuming the user model has an image
       # If you are using confirmable and the provider(s) you use validate emails,
@@ -73,15 +72,4 @@ class User < ApplicationRecord
       )
     end
   end
-
-  def validBirthday
-    if birthday.to_date > Date.today
-      errors.add(:birthday, "Invalid birthday")
-    end
-  end
-
-  validate :validBirthday
-
-  # TODO Controlla che i seguenti campi non siano vuoti
-  # validates :birthday, presence: true
 end

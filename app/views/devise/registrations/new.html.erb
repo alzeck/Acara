@@ -9,18 +9,18 @@
 
             <div class="form-group">
                 <%= f.label :username %>
-                <%= f.text_field :username, class: "form-control" %>
+                <%= f.text_field :username, class: "form-control", required: true  %>
             </div>
 
             <div class="form-group">
                 <%= f.label :email %>
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: true  %>
             </div>
 
 
             <div class="form-group">
                 <%= f.label :password %>
-                <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+                <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: true  %>
                 <% if @minimum_password_length %>
                 <small id="passwordHelpBlock" class="form-text text-muted">
                 (<%= @minimum_password_length %> characters minimum)</small>
@@ -29,16 +29,11 @@
 
             <div class="form-group">
                 <%= f.label :password_confirmation %>
-                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
-            </div>
-
-            <div class="form-group">
-                <%= f.label :birthday %>
-                <%= f.date_field :birthday, class: "form-control" %>
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: true  %>
             </div>
 
             <div class="actions">
-                <%= f.submit "Sign up", class: "btn btn-primary btn-block"  %>
+                <%= f.submit "Sign up", class: "btn btn-primary btn-block" %>
             </div>
             <% end %>
 
