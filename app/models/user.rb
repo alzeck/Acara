@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   devise :omniauthable, omniauth_providers: [:google_oauth2]
 
-  # case insensitivity tu user
+  # validate username
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
   #To allow users to login with username or email
@@ -37,27 +37,51 @@ class User < ApplicationRecord
     end
   end
 
-
   # Oauth with google
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.username = auth.info.email.split('@')[0]
-      # user.birthday = auth.info.birthday # TODO 
+      user.username = auth.info.email.split("@")[0]
+      # user.birthday = auth.info.birthday # TODO
       # user.name = auth.info.name   # assuming the user model has a name
-      # user.image = auth.info.image # assuming the user model has an image
-      # If you are using confirmable and the provider(s) you use validate emails, 
+      user.avatar = auth.info.image  # assuming the user model has an image
+      # If you are using confirmable and the provider(s) you use validate emails,
       # uncomment the line below to skip the confirmation emails.
       user.skip_confirmation!
     end
   end
 
+  # User Profile image
+  has_one_attached :avatar
+  after_commit :add_default_avatar, on: %i[create update]
 
-  # TODO Controlla che la data di nascita sia minore uguale alla data corrente
-  #def startBeforeEnd
-  #  Time.at(birthday.to_i) <= Time.now
-  #end
-  #validate :startBeforeEnd
+  def avatar_thumbnail
+    avatar.variant(resize: "150x150!").processed
+  end
 
+  def add_default_avatar
+    unless avatar.attached?
+      avatar.attach(
+        io: File.open(
+          Rails.root.join(
+            "app", "assets", "images", "default_profile.jpg"
+          )
+        ),
+        filename: "default_profile.jpg",
+        content_type: "image/jpg",
+      )
+    end
+  end
+
+  def validBirthday
+    if birthday.to_date > Date.today
+      errors.add(:birthday, "Invalid birthday")
+    end
+  end
+
+  validate :validBirthday
+
+  # TODO Controlla che i seguenti campi non siano vuoti
+  # validates :birthday, presence: true
 end

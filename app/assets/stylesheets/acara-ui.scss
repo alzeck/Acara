@@ -58,6 +58,20 @@ hr {
     transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
+.avatar {
+    --size: 150px;
+    height: var(--size);
+    width: var(--size);
+    border-radius: 100%;
+    border-color: var(--border);
+    border-style: solid;
+    border-width: 1px;
+}
+
+.navbar-avatar {
+    --size: 30px;
+}
+
 .navbar-brand, .nav-link{
     color: var(--fg);
 }
@@ -136,10 +150,8 @@ hr {
 
 .login { 
     background-image: url(asset-path("signin.jpg"));
-    background-size: cover;   
-    padding-left: 20%; 
-    height: 100%;
-    border-radius: var(--radius);
+    background-size: cover;  
+    min-height: 100vh;
 }
 
 .modal-content {
@@ -147,22 +159,18 @@ hr {
 }
 
 .sign-form {
-    height: 100%;
     color: bg(--fg);
     background-color: var(--bg-t);
     padding: 1px;
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    border-top-right-radius: var(--radius);
-    border-bottom-right-radius: var(--radius);
+    border-radius: var(--radius);
 }
 
 .signup {
     background-image: url(asset-path("signup.jpg"));
     background-size: cover;   
-    padding-left: 20%; 
-    height: 100%;
-    border-radius: var(--radius);
+    min-height: 100vh;
 }
 
 iframe {
@@ -175,9 +183,11 @@ iframe {
     color: var(--fg);
     background-color: var(--bg);
     border-color: var(--border);
+    transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
 .form-control:focus {
     color: var(--fg);
     background-color: var(--bg);
 }
+

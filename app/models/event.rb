@@ -13,9 +13,14 @@ class Event < ApplicationRecord
   validates :description, presence: true
 
 
+  #Immagini di Copertina e Galleria 
+  has_one_attached :cover
+  has_many_attached :gallery
+
+
   #Controlla che le coordinate siano effettivamente valide
   validates_format_of :cords, with: /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/, :multiline => true
-    
+
 
   #Controlla che l'evento non finisca prima di cominciare
   def startBeforeEnd
