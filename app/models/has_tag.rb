@@ -1,12 +1,11 @@
 class HasTag < ApplicationRecord
   
-  #Un HasTag ha un solo evento
+  #Controlli sulle chiavi esterne
   belongs_to :event
-  validates_associated :event
-
-
-  #Un HasTag ha un solo tag
   belongs_to :tag
-  validates_associated :tag
+
+
+  #Controlli sulle chiavi interne
+  validates_uniqueness_of :event_id, scope: :tag_id
 
 end

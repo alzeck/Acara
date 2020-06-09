@@ -1,31 +1,27 @@
 class Comment < ApplicationRecord
 
-  #un commento può avere solo un precedente commento
-  belongs_to :previous, optional: true
-  #validates_associated :previous
-
-
-  #Un commento ha un solo utente
+  #Controlli sulle chiavi esterne
+  belongs_to :previous, optional: true, class_name: "Comment"
   belongs_to :user
-  #validates_associated :user
-
-
-  #Un commento ha un solo evento
   belongs_to :event
-  #validates_associated :event
 
 
   #Controlla che i seguenti campi non siano vuoti
   validates :content, :presence => true
 
 
-  # FIXME
-  #Controlla che il commento non sia reply di se stesso
-  def notSelfReply
-    if (! previous_id.nil?) && (previous_id == id)
-      errors.add(:id, 'Comment is replying to itself')
+  #Condizione per cui eseguire la validReply
+  def previousNil?
+    previous_id.nil?
+  end
+
+
+  #Controlla che il commento abbia una reply valida
+  def validReply
+    if Comment.where(:id => self.previous_id, :event_id => self.event_id).length <= 0
+      errors.add(:previous_id, "Comment cannot be this reply")
     end
   end
-  validate :notSelfReply
+  validate :validReply, :unless => :previousNil? 
 
 end

@@ -1,16 +1,15 @@
 class Participation < ApplicationRecord
   
-  #Una partecipazione ha un solo evento
+  #Controlli sulle chiavi esterne
   belongs_to :event
-  validates_associated :event
-
-
-  #Un messaggio ha un solo utente
   belongs_to :user
-  validates_associated :user
 
 
-  #controlla che il valore della partecipazione sia valido e non vuoto
-  validates :rating, :inclusion => {:in => ["i", "p"]}
+  #Controlli sulle chiavi interne
+  validates_uniqueness_of :event_id, scope: :user_id
+
+
+  #Controlla che il valore sia tra quelli accettati (e conseguentemente che non sia vuoto)
+  validates :value, :inclusion => {:in => ["i", "p"]}
   
 end

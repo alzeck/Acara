@@ -1,12 +1,11 @@
 class FollowsTag < ApplicationRecord
   
-  #Un follow ha un solo utente
+  #Controlli sulle chiavi esterne
   belongs_to :user
-  validates_associated :user
-
-
-  #Un follow ha un solo tag
   belongs_to :tag
-  validates_associated :tag
+
+
+  #Controlli sulle chiavi interne
+  validates_uniqueness_of :user_id, scope: :tag_id
   
 end

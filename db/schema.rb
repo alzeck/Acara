@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_233823) do
 
   create_table "messages", force: :cascade do |t|
     t.text "content"
-    t.boolean "read"
+    t.boolean "read", default: false
     t.bigint "chat_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false

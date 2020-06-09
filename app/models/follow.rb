@@ -1,21 +1,20 @@
 class Follow < ApplicationRecord
 
-  #Un follow ha un solo follower
-  belongs_to :follower
-  validates_associated :follower
+  #Controlli sulle chiavi esterne
+  belongs_to :follower, class_name: "User"
+  belongs_to :followed, class_name: "User"
 
 
-  #Un follow ha un solo followed
-  belongs_to :followed
-  validates_associated :followed
+  #Controlli sulle chiavi interne
+  validates_uniqueness_of :follower_id, scope: :followed_id
 
 
-  #Controlla che il follow non sia di se stesso
-  def notSelfFollow
+  #Controlla che il follow sia valido
+  def validFollow
     if follower_id == followed_id
-      errors.add(:follower, 'User is trying to follow itself')
+      errors.add(:followed_id, 'User is trying to follow itself')
     end
   end
-  validate :notSelfFollow
+  validate :validFollow
 
 end
