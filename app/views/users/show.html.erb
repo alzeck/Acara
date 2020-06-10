@@ -1,0 +1,42 @@
+<div class="card mt-2">
+    <div class="card-body">
+        <div class="media">
+                <%= image_tag @user.avatar_thumbnail, class:"avatar mr-3" %>
+            <div class="media-body">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div>
+                        <h3 class="mt-0"> <%= @user.username %> </h3>                  
+                    </div>
+                    <% if user_signed_in? #&& @user != current_user %>
+                    <br>
+                    <div>
+                        <% #if !@user.admin %>
+                            <% if current_user.admin %>
+                                <button class="btn btn-danger mr-2"> <svg class="delete-icon"> </svg> </button>
+                            <% else %>
+                                <button class="btn btn-danger mr-2"> Flag </button>
+                            <% end %>
+                        <% #end %>
+                        <button class="btn btn-success mr-2"><svg class="chat-icon">  </svg> </button>
+                        <button class="btn btn-primary"> <svg class="follow-icon">  </svg> Follow </button>
+                    </div>
+                    <% end %>
+                </div>
+                <%= @user.followers %> followers <%= @user.following %> following <br>
+                <%= @user.bio %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h3 class="card-title">Events</h3>
+        <% @events.each do |event| %>
+            <% event.name %>
+        <% end %>
+         <% if @events.empty? %>
+            <span class="text-muted"> This user has no events yet </span>
+         <%end%>
+    </div>
+</div>

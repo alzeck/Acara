@@ -4,18 +4,14 @@
     --prussian-blue: #052F5F;
     --cobalt-blue: #004BA8;
     --azure: #007FFF;
-
-    --light-footer: rgba(0,0,0,.03);
+    --light-footer: rgba(0, 0, 0, .03);
     --dark-footer: rgba(255, 255, 255, 0.096);
     /*border*/
     --light-border: rgba(97, 97, 97, 0.2);
     --dark-border: rgba(255, 255, 255, 0.2);
-    
     --cultured-transparent: rgba(255, 255, 255, 0.6);
     --jet-transparent: rgba(30, 30, 30, 0.6);
-
     --radius: 8px;
-
     --bg: var(--cultured);
     --bg-t: var(--cultured-transparent);
     --border: var(--light-border);
@@ -39,7 +35,7 @@
     --theme-icon-hover: url("data:image/svg+xml,<svg class='bi bi-brightness-high' width='1em' height='1em' viewBox='0 0 16 16' fill='rgb(0,127,255)' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z'/></svg>");
 }
 
-body { 
+body {
     color: var(--fg);
     background-color: var(--bg);
     transition: background 500ms ease-in-out, color 1000ms ease-in-out;
@@ -49,9 +45,9 @@ hr {
     border-color: var(--border);
 }
 
-.navbar { 
+.navbar {
     color: var(--hl);
-    background: var(--bg-t) ;
+    background: var(--bg-t);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
@@ -72,29 +68,30 @@ hr {
     --size: 30px;
 }
 
-.navbar-brand, .nav-link{
+.navbar-brand,
+.nav-link {
     color: var(--fg);
 }
 
-.navbar-brand:hover, .nav-link:hover{
+.navbar-brand:hover,
+.nav-link:hover {
     color: var(--hl);
 }
 
-.nav-link:focus{ 
-    outline:0;
-    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+.nav-link:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 }
 
-.navbar-toggler-icon{
+.navbar-toggler-icon {
     background-image: var(--hbm);
-    
 }
 
-.navbar-toggler:focus{
+.navbar-toggler:focus {
     outline: 0;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     color: var(--fg);
     text-align: left;
     list-style: none;
@@ -103,17 +100,18 @@ hr {
     border-color: var(--border);
 }
 
-.dropdown-item{
+.dropdown-item {
     color: var(--fg);
 }
 
-.dropdown-divider{
+.dropdown-divider {
     border-color: var(--border);
 }
 
-.card { 
+.card {
     background-color: var(--bg-t);
     border-color: var(--border);
+    border-radius: 10px;
     transition: background 500ms ease-in-out;
 }
 
@@ -125,32 +123,60 @@ hr {
 }
 
 .git {
-    --size:16px;
+    --size: 16px;
     width: var(--size);
     height: var(--size);
     filter: brightness(100);
     content: url("https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg");
 }
 
+// buttons specific 
 .lightbulb {
     height: 1rem;
     width: 1rem;
     display: inline-block;
-    content: "";
     background-image: var(--theme-icon);
     background-repeat: no-repeat;
     background-size: 1rem 1rem;
 }
 
-.lightbulb:hover{
+.lightbulb:hover {
     background-image: var(--theme-icon-hover);
+}
+
+.delete-icon {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    background-image: url("data:image/svg+xml,<svg class='bi bi-trash' width='1em' height='1em' viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'> <path d='M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z'/> <path fill-rule='evenodd' d='M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z'/> </svg>");
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+
+.chat-icon {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    background-image: url("data:image/svg+xml,<svg class='bi bi-chat-fill' width='1em' height='1em' viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><path d='M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+
+.follow-icon {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    background-image: url("data:image/svg+xml,<svg class='bi bi-person-plus' width='1em' height='1em' viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM6 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm4.5 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z'/><path fill-rule='evenodd' d='M13 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+
 }
 
 
 
-.login { 
+.login {
     background-image: url(asset-path("signin.jpg"));
-    background-size: cover;  
+    background-size: cover;
     min-height: 100vh;
 }
 
@@ -169,12 +195,12 @@ hr {
 
 .signup {
     background-image: url(asset-path("signup.jpg"));
-    background-size: cover;   
+    background-size: cover;
     min-height: 100vh;
 }
 
 iframe {
-    border:none;
+    border: none;
     height: 100%;
     width: 100%;
 }
@@ -191,3 +217,7 @@ iframe {
     background-color: var(--bg);
 }
 
+.footer {
+    border-top: 1px solid var(--border);
+    background-color: var(--footer);
+}

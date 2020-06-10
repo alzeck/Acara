@@ -20,7 +20,7 @@
     <div id="pageContent" class="<%= 'container' if has_navbar %>">
         <%= yield %>
     </div>
-    
+    <%= render('layouts/footer') if has_navbar %>
     <%= javascript_include_tag "jquery" %>
     <%= javascript_include_tag "popper.js.js" %>
     <%= javascript_include_tag "bootstrap" %>

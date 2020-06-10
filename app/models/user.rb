@@ -72,4 +72,14 @@ class User < ApplicationRecord
       )
     end
   end
+
+  # followers and following
+  def following 
+    Follow.where(follower: self).length
+  end
+
+  def followers 
+    Follow.where(followed: self).length
+  end
+
 end
