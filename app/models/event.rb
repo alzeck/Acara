@@ -34,4 +34,41 @@ class Event < ApplicationRecord
   # TODO Controlla che la stringa di where corrisponda alle coordinate date
 
 
+  #variabile indicante quanti utenti partecipano al dato evento
+  def going
+    Participation.where(event: self, value: "p").length
+  end
+
+
+  #variabile indicante quanti utenti sono interessati al dato evento
+  def interested 
+    Participation.where(event: self, value: "i").length
+  end
+
+
+  #variabile indicante i nomi dei tag del dato evento
+  def tags 
+    ht = HasTag.where(event: self)
+
+    arr = []
+    for elem in ht
+      arr << Tag.find(elem.tag_id).name
+    end
+
+    return arr
+  end
+
+
+  #variabile indicante i commenti del dato evento (in ordine dentro una mappa)
+  def comments
+    commNoReply = Comment.where(event: self, previous_id: nil).sort_by(&:created_at)
+
+    comments = []
+    for elem in commNoReply
+      comments << { comment: elem, replies: Comment.where(event: self, previous_id: elem.id).sort_by(&:created_at) }
+    end
+
+    return comments
+  end
+
 end

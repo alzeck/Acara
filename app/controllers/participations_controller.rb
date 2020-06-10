@@ -1,6 +1,27 @@
 class ParticipationsController < ApplicationController
 
-	# JSON
+	#GET su /events/:event_id/participations
+	def index
+		event_id = params[:event_id]
+		
+		if Event.exists?(event_id)			
+			if user_signed_in?
+				part = Participation.where(user_id: current_user.id, event_id: event_id)[0]
+
+				if part.nil?
+					@participation = nil
+				else
+					@participation = part.value
+				end
+			else
+				@participation = nil
+			end			
+		else
+			render_404
+		end
+	end
+
+
 	#POST su /events/:event_id/participations
 	def create
 		if user_signed_in?
@@ -8,20 +29,21 @@ class ParticipationsController < ApplicationController
 			
 			if Event.exists?(event_id)
 				participation = Participation.new(params[:participation].permit(:value), user_id: current_user.id, event_id: event_id)
-			
-				if participation.save
-					redirect_to event_path(Event.find(event_id))
+
+				if participation.valid?
+					if participation.save
+						redirect_to event_path(Event.find(event_id))
+					else
+						render_500
+					end
 				else
-					#flash[:notice] = participation.errors.full_messages
-					redirect_to event_path(Event.find(event_id))
+					render_400
 				end
 			else
-				#flash[:notice] = 'Event does not exist'
-				redirect_to root_path
+				render_404
 			end
 		else
-			#flash[:notice] = "User not signed in"
-			redirect_to root_path
+			render_422
 		end
 	end
 
@@ -35,26 +57,36 @@ class ParticipationsController < ApplicationController
 				participation_id = params[:id]
 				event = Event.find(event_id)
 				
-				if Participation.exists?(participation_id) && (current_user.id == Participation.find(participation_id).user_id || current_user.admin) && Participation.find(participation_id).event_id == event_id
+				if Participation.exists?(participation_id)
 					participation = Participation.find(participation_id)
 
-					if participation.update(params[:participation].permit(:value), user_id: current_user.id, event_id: event_id)
-						redirect_to event_path(event)
+					if current_user.id == participation.user_id || current_user.admin
+						if participation.event_id == event_id
+							participation.assign_attributes(params[:participation].permit(:value), user_id: current_user.id, event_id: event_id)
+                    
+							if participation.valid?
+								if participation.save
+									redirect_to event_path(event)
+								else
+									render_500
+								end
+							else
+								render_400
+							end
+						else
+							render_400
+						end
 					else
-						#flash[:notice] = participation.errors.full_messages
-						redirect_to event_path(event)
+						render_422
 					end
-				else 
-					#flash[:notice] = 'Cannot update this participation'
-					redirect_to event_path(event)
+				else
+					render_404
 				end
 			else
-				#flash[:notice] = 'Event does not exist'
-				redirect_to root_path
+				render_404
 			end
 		else
-			#flash[:notice] = "User not signed in"
-			redirect_to root_path
+			render_422
 		end
 	end
 
@@ -67,20 +99,30 @@ class ParticipationsController < ApplicationController
 			if Event.exists?(event_id)
 				participation_id = params[:id]
 				
-				if Participation.exists?(participation_id) && (current_user.id == Participation.find(participation_id).user_id || current_user.admin) && Participation.find(participation_id).event_id == event_id
-					Participation.find(participation_id).destroy
-					redirect_to event_path(Event.find(event_id))
+				if Participation.exists?(participation_id)
+					participation = Participation.find(participation_id)
+
+					if current_user.id == participation.user_id || current_user.admin
+						if participation.event_id == event_id
+							if participation.destroy
+								redirect_to event_path(Event.find(event_id))
+							else
+								render_500
+							end
+						else
+							render_400
+						end
+					else
+						render_422
+					end
 				else 
-					#flash[:notice] = 'Cannot delete this participation'
-					redirect_to event_path(Event.find(event_id))
+					render_404
 				end
 			else
-				#flash[:notice] = 'Event does not exist'
-				redirect_to root_path
+				render_404
 			end
 		else
-			#flash[:notice] = "User not signed in"
-			redirect_to root_path
+			render_422
 		end
 	end
 

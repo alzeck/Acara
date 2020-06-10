@@ -6,13 +6,8 @@ class EventsController < ApplicationController
         
         if Event.exists?(id)
             @event = Event.find(id)
-
-            @interested = Participation.where(:event_id => id, :value => "i").length
-            @going = Participation.where(:event_id => id, :value => "p").length
-            @tags = HasTag.where(:event_id => id)
         else
-            #flash[:notice] = "Event does not exist"
-            redirect_to root_path
+            render_404
         end
 	end
     
@@ -20,8 +15,7 @@ class EventsController < ApplicationController
     #GET su /events/new
     def new
         if ! user_signed_in?
-            #flash[:notice] = "User not signed in"
-            redirect_to root_path
+            render_422
         end
 	end
     
@@ -29,35 +23,21 @@ class EventsController < ApplicationController
     #POST su /events
     def create
         if user_signed_in?
+            tags = createTags( params[:event].permit(:tags) )
             event = Event.new(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery), user_id: current_user.id)
         
-            if event.save
-                tags = params[:event].permit(:tags);
-                tags = tags.scan(/#\w+/).flatten.map(&:downcase).uniq
-                
-                for elem in tags
-                    tg = Tag.where(:name => elem)[0]
-
-                    if tg.nil?   
-                        tg = Tag.new(name: elem)
-                        if tg.save
-                            HasTag.create(event_id: event.id, tag_id: tg.id)
-                        else
-                            #flash[:notice] = tg.errors.full_messages
-                        end
-                    else
-                        HasTag.create(event_id: event.id, tag_id: tg.id)  
-                    end
+            if event.valid?
+                if event.save
+                    createHasTags(tags, event)
+                    redirect_to event_path(event)
+                else
+                    render_500
                 end
-
-                redirect_to event_path(event)
             else
-                #flash[:notice] = event.errors.full_messages
-                redirect_to root_path
+                render_400
             end
         else
-            #flash[:notice] = "User not signed in"
-            redirect_to root_path
+            render_422
         end      
     end
 
@@ -66,17 +46,17 @@ class EventsController < ApplicationController
     def edit
         if user_signed_in?
             id = params[:id]
-            
-            if Event.exists?(id) && (current_user.id == Event.find(id).user_id || current_user.admin)
+
+            if Event.exists?(id)
                 @event = Event.find(id)
-                @tags = HasTag.where(:event_id => id)
+                if !( current_user.id == @event.user_id || current_user.admin )
+                    render_422
+                end
             else
-                #flash[:notice] = 'Cannot edit this event'
-                redirect_to root_path
+                render_404
             end
         else
-            #flash[:notice] = "User not signed in"
-            redirect_to root_path
+            render_422
         end
 	end
     
@@ -86,47 +66,33 @@ class EventsController < ApplicationController
         if user_signed_in?
             id = params[:id]
             
-            if Event.exists?(id) && (current_user.id == Event.find(id).user_id || current_user.admin)
+            if Event.exists?(id)
                 event = Event.find(id)
 
-                if event.update(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery), modified: true)
-                    has_tags = HasTag.where(:event_id => id)
-                    for elem in has_tags
-                        if !elem.destroy
-                            #flash[:notice] = elem.errors.full_messages
-                        end
-                    end
-                
-                    tags = params[:event].permit(:tags);
-                    tags = tags.scan(/#\w+/).flatten.map(&:downcase).uniq
-                    
-                    for elem in tags
-                        tg = Tag.where(:name => elem)[0]
+                if current_user.id == event.user_id || current_user.admin
+                    destroyHasTags(event)
+                    tags = createTags( params[:event].permit(:tags) )
 
-                        if tg.nil?   
-                            tg = Tag.new(name: elem)
-                            if tg.save
-                                HasTag.create(event_id: event.id, tag_id: tg.id)
-                            else
-                                #flash[:notice] = tg.errors.full_messages
-                            end
-                        else
-                            HasTag.create(event_id: event.id, tag_id: tg.id)  
-                        end
-                    end
+                    event.assign_attributes(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery), modified: true)
                     
-                    redirect_to event_path(event)
+                    if event.valid?
+                        if event.save
+                            createHasTags(tags, event)
+                            redirect_to event_path(event)
+                        else
+                            render_500
+                        end
+                    else
+                        render_400
+                    end
                 else
-                    #flash[:notice] = event.errors.full_messages
-                    redirect_to event_path(event)
+                    render_422
                 end
             else
-                #flash[:notice] = 'Cannot update this event'
-                redirect_to root_path
+                render_404
             end
         else
-            #flash[:notice] = "User not signed in"
-            redirect_to root_path
+            render_422
         end
 	end
 	
@@ -136,49 +102,31 @@ class EventsController < ApplicationController
         if user_signed_in?
             id = params[:id]
             
-            if Event.exists?(id) && (current_user.id == Event.find(id).user_id || current_user.admin)
+            if Event.exists?(id)
                 event = Event.find(id)
 
-                comments = Comment.where(:event_id => id)
-                for elem in comments
-                    if !elem.destroy
-                        #flash[:notice] = elem.errors.full_messages
-                        redirect_to event_path(event)
+                if current_user.id == event.user_id || current_user.admin
+                    destroyComments(event)
+                    destroyHasTags(event)
+                    destroyParticipations(event)
+                    
+                    event.cover.purge_later
+                    event.gallery.purge_later
+                    
+                    if event.destroy
+                        redirect_to root_path
+                    else
+                        render_500
                     end
-                end
-
-                has_tags = HasTag.where(:event_id => id)
-                for elem in has_tags
-                    if !elem.destroy
-                        #flash[:notice] = elem.errors.full_messages
-                        redirect_to event_path(event)
-                    end
-                end            
-                
-                participations = Participation.where(:event_id => id)
-                for elem in participations
-                    if !elem.destroy
-                        #flash[:notice] = elem.errors.full_messages
-                        redirect_to event_path(event)
-                    end
-                end 
-
-                event.cover.purge_later
-                event.gallery.purge_later
-                
-                if event.destroy
-                    redirect_to root_path
                 else
-                    #flash[:notice] = event.errors.full_messages
-                    redirect_to event_path(event)
+                    render_422
                 end
+                
             else
-                #flash[:notice] = 'Cannot delete this event'
-                redirect_to root_path
+                render_404
             end
         else
-            #flash[:notice] = "User not signed in"
-            redirect_to root_path
+            render_422
         end
 	end
 
