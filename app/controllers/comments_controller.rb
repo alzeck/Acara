@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
 
-	# JSON
 	# GET su /events/:event_id/comments
 	def index
 		event_id = params[:event_id]
@@ -14,6 +13,8 @@ class CommentsController < ApplicationController
 			for elem in commNoReply
 				@comments << { "comment" => elem, "replies" => Comment.where(event_id: event_id, previous_id: elem.id).sort_by(&:created_at) }
 			end
+
+			render :json => @comments
 		else
 			#flash[:notice] = 'Event does not exist'
             redirect_to root_path
@@ -61,7 +62,7 @@ class CommentsController < ApplicationController
 					if comment.update(params[:comment].permit(:content, :previous_id), user_id: current_user.id, event_id: event_id)
 						redirect_to event_path(event)
 					else
-						#flash[:notice] = event.errors.full_messages
+						#flash[:notice] = comment.errors.full_messages
 						redirect_to event_path(event)
 					end
 				else 

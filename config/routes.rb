@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   # TODO decidere e gestire le routes per il controller pages (home, cerca...)
 
 
-  #Crud routes for events (and comments)
+  #Crud routes for events (and comments, and participations)
   resources :events, except: [:index] do
   	resources :comments, except: [:show, :new, :edit]
+  	
+  	resources :participations, except: [:index, :show, :new, :edit]
   end
   
   
@@ -28,9 +30,5 @@ Rails.application.routes.draw do
   
   #Crud routes for flags
   resources :flags, except: [:edit, :update]
-  
-  
-  #Crud routes for participations
-  resources :participations, except: [:index, :show, :new, :edit]
 
 end

@@ -29,7 +29,7 @@ class EventsController < ApplicationController
     #POST su /events
     def create
         if user_signed_in?
-            event = Event.new(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery))
+            event = Event.new(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery), user_id: current_user.id)
         
             if event.save
                 tags = params[:event].permit(:tags);
