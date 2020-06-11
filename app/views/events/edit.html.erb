@@ -1,0 +1,11 @@
+<%= simple_form_for @event  do |f| %>
+<%= f.input :title %>
+<%= f.input :cover %>
+<%= f.input :where %>
+<%= f.input :cords %>
+<%= f.input :start %>
+<%= f.input :end %>
+<%= f.input :description %>
+<%= f.input :tags %>
+<%= f.button :submit, class:"btn-primary btn-block" %>
+<% end %>

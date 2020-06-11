@@ -1,0 +1,45 @@
+<!--  has_one_attached :cover -->
+<!--  has_many_attached :gallery -->
+
+<div class="pt-3">
+    <div class="card card-event" style="background-image: url(<%=rails_blob_url( @event.cover) %>)">
+        <div class="card-body">
+            <div class="d-flex flex-wrap">
+                <div>
+                    <h4 class="m-0"><%= @event.title %></h4>
+                    <%= link_to @event.user.username, user_path(@event.user) %><br>
+                    <%= @event.start.strftime("%e %B %Y, %H:%M") %> - <%= @event.end.strftime("%e %B %Y, %H:%M")%>
+                </div>
+                <div class="ml-auto">
+                    <div class="text-right mb-2">
+                    <span class="mr-2"><strong><%= @event.interested %></strong> Interested </span>
+                    <strong><%= @event.going %></strong> Going </div>
+                    <div>
+                        <button class="btn btn-danger"> F </button>
+                        <button class="btn btn-light"> C </button>
+                        <button class="btn btn-primary"> Interested </button>
+                        <button class="btn btn-success"> Going </button>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-title"> Description </h6>
+        <%= @event.description %><br>
+        <br>
+        <h6 class="card-title"> Tags </h6>
+        <div class="text-primary">
+            <% @event.tags.each do |t| %>
+            <%= t %>
+            <%end%>
+        </div>
+    </div>
+</div>
+
+<%= @event.cords %><br>

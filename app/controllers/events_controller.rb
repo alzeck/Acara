@@ -17,18 +17,20 @@ class EventsController < ApplicationController
         if ! user_signed_in?
             render_422
         end
+        @event = Event.new
 	end
     
     
     #POST su /events
     def create
         if user_signed_in?
-            tags = createTags( params[:event].permit(:tags) )
-            event = Event.new(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery), user_id: current_user.id)
+            par = params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :tags)
+            tags = helpers.createTags( par[:tags] )
+            event = Event.new(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], user: current_user)
         
             if event.valid?
                 if event.save
-                    createHasTags(tags, event)
+                    helpers.createHasTags(tags, event)
                     redirect_to event_path(event)
                 else
                     render_500
@@ -70,14 +72,15 @@ class EventsController < ApplicationController
                 event = Event.find(id)
 
                 if current_user.id == event.user_id || current_user.admin
-                    destroyHasTags(event)
-                    tags = createTags( params[:event].permit(:tags) )
+                    helpers.destroyHasTags(event)
+                    par = params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :tags)
+                    tags = helpers.createTags( par[:tags] )
 
-                    event.assign_attributes(params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :gallery), modified: true)
+                    event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], modified: true)
                     
                     if event.valid?
                         if event.save
-                            createHasTags(tags, event)
+                            helpers.createHasTags(tags, event)
                             redirect_to event_path(event)
                         else
                             render_500
@@ -106,12 +109,11 @@ class EventsController < ApplicationController
                 event = Event.find(id)
 
                 if current_user.id == event.user_id || current_user.admin
-                    destroyComments(event)
-                    destroyHasTags(event)
-                    destroyParticipations(event)
+                    helpers.destroyComments(event)
+                    helpers.destroyHasTags(event)
+                    helpers.destroyParticipations(event)
                     
                     event.cover.purge_later
-                    event.gallery.purge_later
                     
                     if event.destroy
                         redirect_to root_path

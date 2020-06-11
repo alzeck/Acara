@@ -35,6 +35,9 @@ gem 'irb', require: false
 gem 'devise'
 #google oauth
 gem 'omniauth-google-oauth2'
+#simple form
+gem 'simple_form'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

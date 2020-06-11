@@ -13,9 +13,8 @@ class Event < ApplicationRecord
   validates :description, presence: true
 
 
-  #Immagini di Copertina e Galleria 
+  #Immagine di Copertina
   has_one_attached :cover
-  has_many_attached :gallery
 
 
   #Controlla che le coordinate siano effettivamente valide
