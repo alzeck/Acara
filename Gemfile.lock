@@ -164,6 +164,8 @@ GEM
     omniauth (1.9.1)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
+    omniauth-facebook (6.0.0)
+      omniauth-oauth2 (~> 1.2)
     omniauth-google-oauth2 (0.8.0)
       jwt (>= 2.0)
       omniauth (>= 1.1.1)
@@ -219,6 +221,7 @@ GEM
       railties (>= 5.0)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
+    ruby_http_client (3.5.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -229,6 +232,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    sendgrid-ruby (6.2.1)
+      ruby_http_client (~> 3.4)
     simple_form (5.0.2)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
@@ -285,11 +290,13 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   launchy
   listen (~> 3.2)
+  omniauth-facebook
   omniauth-google-oauth2
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.1)
   sass-rails (>= 6)
+  sendgrid-ruby
   simple_form
   spring
   spring-watcher-listen (~> 2.0.0)
