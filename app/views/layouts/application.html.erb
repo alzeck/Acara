@@ -7,10 +7,11 @@
     <%= csp_meta_tag %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track' => true %>
-
+    <%= javascript_include_tag "jquery" %>
+    <%= javascript_include_tag "popper.js.js" %>
+    <%= javascript_include_tag "bootstrap" %>
 </head>
 
 <body>
@@ -21,9 +22,6 @@
         <%= yield %>
     </div>
     <%= render('layouts/footer') if has_navbar %>
-    <%= javascript_include_tag "jquery" %>
-    <%= javascript_include_tag "popper.js.js" %>
-    <%= javascript_include_tag "bootstrap" %>
     <%= javascript_include_tag "dark-mode" %>
     <%= javascript_include_tag "modal-comms" %>
     <% if has_maps %>
