@@ -70,4 +70,8 @@ class Event < ApplicationRecord
     return comments
   end
 
+  def coords
+    { lat: self.cords.split(',')[0].strip, lng: self.cords.split(',')[1].strip }
+  end
+
 end

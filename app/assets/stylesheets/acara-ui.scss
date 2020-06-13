@@ -9,6 +9,8 @@
     /*border*/
     --light-border: rgba(97, 97, 97, 0.2);
     --dark-border: rgba(255, 255, 255, 0.2);
+    --light-hover: rgba(97, 97, 97);
+    --dark-hover: rgb(189, 189, 189);
     --cultured-transparent: rgba(255, 255, 255, 0.6);
     --jet-transparent: rgba(30, 30, 30, 0.6);
     --radius: 8px;
@@ -16,6 +18,7 @@
     --bg-t: var(--cultured-transparent);
     --border: var(--light-border);
     --footer: var(--light-footer);
+    --hover: var(--light-hover);
     --fg: var(--jet);
     --hl: var(--azure);
     --hbm: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
@@ -32,6 +35,7 @@
     --footer: var(--dark-footer);
     --fg: var(--cultured);
     --hl: var(--azure);
+    --hover: var(--dark-hover);
     --hbm: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     --theme-icon: url("data:image/svg+xml,<svg class='bi bi-brightness-high' width='1em' height='1em' viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z'/></svg>");
     --theme-icon-hover: url("data:image/svg+xml,<svg class='bi bi-brightness-high' width='1em' height='1em' viewBox='0 0 16 16' fill='rgb(0,127,255)' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z'/></svg>");
@@ -98,7 +102,6 @@ hr {
     outline: 0;
 }
 
-
 .dropdown-menu {
     color: var(--fg);
     text-align: left;
@@ -110,6 +113,18 @@ hr {
 
 .dropdown-item {
     color: var(--fg);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: var(--fg);
+    background-color: var(--hover);
+}
+
+.dropdown-item:active,
+.dropdown-item.active {
+    color: var(--fg);
+    background-color: var(--hl);
 }
 
 .dropdown-divider {
@@ -129,7 +144,6 @@ hr {
     border-top: 1px solid var(--border);
     transition: background 500ms ease-in-out;
 }
-
 
 // #region Icons buttons specific 
 div[class$="-icon"] {
@@ -233,6 +247,12 @@ iframe {
     background-color: var(--bg);
 }
 
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: var(--hover);
+    color: var(--bg);
+}
+
 .footer {
     border-top: 1px solid var(--border);
     background-color: var(--footer);
@@ -261,11 +281,35 @@ iframe {
     padding-bottom: var(--padding-size);
 }
 
-.navbar-search { 
+.cover-bg-blur{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-position: center;
+    background-size: contain;
+    background-repeat: repeat;
+    filter: blur(10px) brightness(0.7);
+}
+
+.cover-bg{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.navbar-search {
     background-color: var(--bg-t);
     border-radius: 50px;
 }
 
-.btn-search{
-    margin-left: -60px;
+.btn-search {
+    margin-left: -48px;
+}
+
+// border color
+div[class*="border"] {
+    border-color: var(--border);
 }

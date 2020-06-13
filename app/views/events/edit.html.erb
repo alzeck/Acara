@@ -1,11 +1,59 @@
-<%= simple_form_for @event  do |f| %>
-<%= f.input :title %>
-<%= f.input :cover %>
-<%= f.input :where %>
-<%= f.input :cords %>
-<%= f.input :start %>
-<%= f.input :end %>
-<%= f.input :description %>
-<%= f.input :tags %>
-<%= f.button :submit, class:"btn-primary btn-block" %>
-<% end %>
+<div class="py-4">
+    <%= simple_form_for @event  do |f| %>
+    <div class="card" style="height:300px;overflow:hidden;background-color:black">
+                <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
+                <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
+            </div>
+    <div class="row mt-3">
+
+        <div class="col-sm-6">
+            
+            <%= f.input :cover %>
+            <%= f.input :title, required:true %>
+            <%= f.input :cords, as: :hidden %>
+            <div class="row">
+                <div class="col"> <%= f.input :start, as: :datetime, html5: true %> </div>
+                <div class="col"> <%= f.input :end, as: :datetime, html5: true %> </div>
+            </div>
+            
+            <%= f.input :where, input_html: {readonly: :true} %>
+            
+            <%= f.input :tags %>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card mb-3" style="overflow:hidden">
+                <div style="height: 325px" id="mapContainer" data-lat="<%= @event.coords[:lat] %>" data-lng="<%= @event.coords[:lng] %>"></div>
+                <div class="card-body border-top form-inline">
+                    <input class="form-control w-100" id="mapSearchInput" placeholder="Search" aria-label="Search">
+                    <button type="button" class="btn btn-search" id="mapsearch">
+                        <div class="search-icon"></div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%= f.input :description, required:true %>
+    <%= f.button :submit, class:"btn-primary btn-block" %>
+    <% end %>
+</div>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#cover').css('background-image', 'url(' + e.target.result + ')');
+                $('#cover-noblur').css('background-image', 'url(' + e.target.result + ')');
+            }
+
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+
+    $("#event_cover").change(function() {
+        readURL(this);
+    });
+</script>
