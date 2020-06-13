@@ -6,5 +6,4 @@ class Tag < ApplicationRecord
   # Only allow letter, number, underscore and punctuation.
   validates_format_of :name, with: /^#[a-z0-9_]*$/, :multiline => true
 
-
 end

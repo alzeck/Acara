@@ -2,16 +2,18 @@ Rails.application.routes.draw do
 
   default_url_options :host => "localhost:3000"
 
-  root to: "pages#home"
-  get "/search", to: "pages#search", as: "search"
 
+  #Routes linked to users
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :users, only: [:show] do
     resources :follows, except: [:show, :new, :edit, :update]
   end
 
-  # TODO decidere e gestire le routes per il controller pages (home, cerca...)
+
+  #Routes for the pages (home, search)
+  root to: "pages#home"
+  get "/search", to: "pages#search", as: "search"
 
 
   #Routes for events (and comments, and participations)

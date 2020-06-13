@@ -30,7 +30,27 @@ class Event < ApplicationRecord
   validate :startBeforeEnd
 
 
-  # TODO Controlla che la stringa di where corrisponda alle coordinate date
+  # Controlla che la stringa di where corrisponda alle coordinate date
+  def whereIsCords
+    gc_cords = Geocoder.search(self.where)
+
+    if gc_cords[0].data["error"].nil?
+      loc = self.cords.split(",")
+      loc[0] = loc[0].to_d
+      loc[1] = loc[1].split[0].to_d
+  
+      for elem in gc_cords
+        if elem.coordinates[0] == loc[0] && elem.coordinates[1] == loc[1]
+          return
+        end
+      end
+      errors.add(:start, "Event coordinates do not match with the specified place")
+
+    else
+      errors.add(:start, "Event place do not match with any coordinates")
+    end
+  end
+  validate :whereIsCords
 
 
   #variabile indicante quanti utenti partecipano al dato evento
