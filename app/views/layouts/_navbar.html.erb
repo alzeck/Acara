@@ -8,47 +8,45 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline mx-auto my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <form class="form-inline w-75 mx-auto my-2 my-lg-0" action="<%= search_path %>" method="get">
+                <input name="q" class="form-control w-100 navbar-search mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn my-2 btn-search my-sm-0" type="submit"><div class="search-icon"></div></button>
             </form>
 
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav">
                 <% if current_user %>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"> <%= current_user.username %> <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <%= link_to '+', new_event_path, class: "nav-link"%>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <%= image_tag current_user.avatar_thumbnail, class:"avatar navbar-avatar" %>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item"%>
-                            <a class="dropdown-item" href="#">Chats</a>
-                            <% if current_user.admin? %>
-                            <a class="dropdown-item" href="#">Check Flag</a>
-                            <% end %>
-                            <div class="dropdown-divider"></div>
-                            <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item"%>
-                            <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item"%>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
+                <li class="nav-item active mr-2">
+                    <%= link_to( new_event_path, class: "nav-link") do%>
+                    <div class="new-event-icon"></div>
+                    <% end %>
+                </li>
+                <li class="nav-item dropdown mr-2">
+                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%= image_tag current_user.avatar_thumbnail, class:"avatar navbar-avatar" %>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item"%>
+                        <a class="dropdown-item" href="#">Chats</a>
+                        <% if current_user.admin? %>
+                        <a class="dropdown-item" href="#">Check Flag</a>
+                        <% end %>
+                        <div class="dropdown-divider"></div>
+                        <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item"%>
+                        <%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: "dropdown-item"%>
+                    </div>
+                </li>
                 <% else %>
-                    <li class="nav-item active">
-                        <%= link_to 'Log In', new_user_session_path, class: "nav-link"%>   
-                    </li>
-                    <li class="nav-item active">  
-                        <%= link_to 'Sign up', new_user_registration_path, class: "nav-link"%>   
-                    </li>
+                <li class="nav-item active">
+                    <%= link_to 'Log In', new_user_session_path, class: "nav-link"%>
+                </li>
+                <li class="nav-item active">
+                    <%= link_to 'Sign up', new_user_registration_path, class: "nav-link"%>
+                </li>
                 <% end %>
                 <li class="nav-item active">
-                    <button class="btn nav-link" id="themeUpdater" onclick="return updateColor();"> <svg class="lightbulb" > </svg> </button>
+                    <button class="btn nav-link" id="themeUpdater" onclick="return updateColor();">
+                        <div class="lightbulb-icon"> </div>
+                    </button>
                 </li>
             </ul>
         </div>

@@ -10,7 +10,7 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track' => true %>
-    
+
 </head>
 
 <body>
@@ -26,6 +26,13 @@
     <%= javascript_include_tag "bootstrap" %>
     <%= javascript_include_tag "dark-mode" %>
     <%= javascript_include_tag "modal-comms" %>
+    <% if has_maps %>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <%= javascript_include_tag "maps" %>
+    <% end %>
 </body>
 
 </html>
