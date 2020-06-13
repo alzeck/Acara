@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable
 
-  devise :omniauthable, omniauth_providers: %i[google_oauth2 facebook] # TODO Remove google?
+  devise :omniauthable, omniauth_providers: %i[facebook]
 
   # validate username
   validates :username, presence: true, uniqueness: { case_sensitive: false }
