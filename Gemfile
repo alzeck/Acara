@@ -33,14 +33,14 @@ gem 'irb', require: false
 
 # devise Login/Signup
 gem 'devise'
-#google oauth TODO to be removed?
-gem 'omniauth-google-oauth2'
 # Login with facebook <3
 gem 'omniauth-facebook'
 # Sendgrid (EMAILS)
 gem 'sendgrid-ruby'
 #simple form
 gem 'simple_form'
+# geocoder
+gem 'geocoder', '~> 1.2', '>= 1.2.9'
 
 
 group :development, :test do

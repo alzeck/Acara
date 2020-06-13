@@ -95,4 +95,8 @@ class User < ApplicationRecord
   def isFollowing(user)
     !Follow.where(follower: self, followed: user).empty?
   end
+
+  # TODO bisogna aggiungere un controllo sulla position che sia una stringa di coordinate valide, come fatto per gli eventi:
+  # validates_format_of :position, with: /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/, :multiline => true
+
 end

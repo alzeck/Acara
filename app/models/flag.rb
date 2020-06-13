@@ -15,4 +15,10 @@ class Flag < ApplicationRecord
   # TODO controlla che url sia valido (magari che sia proprio o di profilo o di evento o di commento)
   # https://github.com/perfectline/validates_url
 
+
+  #variabile indicante la lista di ragioni selezionabili in un flag
+  def reasons
+    return ["Dangerous Activity & Self Injury", "Harassment & Trolling", "Nudity & Pornography", "Bullying", "Misleading Event/User", "Spam", "Other..."]
+  end
+
 end
