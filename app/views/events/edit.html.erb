@@ -1,6 +1,6 @@
 <div class="py-4">
     <%= simple_form_for @event  do |f| %>
-    <div class="card" style="height:300px;overflow:hidden;background-color:black">
+    <div class="card" style="height:300px;overflow:hidden">
                 <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
                 <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
             </div>

@@ -97,4 +97,20 @@ class Event < ApplicationRecord
     { lat: self.cords.split(',')[0], lng: self.cords.split(',')[1].strip }
   end
 
+  # Default Event Image
+  after_commit :add_default_cover, on: %i[create update]
+
+  def add_default_cover
+    unless cover.attached?
+      cover.attach(
+        io: File.open(
+          Rails.root.join(
+            "app", "assets", "images", "default_cover.jpg"
+          )
+        ),
+        filename: "default_cover.jpg",
+        content_type: "image/jpg",
+      )
+    end
+  end
 end

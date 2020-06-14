@@ -1,23 +1,23 @@
 <div class="py-4">
     <%= simple_form_for @event  do |f| %>
     <div class="card" style="height:300px;overflow:hidden;background-color:black">
-                <div id="cover" class="cover-bg-blur"></div>
-                <div id="cover-noblur" class="cover-bg"></div>
-            </div>
+        <div id="cover" class="cover-bg-blur" ></div>
+        <div id="cover-noblur" class="cover-bg" ></div>
+    </div>
     <div class="row mt-3">
 
         <div class="col-sm-6">
-            
-            <%= f.input :cover, required:true %>
+
+            <%= f.input :cover %>
             <%= f.input :title, required:true %>
             <%= f.input :cords, as: :hidden %>
             <div class="row">
                 <div class="col"> <%= f.input :start, as: :datetime, html5: true %> </div>
                 <div class="col"> <%= f.input :end, as: :datetime, html5: true %> </div>
             </div>
-            
+
             <%= f.input :where, input_html: {readonly: :true} %>
-            
+
             <%= f.input :tags %>
         </div>
 
