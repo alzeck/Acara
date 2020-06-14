@@ -35,7 +35,7 @@ class Event < ApplicationRecord
     if self.where == ""
       errors.add(:where, "can't be empty")
     else
-      here = RestClient.get 'https://geocode.search.hereapi.com/v1/geocode', { params: {q: self.where, apiKey: 'hKg3pvM5KYGkfkLYSHeU2C4asqU56RsBRRCvUEfxIHk'} }
+      here = RestClient.get "https://geocode.search.hereapi.com/v1/geocode", { params: { q: self.where, apiKey: ENV["HERE_API_KEY"] } }
       herejson = (JSON here.body)["items"]
       loc = self.coords
       loc[:lat] = loc[:lat].to_d
