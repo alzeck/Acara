@@ -41,6 +41,8 @@ gem 'sendgrid-ruby'
 gem 'simple_form'
 # geocoder
 gem 'geocoder', '~> 1.2', '>= 1.2.9'
+# RestClient
+gem 'rest-client'
 
 
 group :development, :test do
