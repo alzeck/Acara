@@ -1,13 +1,13 @@
 <div class="py-4">
     <%= simple_form_for @event  do |f| %>
     <div class="card" style="height:300px;overflow:hidden">
-                <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
-                <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
-            </div>
+        <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
+        <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( @event.cover) %>)"></div>
+    </div>
     <div class="row mt-3">
 
-        <div class="col-sm-6">
-            
+        <div class="col-sm-6">@user.errors
+
             <%= f.input :cover %>
             <%= f.input :title, required:true %>
             <%= f.input :cords, as: :hidden %>
@@ -15,9 +15,9 @@
                 <div class="col"> <%= f.input :start, as: :datetime, html5: true %> </div>
                 <div class="col"> <%= f.input :end, as: :datetime, html5: true %> </div>
             </div>
-            
+
             <%= f.input :where, input_html: {readonly: :true} %>
-            
+
             <%= f.input :tags %>
         </div>
 

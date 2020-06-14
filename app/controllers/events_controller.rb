@@ -26,17 +26,17 @@ class EventsController < ApplicationController
         if user_signed_in?
             par = params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :tags)
             tags = helpers.createTags(par[:tags])
-            event = Event.new(where: par[:where], cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], user: current_user)
+            @event = Event.new(where: par[:where], cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], user: current_user)
         
-            if event.valid?
-                if event.save
-                    helpers.createHasTags(tags, event)
-                    redirect_to event_path(event)
+            if @event.valid?
+                if @event.save
+                    helpers.createHasTags(tags, @event)
+                    redirect_to event_path(@event)
                 else
                     render_500
                 end
             else
-                render_400
+                render :new
             end
         else
             render_422
@@ -69,28 +69,28 @@ class EventsController < ApplicationController
             id = params[:id]
             
             if Event.exists?(id)
-                event = Event.find(id)
+                @event = Event.find(id)
 
-                if current_user.id == event.user_id || current_user.admin
-                    helpers.destroyHasTags(event)
+                if current_user.id == @event.user_id || current_user.admin
+                    helpers.destroyHasTags(@event)
                     par = params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :tags)
                     tags = helpers.createTags( par[:tags] )
 
                     if par[:cover].nil?
-                        event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], modified: true)
+                        @event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], modified: true)
                     else
-                        event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], modified: true)
+                        @event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], modified: true)
                     end
                     
-                    if event.valid?
-                        if event.save
-                            helpers.createHasTags(tags, event)
-                            redirect_to event_path(event)
+                    if @event.valid?
+                        if @event.save
+                            helpers.createHasTags(tags, @event)
+                            redirect_to event_path(@event)
                         else
                             render_500
                         end
                     else
-                        render_400
+                        render :edit
                     end
                 else
                     render_422

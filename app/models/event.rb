@@ -32,18 +32,22 @@ class Event < ApplicationRecord
 
   #Controlla che la stringa di where corrisponda alle coordinate date
   def whereIsCords
-    here = RestClient.get 'https://geocode.search.hereapi.com/v1/geocode', { params: {q: self.where, apiKey: 'hKg3pvM5KYGkfkLYSHeU2C4asqU56RsBRRCvUEfxIHk'} }
-    herejson = (JSON here.body)["items"]
-    loc = self.coords
-    loc[:lat] = loc[:lat].to_d
-    loc[:lng] = loc[:lng].to_d
+    if self.where == ""
+      errors.add(:where, "can't be empty")
+    else
+      here = RestClient.get 'https://geocode.search.hereapi.com/v1/geocode', { params: {q: self.where, apiKey: 'hKg3pvM5KYGkfkLYSHeU2C4asqU56RsBRRCvUEfxIHk'} }
+      herejson = (JSON here.body)["items"]
+      loc = self.coords
+      loc[:lat] = loc[:lat].to_d
+      loc[:lng] = loc[:lng].to_d
 
-    for elem in herejson
-      if ( elem["position"]["lat"] == loc[:lat] ) && ( elem["position"]["lng"] == loc[:lng] )
-        return
+      for elem in herejson
+        if ( elem["position"]["lat"] == loc[:lat] ) && ( elem["position"]["lng"] == loc[:lng] )
+          return
+        end
       end
+      errors.add(:where, "Event coordinates do not match with the specified place")
     end
-    errors.add(:where, "Event coordinates do not match with the specified place")
   end
   validate :whereIsCords
 
