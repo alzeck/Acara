@@ -3,6 +3,7 @@ module PagesHelper
     #funzione per prendere la posizione dell'utente corrente, o da geolocalizzazione o da ip
     def getLocation
         if params.has_key?(:gl)
+
             loc = params[:gl]
 
             if user_signed_in?
@@ -11,7 +12,7 @@ module PagesHelper
 
             loc = loc.split(",")
             loc[0] = loc[0].to_d
-            loc[1] = loc[1].strip.to_d
+            loc[1] = loc[1].to_d
             return loc
 
         else
@@ -23,7 +24,7 @@ module PagesHelper
             else
                 loc = Geocoder.search(rip)
 
-                if loc.first.data["error"].nil?
+                if loc != [] && loc.first.coordinates != [] && !loc.first.data["error"].nil?
                     loc = loc.first.coordinates
 
                     if user_signed_in?

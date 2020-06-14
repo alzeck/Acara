@@ -76,7 +76,11 @@ class EventsController < ApplicationController
                     par = params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :tags)
                     tags = helpers.createTags( par[:tags] )
 
-                    event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], modified: true)
+                    if par[:cover].nil?
+                        event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], modified: true)
+                    else
+                        event.assign_attributes(where: par[:where],cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], modified: true)
+                    end
                     
                     if event.valid?
                         if event.save
