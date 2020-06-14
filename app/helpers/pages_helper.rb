@@ -3,7 +3,6 @@ module PagesHelper
     #funzione per prendere la posizione dell'utente corrente, o da geolocalizzazione o da ip
     def getLocation
         if params.has_key?(:gl)
-
             loc = params[:gl]
 
             if user_signed_in?

@@ -30,7 +30,7 @@ class Event < ApplicationRecord
   validate :startBeforeEnd
 
 
-  # Controlla che la stringa di where corrisponda alle coordinate date
+  #Controlla che la stringa di where corrisponda alle coordinate date
   def whereIsCords
     here = RestClient.get 'https://geocode.search.hereapi.com/v1/geocode', { params: {q: self.where, apiKey: 'hKg3pvM5KYGkfkLYSHeU2C4asqU56RsBRRCvUEfxIHk'} }
     herejson = (JSON here.body)["items"]

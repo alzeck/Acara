@@ -211,12 +211,12 @@ class PagesController < ApplicationController
 
 
 
-		#restituisce un json {"type": X, "content": Y}
-		#con X "users", "tags", "events"
-		#con Y la lista di cose restituite
+		# restituisce un json {"type": X, "content": Y}
+		# con X "users", "tags", "events"
+		# con Y la lista di cose restituite
 
 		
-		#@events = Event.joins("JOIN users ON users.verification").where("title ~* ?", ricerca)
+		# @events = Event.joins("JOIN users ON users.verification").where("title ~* ?", ricerca)
 		
 		# else
 		# 	@events = Event.where("title ~* ?", ricerca)
