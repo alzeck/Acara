@@ -71,7 +71,7 @@ module PagesHelper
 
     #funzione che smista l'evento in base alla sua data di inizio rispetto a quella cercata
     def homeDate(date, creator, event, a_v_f, a_v_nf, a_nv_f, a_nv_nf, i_v_f, i_v_nf, i_nv_f, i_nv_nf)
-        if event.start <= date + 1 || event.start >= date - 1
+        if event.start <= date + 1 && event.start >= date - 1
             homeVerification(creator, event, a_v_f, a_v_nf, a_nv_f, a_nv_nf)
         else
             homeVerification(creator, event, i_v_f, i_v_nf, i_nv_f, i_nv_nf)
@@ -100,6 +100,175 @@ module PagesHelper
         else
             nf << event
         end
+    end
+
+
+
+    def pagesAux(titolo, tag)
+        if tag.nil?
+            if titolo.nil?
+                Event.all
+            else
+                Event.where("title ~* ?", titolo)
+            end
+        else
+            if titolo.nil?
+                Event.joins("JOIN has_tags ON events.id = has_tags.event_id JOIN tags ON has_tags.tag_id = tags.id AND tags.name = '#{tag}'")
+            else
+                Event.joins("JOIN has_tags ON events.id = has_tags.event_id JOIN tags ON has_tags.tag_id = tags.id AND tags.name = '#{tag}'").where("title ~* ?", titolo)
+            end
+        end
+    end
+
+
+
+    def pagesGeneral(titolo, tag, dove, quando, qualiFiltri)
+        inZona_attivi_verificati_following = []
+		inZona_attivi_verificati_nonFollowing = []
+		inZona_attivi_nonVerificati_following = []
+		inZona_attivi_nonVerificati_nonFollowing = []
+
+		inZona_inattivi_verificati_following = []
+		inZona_inattivi_verificati_nonFollowing = []
+		inZona_inattivi_nonVerificati_following = []
+		inZona_inattivi_nonVerificati_nonFollowing = []
+
+		nonInZona_attivi_verificati_following = []
+		nonInZona_attivi_verificati_nonFollowing = []
+		nonInZona_attivi_nonVerificati_following = []
+		nonInZona_attivi_nonVerificati_nonFollowing = []
+
+		nonInZona_inattivi_verificati_following = []
+		nonInZona_inattivi_verificati_nonFollowing = []
+		nonInZona_inattivi_nonVerificati_following = []
+        nonInZona_inattivi_nonVerificati_nonFollowing = []
+
+		for elem in pagesAux(titolo, tag)
+			elemLoc = elem.cords.split(",")
+			elemLoc[0] = elemLoc[0].to_d
+			elemLoc[1] = elemLoc[1].to_d
+
+			helpers.homeZona(
+				quando,
+				dove,
+				elemLoc,
+				User.find(elem.user_id),
+				elem,
+				inZona_attivi_verificati_following,
+				inZona_attivi_verificati_nonFollowing,
+				inZona_attivi_nonVerificati_following,
+				inZona_attivi_nonVerificati_nonFollowing,
+				inZona_inattivi_verificati_following,
+				inZona_inattivi_verificati_nonFollowing,
+				inZona_inattivi_nonVerificati_following,
+				inZona_inattivi_nonVerificati_nonFollowing,
+				nonInZona_attivi_verificati_following,
+				nonInZona_attivi_verificati_nonFollowing,
+				nonInZona_attivi_nonVerificati_following,
+				nonInZona_attivi_nonVerificati_nonFollowing,
+				nonInZona_inattivi_verificati_following,
+				nonInZona_inattivi_verificati_nonFollowing,
+				nonInZona_inattivi_nonVerificati_following,
+				nonInZona_inattivi_nonVerificati_nonFollowing
+            )
+        end
+        
+        if qualiFiltri == 0
+            return
+                inZona_attivi_verificati_following +
+                inZona_attivi_verificati_nonFollowing +
+                inZona_attivi_nonVerificati_following +
+                inZona_attivi_nonVerificati_nonFollowing +
+
+                inZona_inattivi_verificati_following +
+                inZona_inattivi_verificati_nonFollowing +
+                inZona_inattivi_nonVerificati_following +
+                inZona_inattivi_nonVerificati_nonFollowing +
+
+                nonInZona_attivi_verificati_following +
+                nonInZona_attivi_verificati_nonFollowing +
+                nonInZona_attivi_nonVerificati_following +
+                nonInZona_attivi_nonVerificati_nonFollowing +
+
+                nonInZona_inattivi_verificati_following +
+                nonInZona_inattivi_verificati_nonFollowing +
+                nonInZona_inattivi_nonVerificati_following +
+                nonInZona_inattivi_nonVerificati_nonFollowing;
+        elsif qualiFiltri == 1
+            return
+                inZona_attivi_verificati_following +
+                inZona_attivi_verificati_nonFollowing +
+                inZona_attivi_nonVerificati_following +
+                inZona_attivi_nonVerificati_nonFollowing +
+
+                inZona_inattivi_verificati_following +
+                inZona_inattivi_verificati_nonFollowing +
+                inZona_inattivi_nonVerificati_following +
+                inZona_inattivi_nonVerificati_nonFollowing;
+        elsif qualiFiltri == 2
+            return
+                inZona_attivi_verificati_following +
+                inZona_attivi_verificati_nonFollowing +
+                inZona_attivi_nonVerificati_following +
+                inZona_attivi_nonVerificati_nonFollowing +
+
+                nonInZona_attivi_verificati_following +
+                nonInZona_attivi_verificati_nonFollowing +
+                nonInZona_attivi_nonVerificati_following +
+                nonInZona_attivi_nonVerificati_nonFollowing;
+        else
+            return
+                inZona_attivi_verificati_following +
+                inZona_attivi_verificati_nonFollowing +
+                inZona_attivi_nonVerificati_following +
+                inZona_attivi_nonVerificati_nonFollowing;
+        end
+    end
+
+
+
+
+    #funzione per la ricerca di utenti
+    def searchUsers(ricerca)
+        verificati_following = []
+        verificati_nonFollowing = []
+        nonVerificati_following = []
+        nonVerificati_nonFollowing = []
+
+        for elem in User.all
+            if elem.username.downcase.include?(ricerca)
+                if elem.verification
+                    if Follow.where(follower_id: current_user.id, followed_id: elem.id)
+                        verificati_following << elem
+                    else
+                        verificati_nonFollowing << elem
+                    end
+
+                else
+                    if Follow.where(follower_id: current_user.id, followed_id: elem.id)
+                        nonVerificati_following << elem
+                    else
+                        nonVerificati_nonFollowing << elem
+                    end
+                end
+            end
+        end
+
+        return verificati_following + verificati_nonFollowing + nonVerificati_following + nonVerificati_nonFollowing
+    end
+
+
+    #funzione per la ricerca di tag
+    def searchTags(ricerca)
+        tags = Tag.where("name ~* ?", ricerca)
+
+
+    end
+
+
+    #funzione per la ricerca di eventi
+    def searchEvents(ricerca)
+
     end
 
 end

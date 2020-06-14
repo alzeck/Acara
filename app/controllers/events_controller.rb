@@ -36,6 +36,7 @@ class EventsController < ApplicationController
                     render_500
                 end
             else
+                #render_400
                 render :new
             end
         else
@@ -90,6 +91,7 @@ class EventsController < ApplicationController
                             render_500
                         end
                     else
+                        #render_400
                         render :edit
                     end
                 else

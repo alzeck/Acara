@@ -89,36 +89,12 @@ class PagesController < ApplicationController
 		# #cerco utenti
 		# if ricerca[0] == "@"
 		# 	ricerca = ricerca[1, ricerca.length-1].downcase
-		# 	verificati_following = []
-		# 	verificati_nonFollowing = []
-		# 	nonVerificati_following = []
-		# 	nonVerificati_nonFollowing = []
-
-		# 	for elem in User.all
-		# 		if elem.username.downcase.include?(ricerca)
-		# 			if elem.verification
-		# 				if Follow.where(follower_id: current_user.id, followed_id: elem.id)
-		# 					verificati_following << elem
-		# 				else
-		# 					verificati_nonFollowing << elem
-		# 				end
-	
-		# 			else
-		# 				if Follow.where(follower_id: current_user.id, followed_id: elem.id)
-		# 					nonVerificati_following << elem
-		# 				else
-		# 					nonVerificati_nonFollowing << elem
-		# 				end
-		# 			end
-		# 		end
-		# 	end
-
-		# 	@risposta = { "type": "users", "content": verificati_following + verificati_nonFollowing + nonVerificati_following + nonVerificati_nonFollowing }
+		# 	@risposta = { "type": "users", "content": helpers.searchUsers(ricerca) }
 
 		# #cerco tag
 		# elsif ricerca[0] == "#"
 		# 	ricerca = ricerca[1, ricerca.length-1].downcase
-		# 	@risposta = { "type": "tags", "content": Tag.where("name ~* ?", ricerca) }
+		# 	@risposta = { "type": "tags", "content": helpers.searchTags(ricerca) }
 
 		# #cerco eventi
 		# else
