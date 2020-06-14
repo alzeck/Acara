@@ -24,12 +24,9 @@ class EventsController < ApplicationController
     #POST su /events
     def create
         if user_signed_in?
-            par = params[:event].permit(:where, :start, :end, :title, :description, :cover, :tags)
-            tags = helpers.createTags( par[:tags] )
-
-            coo = Geocoder.search(par[:where]).first.coordinates
-            coo = "#{coo[0]},#{coo[1]}"
-            event = Event.new(where: par[:where],cords: coo, start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], user: current_user)
+            par = params[:event].permit(:where, :cords, :start, :end, :title, :description, :cover, :tags)
+            tags = helpers.createTags(par[:tags])
+            event = Event.new(where: par[:where], cords: par[:cords], start: par[:start], end: par[:end], title: par[:title], description: par[:description], cover: par[:cover], user: current_user)
         
             if event.valid?
                 if event.save

@@ -78,21 +78,21 @@ ActiveRecord::Schema.define(version: 2020_06_13_090547) do
     t.index ["user_id"], name: "index_flags_on_user_id"
   end
 
-  create_table "follows", id: false, force: :cascade do |t|
+  create_table "follows", force: :cascade do |t|
     t.bigint "follower_id", null: false
     t.bigint "followed_id", null: false
     t.index ["followed_id"], name: "index_follows_on_followed_id"
     t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
-  create_table "follows_tags", id: false, force: :cascade do |t|
+  create_table "follows_tags", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "tag_id", null: false
     t.index ["tag_id"], name: "index_follows_tags_on_tag_id"
     t.index ["user_id"], name: "index_follows_tags_on_user_id"
   end
 
-  create_table "has_tags", id: false, force: :cascade do |t|
+  create_table "has_tags", force: :cascade do |t|
     t.bigint "tag_id", null: false
     t.bigint "event_id", null: false
     t.index ["event_id"], name: "index_has_tags_on_event_id"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2020_06_13_090547) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
-  create_table "participations", id: false, force: :cascade do |t|
+  create_table "participations", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "event_id", null: false
     t.string "value"
