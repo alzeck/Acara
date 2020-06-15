@@ -6,6 +6,10 @@ class EventsController < ApplicationController
 
     if Event.exists?(id)
       @event = Event.find(id)
+      if user_signed_in?
+        # get its partecipation info
+        @part = Participation.where(user_id: current_user.id, event_id: id)[0]
+      end
     else
       render_404
     end
