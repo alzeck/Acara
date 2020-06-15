@@ -8,22 +8,12 @@ class CommentsController < ApplicationController
         # Check if event exists
         par = params[:comment].permit(:content, :previous_id)
 
-        if (par[:previous_id].nil? || (Comment.exists?(par[:previous_id]) && Comment.find(par[:previous_id]).previous_id.nil?))
-          #if not a reply or its parent is not a reply
-          comment = Comment.new(content: par[:content], previous_id: par[:previous_id],
-                                user_id: current_user.id, event_id: event_id)
-
-        elsif Comment.exists?(par[:previous_id])
-          comment = Comment.new(content: par[:content], previous_id: Comment.find(par[:previous_id]).previous_id,
-                                user_id: current_user.id, event_id: event_id)
-
-        else
-          render_400
-        end
+        comment = Comment.new(content: par[:content], previous_id: par[:previous_id],
+                              user_id: current_user.id, event_id: event_id)
 
         if comment.valid?
           if comment.save
-            redirect_to event_path(Event.find(event_id))
+            redirect_to event_path(Event.find(event_id), anchor: "comment#{comment.id}")
           else
             render_500
           end
@@ -38,24 +28,23 @@ class CommentsController < ApplicationController
     end
   end
 
-  
   #PATCH/PUT su /events/:event_id/comments/:id
   def update
     if user_signed_in?
       event_id = params[:event_id].to_i
-      comment = Comment.where(params[:id])[0]
+      comment = Comment.where(id: params[:id])[0]
 
       if !comment.nil? && comment.event_id == event_id
         # check if the comment exist inside the event
         # a comment can only exists if the event that contains it exists
         if current_user.id == comment.user_id || current_user.admin
           # check if the user is autorized to change the comment
-          content = params[:comment].permit(:content)
+          content = params[:comment].permit(:content)[:content]
           comment.assign_attributes(content: content)
           if comment.valid?
             #check the validity of the comments
             if comment.save
-              redirect_to event_path(Event.find(event_id))
+              redirect_to event_path(Event.find(event_id), anchor: "comment#{comment.id}")
             else
               render_500
             end
@@ -73,12 +62,11 @@ class CommentsController < ApplicationController
     end
   end
 
-
   #DELETE su /events/:event_id/comments/:id
   def destroy
     if user_signed_in?
       event_id = params[:event_id].to_i
-      comment = Comment.where(params[:id])[0]
+      comment = Comment.where(id: params[:id])[0]
 
       if !comment.nil? && comment.event_id == event_id
         # check if the comment exist inside the event
@@ -101,5 +89,4 @@ class CommentsController < ApplicationController
       render_401
     end
   end
-
 end

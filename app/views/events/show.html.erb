@@ -1,5 +1,3 @@
-<!--  has_one_attached :cover -->
-<!--  has_many_attached :gallery -->
 
 <div class="pt-3">
     <div class="card card-event">
@@ -21,22 +19,48 @@
                         <span class="mr-2"><strong><%= @event.interested %></strong> Interested </span>
                         <strong><%= @event.going %></strong> Going </div>
                     <% if user_signed_in? %>
-                    <div>
-                        <% if current_user != @event.user && !current_user.admin %>
-                        <button class="btn btn-danger">
-                            <div class="flag-icon"></div>
-                        </button>
-                        <button class="btn btn-primary"> Interested </button>
-                        <button class="btn btn-success"> Going </button>
-                        <% else %>
-                        <%= link_to( edit_event_path(@event), class: "btn btn-warning") do%>
-                        <div class="modify-icon"></div> Modify
-                        <% end %>
-                        <%= link_to( event_path(@event), data:{ confirm: "Are you sure? "}, class: "btn btn-danger", method: :delete) do%>
-                        <div class="delete-icon"></div> Delete
-                        <% end %>
-                        <% end %>
-                    </div>
+                        <div>
+                            <% if current_user != @event.user && !current_user.admin %>
+                            <button class="btn btn-danger">
+                                <div class="flag-icon"></div>
+                            </button>
+
+                                <%if @part.nil? %>
+                                    <%= button_to( event_participations_path(@event), params: { participation: { value: "i" } },
+                                        method: :post, form_class: "d-inline-block", class:"btn btn-primary" ) do %>
+                                        Interested
+                                    <% end %>
+                                    <%= button_to( event_participations_path(@event), params: { participation: { value: "p" } }, 
+                                        method: :post, form_class: "d-inline-block", class:"btn btn-success" ) do %>
+
+                                        Going
+                                    <% end %>
+                                <% elsif @part.value == 'i' %>
+                                    <%= link_to( event_participation_path(@event, @part), method: :delete , class:"btn btn-danger" ) do %>
+                                        Not interested
+                                    <% end %>
+                                    <%= button_to( event_participation_path(@event, @part), params: { participation: { value: "p" } }, 
+                                        method: :put, form_class: "d-inline-block", class:"btn btn-primary" ) do %>
+                                        Going
+                                    <% end %>
+                                <% else %>
+                                    <%= button_to( event_participation_path(@event, @part), params: { participation: { value: "i" } }, 
+                                        method: :put, form_class: "d-inline-block", class:"btn btn-success" ) do %>
+                                        Interested
+                                    <% end %>
+                                    <%= link_to( event_participation_path(@event, @part), method: :delete , class:"btn btn-danger" ) do %>
+                                        Not Going
+                                    <% end %>
+                                <% end %>
+                            <% else %>
+                                <%= link_to( edit_event_path(@event), class: "btn btn-warning") do%>
+                                    <div class="modify-icon"></div> Modify
+                                <% end %>
+                                <%= link_to( event_path(@event), data:{ confirm: "Are you sure? "}, class: "btn btn-danger", method: :delete) do%>
+                                    <div class="delete-icon"></div> Delete
+                                <% end %>
+                            <% end %>
+                        </div>
                     <% end %>
                 </div>
             </div>
@@ -70,18 +94,65 @@
 
     <div class="card">
         <div class="card-header">
-            <%= simple_form_for Comment.new, url: event_comments_path(@event), wrapper: :inline_form,
-                html: { class: "form-inline" },
-                wrapper_mappings: { boolean: :inline_boolean } do |f| %>
-            <%= f.input :content, as: :string, required: false, span_html: { class: "flex-grow" }, input_html: { class: "w-100" }  %>
-            <%= f.button :submit, "Publish", class: "ml-2 btn-primary" %>
+            <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap" do |f| %>
+                <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+                <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
+                    <i class="icon-ok icon-white"></i> Save
+                <% end %>
             <% end %>
         </div>
-        <div class="card-body", >
+        <div class="card-body comments-container">
             <% @event.comments.each do |c| %>
-                <h3><%= c[:comment].user.username %></h3>
-                <%= c[:comment].content %>
-                
+            <div class="media" id="comment<%= c[:comment].id %>">
+                <%= image_tag c[:comment].user.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
+                <div class="media-body comment">
+                    <strong><%= c[:comment].user.username %></strong>
+                    <%= c[:comment].content %>    
+                </div>
+            </div>
+            <div class="replies">
+                <a data-toggle="collapse" href="#replyForm<%= c[:comment].id %>" 
+                    role="button" aria-expanded="false" aria-controls="collapseExample">
+                    reply
+                </a>
+                <% if user_signed_in? && (current_user == c[:comment].user || current_user.admin )%> 
+                    ·
+                    <a data-toggle="collapse" href="#modifyForm<%= c[:comment].id %>" 
+                        role="button" aria-expanded="false" aria-controls="collapseExample">
+                        modify
+                    </a> ·
+                    <%= link_to "delete", event_comment_path(@event, c[:comment]), data: { confirm: "Are you sure?" }, method: :delete , class:"text-danger" %>
+                    <div class="collapse" id="modifyForm<%= c[:comment].id %>">
+                        <%= form_with model: c[:comment], url: event_comment_path(@event,c[:comment]), method: "patch", class: "form-inline flex-nowrap mb-3" do |f| %>
+                            <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+                            <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
+                                <i class="icon-ok icon-white"></i> modify
+                            <% end %>
+                        <% end %>
+                    </div>
+
+                <% else %>
+                    flag
+                <% end %>
+                <% c[:replies].each do |r| %>
+                <div class="media mb-3" id="comment<%= r.id %>">
+                    <%= image_tag r.user.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
+                    <div class="media-body comment">
+                        <strong><%= r.user.username %></strong>
+                        <%= r.content %>
+                    </div>
+                </div>
+                <%end%>
+                <div class="collapse" id="replyForm<%= c[:comment].id %>">
+                    <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap mb-3" do |f| %>
+                        <%= f.hidden_field :previous_id, :value => c[:comment].id %>
+                        <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+                        <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
+                            <i class="icon-ok icon-white"></i> Save
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
             <% end %>
             <% if @event.comments.empty? %>
             <span class="text-muted"> This event has no comments yet </span>
