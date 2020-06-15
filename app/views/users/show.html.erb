@@ -6,7 +6,10 @@
             <div class="media-body">
                 <div class="d-flex justify-content-between flex-wrap">
                     <div>
-                        <h3 class="mt-0"> <%= @user.username %> </h3>
+                        <h3 class="mt-0"> <%= @user.username %>
+                        <% if @user.verification %>
+                            <div class="verified-icon" style="vertical-align: middle;"></div>
+                        <% end %> </h3>
                     </div>
                     <% if user_signed_in? && @user != current_user %>
                     <br>

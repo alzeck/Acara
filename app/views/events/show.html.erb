@@ -9,7 +9,11 @@
             <div class="d-flex flex-wrap">
                 <div>
                     <h4 class="m-0"><%= @event.title %></h4>
-                    <%= link_to @event.user.username, user_path(@event.user) %><br>
+                    <%= link_to @event.user.username, user_path(@event.user) %>
+                    <% if @event.user.verification %>
+                    <div class="verified-icon"></div>
+                    <% end %>
+                    <br>
                     <%= @event.start.strftime("%e %B %Y, %H:%M") %> - <%= @event.end.strftime("%e %B %Y, %H:%M")%>
                 </div>
                 <div class="ml-auto">
@@ -64,8 +68,25 @@
         </div>
     </div>
 
-    <div class="card" style="overflow:hidden">
-
+    <div class="card">
+        <div class="card-header">
+            <%= simple_form_for Comment.new, url: event_comments_path(@event), wrapper: :inline_form,
+                html: { class: "form-inline" },
+                wrapper_mappings: { boolean: :inline_boolean } do |f| %>
+            <%= f.input :content, as: :string, required: false, span_html: { class: "flex-grow" }, input_html: { class: "w-100" }  %>
+            <%= f.button :submit, "Publish", class: "ml-2 btn-primary" %>
+            <% end %>
+        </div>
+        <div class="card-body", >
+            <% @event.comments.each do |c| %>
+                <h3><%= c[:comment].user.username %></h3>
+                <%= c[:comment].content %>
+                
+            <% end %>
+            <% if @event.comments.empty? %>
+            <span class="text-muted"> This event has no comments yet </span>
+            <%end%>
+        </div>
     </div>
 </div>
 
