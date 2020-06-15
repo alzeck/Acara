@@ -15,6 +15,7 @@ class EventsController < ApplicationController
     end
   end
 
+
   #GET su /events/new
   def new
     if !user_signed_in?
@@ -22,6 +23,7 @@ class EventsController < ApplicationController
     end
     @event = Event.new
   end
+
 
   #POST su /events
   def create
@@ -50,6 +52,7 @@ class EventsController < ApplicationController
     end
   end
 
+
   #GET su /events/:id/edit
   def edit
     if user_signed_in?
@@ -67,6 +70,7 @@ class EventsController < ApplicationController
       render_401
     end
   end
+
 
   #PUT o PATCH su /events/:id
   def update
@@ -113,6 +117,7 @@ class EventsController < ApplicationController
     end
   end
 
+
   #DELETE su /events/:id
   def destroy
     if user_signed_in?
@@ -122,10 +127,6 @@ class EventsController < ApplicationController
         event = Event.find(id)
 
         if current_user.id == event.user_id || current_user.admin
-          helpers.destroyComments(event)
-          helpers.destroyHasTags(event)
-          helpers.destroyParticipations(event)
-
           event.cover.purge_later
 
           if event.destroy
@@ -143,4 +144,5 @@ class EventsController < ApplicationController
       render_401
     end
   end
+  
 end

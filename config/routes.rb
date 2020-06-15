@@ -23,13 +23,13 @@ Rails.application.routes.draw do
   #Routes for events (and comments, and participations)
   resources :events, except: [:index] do
     resources :comments, except: [:index, :show, :new, :edit]
-    resources :participations, except: [:show, :new, :edit]
+    resources :participations, except: [:index, :show, :new, :edit]
   end
 
 
   #Routes for chats (and messages)
   resources :chats, except: [:new, :edit, :update, :destroy] do
-    resources :messages, except: [:index, :show, :new, :edit, :update, :destroy]
+    resources :messages, only: [:create]
   end
 
 
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
     resources :events, except: [:index] do
       resources :comments, except: [:index, :show, :new, :edit]
-      resources :participations, except: [:show, :new, :edit]
+      resources :participations, except: [:index, :show, :new, :edit]
     end
     
     resources :flags, except: [:edit, :update]

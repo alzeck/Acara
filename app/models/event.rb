@@ -2,6 +2,9 @@ class Event < ApplicationRecord
 
   #Controlli sulle chiavi esterne
   belongs_to :user
+  has_many :comments, dependent: :destroy
+  has_many :has_tags, dependent: :destroy
+  has_many :participations, dependent: :destroy
 
 
   #Controlla che i seguenti campi non siano vuoti

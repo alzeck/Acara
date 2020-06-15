@@ -46,17 +46,6 @@ module EventsHelper
     end
 
 
-    #Funzione usata per cancellare tutti i commenti dell'evento
-    def destroyComments(event)
-        comments = Comment.where(:event_id => event.id)
-        for elem in comments
-            if !elem.destroy
-                render_500
-            end
-        end
-    end
-
-
     #Funzione usata per cancellare tutti i collegamenti tra evento e tag
     def destroyHasTags(event)
         has_tags = HasTag.where(:event_id => event.id)
@@ -65,17 +54,6 @@ module EventsHelper
                 render_500
             end
         end
-    end
-
-
-    #Funzione usata per cancellare tutte le partecipazioni dell'evento
-    def destroyParticipations(event)
-        participations = Participation.where(:event_id => event.id)
-        for elem in participations
-            if !elem.destroy
-                render_500
-            end
-        end 
     end
 
 end

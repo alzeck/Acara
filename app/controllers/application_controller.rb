@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit :account_update, keys: added_attrs
     end
 
-    #400 bad request (i dati passati dal client sono incorretti)
+    # 400 bad request (i dati passati dal client sono incorretti)
     def render_400
       render file: 'public/400.html', layout: false, status: :bad_request
     end

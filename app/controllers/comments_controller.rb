@@ -38,6 +38,7 @@ class CommentsController < ApplicationController
     end
   end
 
+  
   #PATCH/PUT su /events/:event_id/comments/:id
   def update
     if user_signed_in?
@@ -72,6 +73,7 @@ class CommentsController < ApplicationController
     end
   end
 
+
   #DELETE su /events/:event_id/comments/:id
   def destroy
     if user_signed_in?
@@ -83,7 +85,6 @@ class CommentsController < ApplicationController
         # a comment can only exists if the event that contains it exists
         if current_user.id == comment.user_id || current_user.admin
           # check if the user is autorized to change the comment
-          destroyReplies(comment)
 
           if comment.destroy
             redirect_to event_path(Event.find(event_id))
@@ -100,4 +101,5 @@ class CommentsController < ApplicationController
       render_401
     end
   end
+
 end
