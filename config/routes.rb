@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   end
 
 
+  #Routes for tags
+  resources :tags, except: [:index, :show, :new, :edit, :update]
+
+
   #Routes for the pages (home, search)
   root to: "pages#home"
   get "/search", to: "pages#search", as: "search"
@@ -33,11 +37,14 @@ Rails.application.routes.draw do
   resources :flags, except: [:edit, :update]
 
 
-  #REST API RESOURCES 
+  #REST API RESOURCES
+  # TODO non dovremmo metterci anche le chat, messaggi e pages?
   namespace :api, defaults: { format: "json" } do
     resources :users, only: [:show] do
       resources :follows, except: [:show, :new, :edit, :update]
     end
+
+    resources :tags, except: [:index, :show, :new, :edit, :update]
 
     resources :events, except: [:index] do
       resources :comments, except: [:index, :show, :new, :edit]
