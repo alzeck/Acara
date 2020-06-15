@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
   #Routes for chats (and messages)
   resources :chats, except: [:new, :edit, :update, :destroy] do
-    resources :messages, except: [:show, :new, :edit, :update, :destroy]
+    resources :messages, except: [:index, :show, :new, :edit, :update, :destroy]
   end
 
 
