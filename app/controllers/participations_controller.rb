@@ -51,28 +51,24 @@ class ParticipationsController < ApplicationController
   def update
     if user_signed_in?
       event_id = params[:event_id]
-      participation_id = params[:id]
-
-      if Event.exists?(event_id) && Participation.exists?(participation_id)
-        participation = Participation.find(participation_id)
-        if participation.event_id == event_id
-          if current_user.id == participation.user_id || current_user.admin
-            value = params[:participation].permit(:value)
-            participation.assign_attributes(value: value)
-            if participation.valid?
-              if participation.save
-                redirect_to event_path(event)
-              else
-                render_500
-              end
+      participation = Participation.find(id: params[:id])
+      if !participation.nil? && participation.event_id == event_id
+        # check if the participation exists for the given event
+        # if it exists the event that contains it exists
+        if current_user.id == participation.user_id || current_user.admin
+          value = params[:participation].permit(:value)
+          participation.assign_attributes(value: value)
+          if participation.valid?
+            if participation.save
+              redirect_to event_path(event)
             else
-              render_400
+              render_500
             end
           else
-            render_403
+            render_400
           end
         else
-          render_404
+          render_403
         end
       else
         render_404
@@ -86,22 +82,18 @@ class ParticipationsController < ApplicationController
   def destroy
     if user_signed_in?
       event_id = params[:event_id]
-      participation_id = params[:id]
-
-      if Event.exists?(event_id) && Participation.exists?(participation_id)
-        participation = Participation.find(participation_id)
-        if participation.event_id == event_id
-          if current_user.id == participation.user_id || current_user.admin
-            if participation.destroy
-              redirect_to event_path(Event.find(event_id))
-            else
-              render_500
-            end
+      participation = Participation.find(id: params[:id])
+      if !participation.nil? && participation.event_id == event_id
+        # check if the participation exists for the given event
+        # if it exists the event that contains it exists
+        if current_user.id == participation.user_id || current_user.admin
+          if participation.destroy
+            redirect_to event_path(Event.find(event_id))
           else
-            render_403
+            render_500
           end
         else
-          render_404
+          render_403
         end
       else
         render_404

@@ -31,30 +31,26 @@ class CommentsController < ApplicationController
   def update
     if user_signed_in?
       event_id = params[:event_id]
-      comment_id = params[:id]
-      if Event.exists?(event_id) && Comment.exists?(comment_id)
-        comment = Comment.find(comment_id)
-        if comment.event_id == event_id
-          # check if the comment exist inside the event
-          if current_user.id == comment.user_id || current_user.admin
-            # check if the user is autorized to change the comment
-            content = params[:comment].permit(:content)
-            comment.assign_attributes(content: content)
-            if comment.valid?
-              #check the validity of the comments
-              if comment.save
-                redirect_to event_path(event)
-              else
-                render_500
-              end
+      comment = Comment.where(params[:id])[0]
+      if !comment.nil? && comment.event_id == event_id
+        # check if the comment exist inside the event
+        # a comment can only exists if the event that contains it exists
+        if current_user.id == comment.user_id || current_user.admin
+          # check if the user is autorized to change the comment
+          content = params[:comment].permit(:content)
+          comment.assign_attributes(content: content)
+          if comment.valid?
+            #check the validity of the comments
+            if comment.save
+              redirect_to event_path(event)
             else
-              render_400
+              render_500
             end
           else
-            render_403
+            render_400
           end
         else
-          render_404
+          render_403
         end
       else
         render_404
@@ -68,26 +64,21 @@ class CommentsController < ApplicationController
   def destroy
     if user_signed_in?
       event_id = params[:event_id]
-      comment_id = params[:id]
+      comment = Comment.where(params[:id])[0]
+      if !comment.nil? && comment.event_id == event_id
+        # check if the comment exist inside the event
+        # a comment can only exists if the event that contains it exists
+        if current_user.id == comment.user_id || current_user.admin
+          # check if the user is autorized to change the comment
+          destroyReplies(comment)
 
-      if Event.exists?(event_id) && Comment.exists?(comment_id)
-        comment = Comment.find(comment_id)
-        if comment.event_id == event_id
-          # check if the comment exist inside the event
-          if current_user.id == comment.user_id || current_user.admin
-            # check if the user is autorized to change the comment
-            destroyReplies(comment)
-
-            if comment.destroy
-              redirect_to event_path(Event.find(event_id))
-            else
-              render_500
-            end
+          if comment.destroy
+            redirect_to event_path(Event.find(event_id))
           else
-            render_403
+            render_500
           end
         else
-          render_404
+          render_403
         end
       else
         render_404
