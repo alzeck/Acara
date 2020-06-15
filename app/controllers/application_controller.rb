@@ -9,26 +9,27 @@ class ApplicationController < ActionController::Base
       devise_parameter_sanitizer.permit :account_update, keys: added_attrs
     end
 
-
-    #Da chiamare in caso di errore 400 bad request (i dati passati dal client sono incorretti)
+    #400 bad request (i dati passati dal client sono incorretti)
     def render_400
       render file: 'public/400.html', layout: false, status: :bad_request
     end
 
+    # 401 unauthorized (The request has not been applied because it lacks valid authentication credentials for the target resource.)
+    def render_401
+      render file: 'public/401.html', layout: false, status: :unauthorized
+    end
 
-    #Da chiamare in caso di errore 404 not found (non trovo ciò che cerchi)
+    # 403 forbidden (The server understood the request but refuses to authorize it.)
+    def render_403
+      render file: 'public/403.html', layout: false, status: :forbidden
+    end
+
+    # 404 not found (non trovo ciò che cerchi)
     def render_404
       render file: 'public/404.html', layout: false, status: :not_found
     end
-
-
-    #Da chiamare in caso di errore 422 unprocessable entity (seppur corretta sintassi della richiesta, si prova a fare cambiamenti non autorizzati)
-    def render_422
-      render file: 'public/422.html', layout: false, status: :unprocessable_entity
-    end
-
-
-    #Da chiamare in caso di errore 500 internal server error (un problema col server non gli ha permesso di portare a termine la richiesta)
+   
+    # 500 internal server error (un problema col server non gli ha permesso di portare a termine la richiesta)
     def render_500
       render file: 'public/500.html', layout: false, status: :internal_server_error
     end
