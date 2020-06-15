@@ -2,203 +2,64 @@ class PagesController < ApplicationController
 
 	#GET sulla root
 	def home
-		inZona_attivi_verificati_following = []
-		inZona_attivi_verificati_nonFollowing = []
-		inZona_attivi_nonVerificati_following = []
-		inZona_attivi_nonVerificati_nonFollowing = []
-
-		inZona_inattivi_verificati_following = []
-		inZona_inattivi_verificati_nonFollowing = []
-		inZona_inattivi_nonVerificati_following = []
-		inZona_inattivi_nonVerificati_nonFollowing = []
-
-		nonInZona_attivi_verificati_following = []
-		nonInZona_attivi_verificati_nonFollowing = []
-		nonInZona_attivi_nonVerificati_following = []
-		nonInZona_attivi_nonVerificati_nonFollowing = []
-
-		nonInZona_inattivi_verificati_following = []
-		nonInZona_inattivi_verificati_nonFollowing = []
-		nonInZona_inattivi_nonVerificati_following = []
-		nonInZona_inattivi_nonVerificati_nonFollowing = []
-
-		for elem in Event.all
-			elemLoc = elem.cords.split(",")
-			elemLoc[0] = elemLoc[0].to_d
-			elemLoc[1] = elemLoc[1].to_d
-
-			helpers.homeZona(
-				nil,
-				helpers.getLocation,
-				elemLoc,
-				User.find(elem.user_id),
-				elem,
-				inZona_attivi_verificati_following,
-				inZona_attivi_verificati_nonFollowing,
-				inZona_attivi_nonVerificati_following,
-				inZona_attivi_nonVerificati_nonFollowing,
-				inZona_inattivi_verificati_following,
-				inZona_inattivi_verificati_nonFollowing,
-				inZona_inattivi_nonVerificati_following,
-				inZona_inattivi_nonVerificati_nonFollowing,
-				nonInZona_attivi_verificati_following,
-				nonInZona_attivi_verificati_nonFollowing,
-				nonInZona_attivi_nonVerificati_following,
-				nonInZona_attivi_nonVerificati_nonFollowing,
-				nonInZona_inattivi_verificati_following,
-				nonInZona_inattivi_verificati_nonFollowing,
-				nonInZona_inattivi_nonVerificati_following,
-				nonInZona_inattivi_nonVerificati_nonFollowing
-			)
-		end
-
 		@hasGL = params.has_key?(:gl)
-		@events =
-			inZona_attivi_verificati_following +
-			inZona_attivi_verificati_nonFollowing +
-			inZona_attivi_nonVerificati_following +
-			inZona_attivi_nonVerificati_nonFollowing +
-
-			inZona_inattivi_verificati_following +
-			inZona_inattivi_verificati_nonFollowing +
-			inZona_inattivi_nonVerificati_following +
-			inZona_inattivi_nonVerificati_nonFollowing +
-
-			nonInZona_attivi_verificati_following +
-			nonInZona_attivi_verificati_nonFollowing +
-			nonInZona_attivi_nonVerificati_following +
-			nonInZona_attivi_nonVerificati_nonFollowing +
-
-			nonInZona_inattivi_verificati_following +
-			nonInZona_inattivi_verificati_nonFollowing +
-			nonInZona_inattivi_nonVerificati_following +
-			nonInZona_inattivi_nonVerificati_nonFollowing;
+		@events = helpers.pagesGeneral(nil, nil, helpers.getLocation, nil, 0)
 	end
 
 
-	# TODO CERCA
-	#di default come la home
-	#in base a @ o # o niente davanti per cercare utenti, tag o eventi
-	#filtri su data e luogo inserito (vedi gemma di prima)
-	# @hasGL = params.has_key?(:gl)
-
-  	#GET su /search
+	#GET su /search
+	#Restituisce un json {"type": X, "content": Y}
+	#Con X "users", "events", "tags"
+	#Con Y rispettivamente la lista di utenti, eventi e un json { "tags": lista_tags, "events": lista_events_tags }
 	def search
-		# ricerca = params[:q]
-		
-		# #cerco utenti
-		# if ricerca[0] == "@"
-		# 	ricerca = ricerca[1, ricerca.length-1].downcase
-		# 	@risposta = { "type": "users", "content": helpers.searchUsers(ricerca) }
+		@hasGL = params.has_key?(:gl)
 
-		# #cerco tag
-		# elsif ricerca[0] == "#"
-		# 	ricerca = ricerca[1, ricerca.length-1].downcase
-		# 	@risposta = { "type": "tags", "content": helpers.searchTags(ricerca) }
+		if !params.has_key?(:q)
+			@risposta = { "type": "events", "content": helpers.pagesGeneral(nil, nil, helpers.getLocation, nil, 0) }
 
-		# #cerco eventi
-		# else
-		# 	if params.has_key?(:dove)
-		# 		dove = params[:dove]
-		# 	else
-		# 		dove = helpers.getLocation
-		# 	end
-
-		# 	if params.has_key?(:dove)
-		# 		quando = params[:quando].to_datetime
-		# 	end
-
-
-
-
-		# 	inZona_attivi_verificati_following = []
-		# 	inZona_attivi_verificati_nonFollowing = []
-		# 	inZona_attivi_nonVerificati_following = []
-		# 	inZona_attivi_nonVerificati_nonFollowing = []
-
-		# 	inZona_inattivi_verificati_following = []
-		# 	inZona_inattivi_verificati_nonFollowing = []
-		# 	inZona_inattivi_nonVerificati_following = []
-		# 	inZona_inattivi_nonVerificati_nonFollowing = []
-
-		# 	nonInZona_attivi_verificati_following = []
-		# 	nonInZona_attivi_verificati_nonFollowing = []
-		# 	nonInZona_attivi_nonVerificati_following = []
-		# 	nonInZona_attivi_nonVerificati_nonFollowing = []
-
-		# 	nonInZona_inattivi_verificati_following = []
-		# 	nonInZona_inattivi_verificati_nonFollowing = []
-		# 	nonInZona_inattivi_nonVerificati_following = []
-		# 	nonInZona_inattivi_nonVerificati_nonFollowing = []
-
-
+		else
+			ricerca = params[:q].downcase.strip
+			qualiFiltri = 0
+	
+			if params.has_key?(:dove)
+				dove = params[:dove]
+	
+				if dove.match?(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/)
+					dove = dove.split(",")
+					dove[0] = dove[0].to_d
+					dove[1] = dove[1].to_d
+					qualiFiltri += 1
+				else
+					dove = helpers.getLocation
+				end
+			else
+				dove = helpers.getLocation
+			end
+	
+			if params.has_key?(:quando)
+				begin
+					quando = params[:quando].to_datetime
+					qualiFiltri += 2
+				rescue ArgumentError
+					quando = nil
+				end			
+			else
+				quando = nil
+			end
 			
-
-		# 	for elem in Event.all
-		# 		elemLoc = elem.cords.split(",")
-		# 		elemLoc[0] = elemLoc[0].to_d
-		# 		elemLoc[1] = elemLoc[1].to_d
-
-		# 		helpers.homeZona(
-		# 			dove,
-		# 			elemLoc,
-		# 			User.find(elem.user_id),
-		# 			elem,
-		# 			inZona_attivi_verificati_following,
-		# 			inZona_attivi_verificati_nonFollowing,
-		# 			inZona_attivi_nonVerificati_following,
-		# 			inZona_attivi_nonVerificati_nonFollowing,
-		# 			inZona_inattivi_verificati_following,
-		# 			inZona_inattivi_verificati_nonFollowing,
-		# 			inZona_inattivi_nonVerificati_following,
-		# 			inZona_inattivi_nonVerificati_nonFollowing,
-		# 			nonInZona_attivi_verificati_following,
-		# 			nonInZona_attivi_verificati_nonFollowing,
-		# 			nonInZona_attivi_nonVerificati_following,
-		# 			nonInZona_attivi_nonVerificati_nonFollowing,
-		# 			nonInZona_inattivi_verificati_following,
-		# 			nonInZona_inattivi_verificati_nonFollowing,
-		# 			nonInZona_inattivi_nonVerificati_following,
-		# 			nonInZona_inattivi_nonVerificati_nonFollowing
-		# 		)
-		# 	end
-
-		# 	@events =
-		# 		inZona_attivi_verificati_following +
-		# 		inZona_attivi_verificati_nonFollowing +
-		# 		inZona_attivi_nonVerificati_following +
-		# 		inZona_attivi_nonVerificati_nonFollowing +
-
-		# 		inZona_inattivi_verificati_following +
-		# 		inZona_inattivi_verificati_nonFollowing +
-		# 		inZona_inattivi_nonVerificati_following +
-		# 		inZona_inattivi_nonVerificati_nonFollowing +
-
-		# 		nonInZona_attivi_verificati_following +
-		# 		nonInZona_attivi_verificati_nonFollowing +
-		# 		nonInZona_attivi_nonVerificati_following +
-		# 		nonInZona_attivi_nonVerificati_nonFollowing +
-
-		# 		nonInZona_inattivi_verificati_following +
-		# 		nonInZona_inattivi_verificati_nonFollowing +
-		# 		nonInZona_inattivi_nonVerificati_following +
-		# 		nonInZona_inattivi_nonVerificati_nonFollowing;
-		# 	end
-
-
-
-		# restituisce un json {"type": X, "content": Y}
-		# con X "users", "tags", "events"
-		# con Y la lista di cose restituite
-
-		
-		# @events = Event.joins("JOIN users ON users.verification").where("title ~* ?", ricerca)
-		
-		# else
-		# 	@events = Event.where("title ~* ?", ricerca)
-		# 	@users = User.where("username ~* ?", ricerca)
-		# 	@tags = Tag.where("name ~* ?", ricerca)
-		# end
+			#cerco utenti
+			if ricerca[0] == "@"
+				@risposta = { "type": "users", "content": helpers.searchUsers(ricerca[1, ricerca.length-1]) }
+	
+			#cerco tag (e corrispettivi eventi)
+			elsif ricerca[0] == "#"
+				@risposta = { "type": "tags", "content": helpers.searchTags(ricerca, dove, quando, qualiFiltri) }
+	
+			#cerco eventi
+			else
+				@risposta = { "type": "events", "content": helpers.pagesGeneral(ricerca, nil, dove, quando, qualiFiltri) }
+			end
+		end
 	end
 
 end
