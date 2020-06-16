@@ -33,6 +33,8 @@ class FlagsController < ApplicationController
   end
 
   #GET su /flags/new
+  # TODO get params and create the url
+  # ex GET /flags/new?type=event&id=10
   def new
     if !user_signed_in?
       render_401
@@ -40,6 +42,7 @@ class FlagsController < ApplicationController
   end
 
   #POST su /flags
+  # TODO get params and create the url
   def create
     if user_signed_in?
       par = params[:flag].permit(:reason, :description, :url)
