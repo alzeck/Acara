@@ -150,7 +150,6 @@ hr {
     background-color: var(--footer);
     border-color: var(--border);
     transition: background 500ms ease-in-out;
-     
     .form-control {
         background-color: var(--bg-t);
     }
@@ -353,4 +352,29 @@ div[class*="border"] {
     border-radius: 5px;
     border: 1px solid var(--border);
     padding: 10px;
+}
+
+.extra-info {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.hover-info:hover .extra-info ,.hover-info:focus .extra-info {
+    visibility: visible;
+    height: auto;
+    width: auto;
+    opacity: 1;
+}
+
+// modals 
+.modal-content {
+background-color: var(--bg-t);
+backdrop-filter: blur(20px);
+}
+
+.close { 
+    color: var(--fg);
 }

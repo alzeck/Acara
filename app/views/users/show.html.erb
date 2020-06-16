@@ -1,4 +1,5 @@
-<div class="pt-3">
+<%= javascript_include_tag "follows" %>
+<div class="py-4">
 <div class="card">
     <div class="card-body">
         <div class="media">
@@ -12,27 +13,39 @@
                         <% end %> </h3>
                     </div>
                     <% if user_signed_in? && @user != current_user %>
-                    <br>
-                    <div>
+                        <br>
+                        <div>
                         <% if !@user.admin %>
-                        <% if current_user.admin %>
-                        <button class="btn btn-danger mr-2"> <div class="delete-icon"> </div> </button>
-                        <% else %>
-                        <button class="btn btn-danger mr-2"> <div class="flag-icon"></div> </button>
-                        <% end %>
+                            <% if current_user.admin %>
+                                <button class="btn btn-danger mr-2"> <div class="delete-icon"> </div> </button>
+                            <% else %>
+                                <button class="btn btn-danger mr-2"> <div class="flag-icon"></div> </button>
+                            <% end %>
                         <% end %>
                         <button class="btn btn-success mr-2"><div class="chat-icon"> </div> </button>
-                         <button class="btn btn-primary"> 
-                        <% if ! current_user.isFollowing(@user) %>
-                           <div class="follow-icon"> </div> Follow 
-                        <% else %>
-                            <div class="unfollow-icon"> </div> Unollow
-                        <% end %>
-                        </button>
-                    </div>
+                            
+                            <% if ! current_user.isFollowing(@user) %>
+
+                                <%= button_to( user_follows_path(@user), method: :post, 
+                                    form_class: "d-inline-block", class:"btn btn-primary" ) do %>
+                                     <div class="follow-icon"> </div> Follow 
+                                <% end %>
+                              
+                            <% else %>
+                                <%= button_to( user_follow_path(@user,getFollowingId(current_user,@user)), method: :delete, 
+                                    form_class: "d-inline-block", class:"btn btn-primary" ) do %>
+                                    <div class="unfollow-icon"> </div> Unfollow
+                                <% end %>
+                            <% end %>
+                            </button>
+
+                        </div>
                     <% end %>
                 </div>
-                <%= @user.followers %> followers <%= @user.following %> following <br>
+                <a onclick="return openFollowers('<%= user_follows_path(@user) %>','follower');">
+                    <strong><%= @user.followers %></strong> followers </a>
+                <a onclick="return openFollowers('<%= user_follows_path(@user) %>','following');"> 
+                    <strong><%= @user.following %></strong> following  </a> <br>
                 <%= @user.bio %>
             </div>
         </div>
@@ -42,14 +55,23 @@
 <div class="card mt-4">
     <div class="card-body">
         <h3 class="card-title">Events</h3>
+        <div class="card-deck">
         <% @events.each do |event| %>
-        <div class="card">
+        <div class="card card-event hover-info" style="min-height: 30vh" >
+                <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
             <div class="card-body">
+                <%= link_to( event_path(event) ) do %>
                 <%= event.title %>
-                <%= link_to "Show",event_path(event) %>
+                <%end%>
+                <div class="extra-info">
+                     <%= event.start.strftime("%e %B %Y, %H:%M") %> - <%= event.end.strftime("%e %B %Y, %H:%M")%> <br>
+                     <%= event.where %>
+                </div>
             </div>
         </div>
         <% end %>
+        </div>
         <% if @events.empty? %>
         <span class="text-muted"> This user has no events yet </span>
         <%end%>
