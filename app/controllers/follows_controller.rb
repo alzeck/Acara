@@ -2,9 +2,9 @@ class FollowsController < ApplicationController
 
   #GET su /users/:user_id/follows
   def index
-    @followers = User.joins("JOIN follows ON follows.followed_id = #{params[:user_id]}")
-    @followed = User.joins("JOIN follows ON follows.follower_id = #{params[:user_id]}")
-    @tags = Tag.joins("JOIN follows_tags ON follows_tags.user_id = #{params[:user_id]}")
+    @followers = Follow.where(followed_id: params[:user_id])
+    @following = Follow.where(follower_id: params[:user_id])
+    @tags = FollowsTag.where(user_id: params[:user_id])
   end
 
 

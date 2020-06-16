@@ -1,2 +1,50 @@
-<h1>Follows#index</h1>
-<p>Find me in app/views/follows/index.html.erb</p>
+<!-- @followers
+     @following
+     @tags -->
+<button type="button" class="close mt-3 mr-3" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+<ul class="nav nav-pills my-3 justify-content-center" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pills-follower-tab" data-toggle="pill" href="#pills-follower" role="tab" aria-controls="pills-follower" aria-selected="true">Followers</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-following-tab" data-toggle="pill" href="#pills-following" role="tab" aria-controls="pills-following" aria-selected="false">Following</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-tag-tab" data-toggle="pill" href="#pills-tag" role="tab" aria-controls="pills-tag" aria-selected="false">Tags</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-follower" role="tabpanel" aria-labelledby="pills-follower-tab">
+    <% @followers.each do |f| %>
+        <hr>
+        <div class="ml-4">
+        <%= link_to(user_path(f.follower))  do%>
+        <%= image_tag f.follower.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
+        <%= f.follower.username %>
+        <% end %>
+        </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">
+    <% @following.each do |f| %>
+        <hr>
+        <div class="ml-4">
+        <%= link_to(user_path(f.followed)) do%>
+        <%= image_tag f.followed.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
+        <%= f.followed.username %>
+        <% end %>
+        </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="pills-tag" role="tabpanel" aria-labelledby="pills-tag-tab">
+    <% @tags.each do |t| %>
+        <hr>
+        <div class="ml-4">
+        <%= t.tag.name %>
+        </div>
+    <% end %>
+  </div>
+</div>
