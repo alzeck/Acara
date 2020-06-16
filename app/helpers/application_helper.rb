@@ -1,6 +1,6 @@
 module ApplicationHelper
   def has_navbar
-    !["sessions", "registrations", "passwords", "confirmations", "unlocks"].include? controller_name
+    !["sessions", "registrations", "passwords", "confirmations", "unlocks", "follows"].include? controller_name
   end
 
   def has_maps
