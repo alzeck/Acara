@@ -1,9 +1,29 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<% if !@hasGL %> <%= javascript_include_tag "getGL" %> <% end %>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed erat pharetra, vestibulum nulla ut, mattis eros. Maecenas laoreet blandit odio, in rhoncus purus pretium elementum. Phasellus in ultricies nibh. Pellentesque odio eros, rutrum commodo condimentum et, accumsan quis metus. Nunc consequat metus ut mi consequat, vitae semper ipsum posuere. Suspendisse aliquam est vitae nulla maximus, eu sodales risus sagittis. In quis neque at enim cursus venenatis. Proin malesuada mauris in mauris aliquam gravida. Nunc tincidunt odio mi, vitae tincidunt tortor malesuada quis. Donec posuere elit in arcu varius varius. Phasellus laoreet mi sed tortor facilisis, eget pulvinar libero luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p>Sed fermentum, lacus ac imperdiet mattis, justo enim luctus elit, nec tristique ipsum leo eu nunc. Nulla vel suscipit turpis. Nullam mauris tellus, luctus sit amet turpis at, ullamcorper laoreet velit. Vestibulum volutpat et felis eu euismod. Nulla facilisi. Quisque malesuada semper tincidunt. Mauris mattis orci nec massa dapibus ultrices. Suspendisse vel augue ultrices massa aliquam elementum. Nam mollis enim sed enim iaculis ultricies. Proin libero sapien, posuere ut aliquam et, tempus sit amet nisi. Morbi vel mi venenatis, finibus nunc ut, tincidunt velit. Praesent vitae varius libero. Fusce a massa egestas, placerat purus vel, pellentesque nisl. Quisque non magna ut odio ultrices finibus.</p>
-<p>Donec congue maximus arcu non rhoncus. Ut pulvinar turpis eget dui luctus vehicula. Donec non mi et erat pulvinar aliquam congue nec nunc. Vestibulum et elementum tortor, ac placerat ipsum. Fusce volutpat gravida dolor, eu sollicitudin nisl dapibus tempor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam rhoncus lacus et quam pellentesque, at mattis tortor tincidunt. Nunc lacinia condimentum nulla, a rutrum ante placerat nec. Ut convallis posuere sodales.</p>
-<p>Maecenas quis sodales tortor, sit amet interdum arcu. Nunc ultricies lobortis tellus, at lobortis diam varius eu. Pellentesque euismod, lacus at volutpat tristique, lectus lacus ornare felis, non venenatis sem ex non mi. Phasellus in est vehicula, rhoncus nibh sed, tristique erat. Fusce finibus tellus ac tellus tempus, vitae eleifend felis eleifend. Nunc sit amet velit orci. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie volutpat tortor, eget dignissim sem volutpat et. Etiam eget eros lectus. Nullam id tellus sit amet augue pretium laoreet. Praesent pellentesque congue massa sit amet pharetra.</p>
-<p>Aenean id velit non arcu dictum molestie non eu magna. Duis aliquet eros quam, et scelerisque est scelerisque id. Praesent rutrum, magna a placerat porta, libero diam elementum dui, sed iaculis lorem tellus vel libero. Fusce pharetra pulvinar sapien, in bibendum felis consequat ac. Praesent efficitur elit id libero vehicula suscipit. Pellentesque condimentum finibus ipsum nec euismod. Donec suscipit condimentum sollicitudin. Praesent nulla libero, feugiat ac hendrerit sed, lacinia non mauris. Integer volutpat congue ex, ac rutrum dui vehicula vitae. In gravida eros id nibh placerat, vitae sodales turpis mattis. Nam fringilla interdum sem, ac pulvinar lectus feugiat quis. Curabitur a nisl blandit, hendrerit augue sit amet, sagittis nisi. Aliquam eget nulla eu turpis tempus rutrum. Suspendisse a leo pretium nibh dictum lobortis. Maecenas vitae mi fringilla, gravida purus id, aliquet magna.</p>
-
+<div class="py-4">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Events</h3>
+            <div class="card-deck">
+            <% @events.each do |event| %>
+            <div class="card card-event hover-info" style="min-height: 30vh" >
+                    <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                    <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                <div class="card-body">
+                    <%= link_to( event_path(event) ) do %>
+                    <%= event.title %>
+                    <%end%>
+                    <div class="extra-info">
+                         <%= event.start.strftime("%e %B %Y, %H:%M") %> - <%= event.end.strftime("%e %B %Y, %H:%M")%> <br>
+                         <%= event.where %>
+                    </div>
+                </div>
+            </div>
+            <% end %>
+            </div>
+            <% if @events.empty? %>
+            <span class="text-muted"> This user has no events yet </span>
+            <%end%>
+        </div>
+    </div>
+</div>
