@@ -21,9 +21,9 @@
                     <% if user_signed_in? %>
                         <div>
                             <% if current_user != @event.user && !current_user.admin %>
-                            <button class="btn btn-danger">
-                                <div class="flag-icon"></div>
-                            </button>
+                                <button class="btn btn-danger">
+                                    <div class="flag-icon"></div>
+                                </button>
 
                                 <%if @part.nil? %>
                                     <%= button_to( event_participations_path(@event), params: { participation: { value: "i" } },
@@ -130,7 +130,6 @@
                             <% end %>
                         <% end %>
                     </div>
-
                 <% else %>
                     flag
                 <% end %>
@@ -149,18 +148,18 @@
                         modify
                     </a> ·
                     <%= link_to "delete", event_comment_path(@event, r), data: { confirm: "Are you sure?" }, method: :delete , class:"text-danger" %>
-                    <div class="collapse" id="modifyForm<%= c[:comment].id %>">
-                        <%= form_with model: c[:comment], url: event_comment_path(@event,c[:comment]), method: "patch", class: "form-inline flex-nowrap mb-3" do |f| %>
+                    <div class="collapse" id="modifyForm<%= r.id %>">
+                        <%= form_with model: r, url: event_comment_path(@event,r), method: "patch", class: "form-inline flex-nowrap mb-3" do |f| %>
                             <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
                             <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
                                 <i class="icon-ok icon-white"></i> modify
                             <% end %>
                         <% end %>
                     </div>
-                </div>
                 <% else %>
                     flag
                 <% end %>
+                </div>
                 <%end%>
                 <div class="collapse" id="replyForm<%= c[:comment].id %>">
                     <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap mb-3" do |f| %>

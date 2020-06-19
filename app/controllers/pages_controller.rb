@@ -15,7 +15,7 @@ class PagesController < ApplicationController
 		@hasGL = params.has_key?(:gl)
 
 		if !params.has_key?(:q)
-			@risposta = { "type": "events", "content": helpers.pagesGeneral(nil, nil, helpers.getLocation, nil, 0) }
+			@risposta = { type: "events", content: helpers.pagesGeneral(nil, nil, helpers.getLocation, nil, 0) }
 
 		else
 			ricerca = params[:q].downcase.strip
@@ -49,15 +49,15 @@ class PagesController < ApplicationController
 			
 			#cerco utenti
 			if ricerca[0] == "@"
-				@risposta = { "type": "users", "content": helpers.searchUsers(ricerca[1, ricerca.length-1]) }
+				@risposta = { type: "users", content: helpers.searchUsers(ricerca[1, ricerca.length-1]) }
 	
 			#cerco tag (e corrispettivi eventi)
 			elsif ricerca[0] == "#"
-				@risposta = { "type": "tags", "content": helpers.searchTags(ricerca, dove, quando, qualiFiltri) }
+				@risposta = { type: "tags", content: helpers.searchTags(ricerca, dove, quando, qualiFiltri) }
 	
 			#cerco eventi
 			else
-				@risposta = { "type": "events", "content": helpers.pagesGeneral(ricerca, nil, dove, quando, qualiFiltri) }
+				@risposta = { type: "events", content: helpers.pagesGeneral(ricerca, nil, dove, quando, qualiFiltri) }
 			end
 		end
 	end

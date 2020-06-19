@@ -269,7 +269,7 @@ module PagesHelper
     def searchTags(ricerca, dove, quando, qualiFiltri)
         tags = Tag.where("name ~* ?", ricerca[1, ricerca.length-1])
         events = pagesGeneral(nil, ricerca, dove, quando, qualiFiltri)
-        return { "tags": tags, "events": events }
+        return { tags: tags, events: events }
     end
 
 end
