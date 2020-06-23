@@ -16,6 +16,10 @@ class Comment < ApplicationRecord
     previous_id.nil?
   end
 
+  def isModified?
+    self.created_at != self.updated_at
+  end
+
 
   #Controlla che il commento abbia una reply valida
   def validReply
