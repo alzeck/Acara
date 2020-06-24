@@ -1,8 +1,10 @@
 class Api::CommentsController < ApplicationController
+	skip_before_action :verify_authenticity_token
    
 	#POST su /api/events/:event_id/comments
 	def create
-		if user_signed_in?
+		current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
 		  event_id = params[:event_id]
 		  if Event.exists?(event_id)
 			# Check if event exists
@@ -14,24 +16,25 @@ class Api::CommentsController < ApplicationController
 			if comment.valid?
 			  if comment.save
 				#success
-				render status: 200
+				render body: nil, status: 200
 			  else
-				render status: 500
+				render body: nil, status: 500
 			  end
 			else
-			  render status: 400
+			  render body: nil, status: 400
 			end
 		  else
-			render status: 404
+			render body: nil, status: 404
 		  end
 		else
-		  render status: 401
+		  render body: nil, status: 401
 		end
 	  end
 	
 	  #PATCH/PUT su /api/events/:event_id/comments/:id
 	  def update
-		if user_signed_in?
+		current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
 		  event_id = params[:event_id].to_i
 		  comment = Comment.where(id: params[:id])[0]
 	
@@ -46,27 +49,28 @@ class Api::CommentsController < ApplicationController
 				#check the validity of the comments
 				if comment.save
 				  #success
-				  render status: 200
+				  render body: nil, status: 200
 				else
-				  render status: 500
+				  render body: nil, status: 500
 				end
 			  else
-				render status: 400
+				render body: nil, status: 400
 			  end
 			else
-			  render status: 403
+			  render body: nil, status: 403
 			end
 		  else
-			render status: 404
+			render body: nil, status: 404
 		  end
 		else
-		  render status: 401
+		  render body: nil, status: 401
 		end
 	  end
 	
 	  #DELETE su /api/events/:event_id/comments/:id
 	  def destroy
-		if user_signed_in?
+		current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
 		  event_id = params[:event_id].to_i
 		  comment = Comment.where(id: params[:id])[0]
 	
@@ -78,18 +82,18 @@ class Api::CommentsController < ApplicationController
 	
 			  if comment.destroy
 				#success
-				render status: 200
+				render body: nil, status: 200
 			  else
-				render status: 500
+				render body: nil, status: 500
 			  end
 			else
-			  render status: 403
+			  render body: nil, status: 403
 			end
 		  else
-			render status: 404
+			render body: nil, status: 404
 		  end
 		else
-		  render status: 401
+		  render body: nil, status: 401
 		end
 	  end
 	end

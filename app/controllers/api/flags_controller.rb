@@ -1,60 +1,29 @@
 class Api::FlagsController < ApplicationController
-
-	#GET su /flags
-	def index
-		if current_user.admin              
-			@flags = Flag.all
-		else
-			render status: 422
-		end
-	end
-
-
-	#GET su /flags/:id
-	def show
-		id = params[:id]
-        
-		if Flag.exists?(id)
-			if current_user.admin                    
-				@flag = Flag.find(id)
-			else
-				render status: 422
-			end
-        else
-            render status: 404
-        end
-	end
-
-
-	#GET su /flags/new
-	def new
-		if ! user_signed_in?
-            render status: 422
-        end
-	end
-
+	skip_before_action :verify_authenticity_token
 
 	#POST su /flags
 	def create
-		if user_signed_in?
+		current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
 			flag = Flag.new(params[:flag].permit(:reason, :description, :url), user_id: current_user.id)
 
 			if flag.valid?
 				if ! flag.save
-					render status: 500
+					render body: nil, status: 500
 				end
 			else
-				render status: 400
+				render body: nil, status: 400
 			end
 		else
-			render status: 422
+			render body: nil, status: 422
 		end 
 	end
 
 
 	#DELETE su /flags/:id
 	def destroy
-		if user_signed_in?
+		current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
             id = params[:id]
             
             if Flag.exists?(id)
@@ -62,18 +31,18 @@ class Api::FlagsController < ApplicationController
 
                 if current_user.admin                    
                     if flag.destroy
-                        redirect_to api_flags_path
+                        render body: nil, status: 200
                     else
-                        render status: 500
+                        render body: nil, status: 500
                     end
                 else
-                    render status: 422
+                    render body: nil, status: 422
                 end
             else
-                render status: 404
+                render body: nil, status: 404
             end
         else
-            render status: 422
+            render body: nil, status: 422
         end
 	end
 end

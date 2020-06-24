@@ -96,6 +96,20 @@ class User < ApplicationRecord
     !Follow.where(follower: self, followed: user).empty?
   end
 
+  # give api key only after user is verified
+  validates_uniqueness_of  :secretkey , allow_blank: true
+  before_save :add_secretkey
+
+  def add_secretkey
+    if self.verification
+      unless !self.secretkey.nil?
+        self.secretkey = SecureRandom.urlsafe_base64(30,false)
+      end
+    else
+      self.secretkey = nil
+    end
+  end
+
   # TODO bisogna aggiungere un controllo sulla position che sia una stringa di coordinate valide, come fatto per gli eventi:
   # validates_format_of :position, with: /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/, :multiline => true
 

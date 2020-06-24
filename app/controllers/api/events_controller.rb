@@ -1,34 +1,30 @@
 class Api::EventsController < ApplicationController
-    
-   #GET su /api/events/:id
+  skip_before_action :verify_authenticity_token
+
+  #GET su /api/events/:id
   def show
-    id = params[:id]
+    current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
+      id = params[:id]
 
-    if Event.exists?(id)
-      @event = Event.find(id)
-      if user_signed_in?
-        # get its partecipation info
-        @part = Participation.where(user_id: current_user.id, event_id: id)[0]
+      if Event.exists?(id)
+        @event = Event.find(id)
+        #get its partecipation info
+        #@part = Participation.where(user_id: current_user.id, event_id: id)[0]
+
+        render json: @event
+      else
+        render body: nil, status: 404
       end
-      render json: @event
     else
-      render status: 404
+      render body: nil, status: 401
     end
   end
-
-
-  #GET su /api/events/new
-  def new
-    if !user_signed_in?
-      render status: 401
-    end
-    @event = Event.new
-  end
-
 
   #POST su /api/events
   def create
-    if user_signed_in?
+    current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
       par = params[:event].permit(:where, :cords, :start, :end, :title,
                                   :description, :cover, :tags)
 
@@ -41,41 +37,22 @@ class Api::EventsController < ApplicationController
       if @event.valid?
         if @event.save
           helpers.createHasTags(tags, @event)
-          redirect_to api_event_path(@event)
+          render json: @event
         else
-          render status: 500
+          render body: nil, status: 500
         end
       else
-        render status: 400
+        render body: nil, status: 400
       end
     else
-      render status: 401
+      render body: nil, status: 403
     end
   end
-
-
-  #GET su /api/events/:id/edit
-  def edit
-    if user_signed_in?
-      id = params[:id]
-
-      if Event.exists?(id)
-        @event = Event.find(id)
-        if !(current_user.id == @event.user_id || current_user.admin)
-          render status: 403
-        end
-      else
-        render status: 404
-      end
-    else
-      render status: 401
-    end
-  end
-
 
   #PUT o PATCH su /api/events/:id
   def update
-    if user_signed_in?
+    current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
       id = params[:id]
 
       if Event.exists?(id)
@@ -100,28 +77,28 @@ class Api::EventsController < ApplicationController
           if @event.valid?
             if @event.save
               helpers.createHasTags(tags, @event)
-              redirect_to api_event_path(@event)
+              render json: @event
             else
-              render status: 500
+              render body: nil, status: 500
             end
           else
-            render status: 400
+            render body: nil, status: 400
           end
         else
-          render status: 403
+          render body: nil, status: 403
         end
       else
-        render status: 404
+        render body: nil, status: 404
       end
     else
-      render status: 401
+      render body: nil, status: 401
     end
   end
 
-
   #DELETE su /api/events/:id
   def destroy
-    if user_signed_in?
+    current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
       id = params[:id]
 
       if Event.exists?(id)
@@ -131,19 +108,18 @@ class Api::EventsController < ApplicationController
           event.cover.purge_later
 
           if event.destroy
-            render status: 200
+            render body: nil, status: 200
           else
-            render status: 500
+            render body: nil, status: 500
           end
         else
-          render status: 403
+          render body: nil, status: 403
         end
       else
-        render status: 404
+        render body: nil, status: 404
       end
     else
-      render status: 401
+      render body: nil, status: 401
     end
   end
-  
 end
