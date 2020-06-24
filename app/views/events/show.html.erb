@@ -27,28 +27,28 @@
                         <%if @part.nil? %>
                         <%= button_to( event_participations_path(@event), params: { participation: { value: "i" } },
                                         method: :post, form_class: "d-inline-block", class:"btn btn-primary" ) do %>
-                        Interested
+                        <div class="interested-icon"></div> Interested
                         <% end %>
                         <%= button_to( event_participations_path(@event), params: { participation: { value: "p" } }, 
                                         method: :post, form_class: "d-inline-block", class:"btn btn-success" ) do %>
 
-                        Going
+                        <div class="going-icon"></div> Going
                         <% end %>
                         <% elsif @part.value == 'i' %>
                             <%= link_to( event_participation_path(@event, @part), method: :delete , class:"btn btn-warning" ) do %>
-                            Not interested
+                            <div class="not-interested-icon"></div> Not interested
                             <% end %>
                             <%= button_to( event_participation_path(@event, @part), params: { participation: { value: "p" } }, 
                                             method: :put, form_class: "d-inline-block", class:"btn btn-success" ) do %>
-                            Going
+                            <div class="going-icon"></div> Going
                             <% end %>
                         <% else %>
                             <%= button_to( event_participation_path(@event, @part), params: { participation: { value: "i" } }, 
                                             method: :put, form_class: "d-inline-block", class:"btn btn-primary" ) do %>
-                            Interested
+                            <div class="interested-icon"></div> Interested
                             <% end %>
                             <%= link_to( event_participation_path(@event, @part), method: :delete , class:"btn btn-warning" ) do %>
-                            Not Going
+                            <div class="not-going-icon"></div> Not Going
                             <% end %>
                         <% end %>
                         <% else %>
@@ -86,7 +86,8 @@
             <div style="height: 300px" id="mapContainer" data-lat="<%= @event.coords[:lat] %>" data-lng="<%= @event.coords[:lng] %>"></div>
             <div class="card-body d-flex border-top">
                 <div id="mapEventInfo"><%= @event.where %></div>
-                <a class="ml-auto btn btn-primary" href="https://share.here.com/l/<%= "#{@event.coords[:lat]},#{@event.coords[:lng]}" %>?z=13&t=traffic&p=yes"> <div class="directions-icon" style="--icon-size: 36px;"></div> </a>
+                <a class="ml-auto btn btn-primary d-flex" href="https://share.here.com/l/<%= "#{@event.coords[:lat]},#{@event.coords[:lng]}" %>?z=13&t=traffic&p=yes" style=" border-radius: 100px; min-height: 62px; min-width: 62px;"> 
+                <div class="directions-icon" style="--icon-size: 36px; margin: auto;"> </div> </a>
             </div>
         </div>
 

@@ -10,6 +10,10 @@ Things you may want to cover:
 * System dependencies
 
 * Configuration
+create ENV vars with FACEBOOK_APP_ID and FACEBOOK_APP_SECRET
+create SENDGRID_API_KEY, set Sendgrid.env
+mailer in enviroment
+ENV["HERE_API_KEY"]
 
 * Database creation
 
