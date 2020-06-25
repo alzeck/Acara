@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_24_143201) do
+ActiveRecord::Schema.define(version: 2020_06_25_175240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,10 +71,15 @@ ActiveRecord::Schema.define(version: 2020_06_24_143201) do
   create_table "flags", force: :cascade do |t|
     t.string "reason"
     t.text "description"
-    t.string "url"
+    t.bigint "flaggedEvent_id"
+    t.bigint "flaggedComment_id"
+    t.bigint "flaggedUser_id"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["flaggedComment_id"], name: "index_flags_on_flaggedComment_id"
+    t.index ["flaggedEvent_id"], name: "index_flags_on_flaggedEvent_id"
+    t.index ["flaggedUser_id"], name: "index_flags_on_flaggedUser_id"
     t.index ["user_id"], name: "index_flags_on_user_id"
   end
 
@@ -157,7 +162,10 @@ ActiveRecord::Schema.define(version: 2020_06_24_143201) do
   add_foreign_key "comments", "events"
   add_foreign_key "comments", "users"
   add_foreign_key "events", "users"
+  add_foreign_key "flags", "comments", column: "flaggedComment_id"
+  add_foreign_key "flags", "events", column: "flaggedEvent_id"
   add_foreign_key "flags", "users"
+  add_foreign_key "flags", "users", column: "flaggedUser_id"
   add_foreign_key "follows", "users", column: "followed_id"
   add_foreign_key "follows", "users", column: "follower_id"
   add_foreign_key "follows_tags", "tags"
