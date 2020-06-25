@@ -46,6 +46,8 @@ gem 'rest-client'
 # Admin Dashboard
 gem 'trestle'
 gem 'trestle-auth'
+# Redis ( Chats )
+gem 'redis'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
