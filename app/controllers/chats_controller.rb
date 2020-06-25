@@ -13,9 +13,10 @@ class ChatsController < ApplicationController
   #GET su /chats/:id
   def show
     if user_signed_in?
+      @chats = Chat.where("chats.user1_id = #{current_user.id} OR chats.user2_id = #{current_user.id}")
       if Chat.exists?(params[:id])
         @chat = Chat.find(params[:id])
-
+        @message = Message.new chat: @chat
         if @chat.user1_id == current_user.id || @chat.user2_id == current_user.id
           @messages = Message.where(chat_id: params[:id]).sort_by(&:created_at)
         else
