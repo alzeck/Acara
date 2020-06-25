@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :has_tags, dependent: :destroy
   has_many :participations, dependent: :destroy
+  has_many :child_flags, :class_name => "Flag", :foreign_key => "flaggedEvent_id", dependent: :destroy
 
 
   #Controlla che i seguenti campi non siano vuoti

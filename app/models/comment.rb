@@ -5,6 +5,7 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :event
   has_many :child_comments, :class_name => "Comment", :foreign_key => "previous_id", dependent: :destroy
+  has_many :child_flags, :class_name => "Flag", :foreign_key => "flaggedComment_id", dependent: :destroy
 
   
   #Controlla che i seguenti campi non siano vuoti

@@ -34,11 +34,11 @@ Rails.application.routes.draw do
 
 
   #Routes for flags
-  resources :flags, except: [:edit, :update]
+  resources :flags, only: [:new, :create]
 
 
   #REST API RESOURCES
-  # TODO non dovremmo metterci anche le chat, messaggi e pages?
+  # TODO vedere se togliere qualcosa?
   namespace :api, defaults: { format: "json" } do
     resources :users, only: [:show] do
       resources :follows, except: [:show, :new, :edit, :update]
@@ -51,7 +51,7 @@ Rails.application.routes.draw do
       resources :participations, except: [:index, :show, :new, :edit]
     end
     
-    resources :flags, except: [:edit, :update]
+    resources :flags, only: [:new, :create]
   end
 
 end

@@ -110,8 +110,13 @@ class User < ApplicationRecord
     end
   end
 
-  # TODO bisogna aggiungere un controllo sulla position che sia una stringa di coordinate valide, come fatto per gli eventi:
-  # validates_format_of :position, with: /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/, :multiline => true
+  # TODO bisogna aggiungere un controllo sulla position che sia una stringa di coordinate valide, come fatto per gli eventi, o una stringa vuota se non ci sono:  
+  # def validPosition
+  #   if !position.match?(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/) && !position.match?(/^$/)
+  #     errors.add(:position, "Position is not valid")
+  #   end
+  # end
+  # validate :validPosition
 
   # dependent destroy for user
   has_many :child_chats1, :class_name => "Chat", :foreign_key => "user1_id", dependent: :destroy
@@ -119,6 +124,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :flags, dependent: :destroy
+  has_many :child_flags, :class_name => "Flag", :foreign_key => "flaggedUser_id", dependent: :destroy
   has_many :child_follower, :class_name => "Follow", :foreign_key => "follower_id", dependent: :destroy
   has_many :child_followed, :class_name => "Follow", :foreign_key => "followed_id", dependent: :destroy
   has_many :follows_tags, dependent: :destroy

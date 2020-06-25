@@ -57,6 +57,25 @@ module PagesHelper
     end
 
 
+    #funzione per calcolare la distanza in metri fra due coordinate
+    def distance(loc1, loc2)
+        rad_per_deg = Math::PI/180
+        rkm = 6371
+        rm = rkm * 1000
+      
+        dlat_rad = (loc2[0]-loc1[0]) * rad_per_deg
+        dlon_rad = (loc2[1]-loc1[1]) * rad_per_deg
+      
+        lat1_rad = loc1.map {|i| i * rad_per_deg }.first
+        lat2_rad = loc2.map {|i| i * rad_per_deg }.first
+      
+        a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
+        c = 2 * Math::atan2(Math::sqrt(a), Math::sqrt(1-a))
+      
+        return rm * c
+    end
+
+
     #funzione per smistare ordinatamente gli eventi in base agli input forniti
     def pagesGeneral(titolo, tag, dove, quando, qualiFiltri)
         inZona_attivi_verificati_following = []
@@ -172,8 +191,8 @@ module PagesHelper
 
     #funzione che smista l'evento in base alla posizione passata
     def pagesZona(date, loc, elemLoc, creator, event, i_a_v_f, i_a_v_nf, i_a_nv_f, i_a_nv_nf, i_i_v_f, i_i_v_nf, i_i_nv_f, i_i_nv_nf, n_a_v_f, n_a_v_nf, n_a_nv_f, n_a_nv_nf, n_i_v_f, n_i_v_nf, n_i_nv_f, n_i_nv_nf)
-        #usato come metro di paragone la distanza in coordinate tra il centro di Roma e la "Nuova Fiera di Roma"
-        if ( (elemLoc[0] - loc[0]).abs() <= 0.9 ) && ( (elemLoc[1] - loc[1]).abs() <= 0.16 )
+        #usato come metro di paragone una distanza pari a circa il raggio di Roma (Italia) [circa 40km]
+        if distance(elemLoc, loc) <= 20000
             if date.nil?
                 pagesActive(creator, event, i_a_v_f, i_a_v_nf, i_a_nv_f, i_a_nv_nf, i_i_v_f, i_i_v_nf, i_i_nv_f, i_i_nv_nf)
             else
