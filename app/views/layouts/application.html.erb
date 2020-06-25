@@ -20,7 +20,7 @@
     <%= render('layouts/navbar') if has_navbar %>
     <%= render('layouts/modals') %>
     <!--   <%= render 'layouts/alerts'%> -->
-    <div id="pageContent" class="<%= 'container container-body' if has_navbar %>">
+    <div id="pageContent" class="<%= 'container container-body py-4' if has_navbar %>">
         <%= yield %>
     </div>
     <%= render('layouts/footer') if has_navbar %>

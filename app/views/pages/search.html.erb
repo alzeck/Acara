@@ -1,54 +1,52 @@
 <% if !@hasGL %> <%= javascript_include_tag "getGL" %> <% end %>
 
-<div class="py-4">
-    <% if @risposta[:type] == "events" %>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Events</h3>
-                <div class="card-deck">
-                    <% @risposta[:content].each do |event| %>
-                    <div class="card card-event hover-info" style="min-height: 30vh">
-                        <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
-                        <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
-                        <div class="card-body">
-                            <%= link_to( event_path(event) ) do %>
-                            <%= event.title %>
-                            <%end%>
-                            <div class="extra-info">
-                                <%= event.start.strftime("%e %B %Y, %H:%M") %> - <%= event.end.strftime("%e %B %Y, %H:%M")%> <br>
-                                <%= event.where %>
-                            </div>
+<% if @risposta[:type] == "events" %>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Events</h3>
+            <div class="card-deck">
+                <% @risposta[:content].each do |event| %>
+                <div class="card card-event hover-info" style="min-height: 30vh">
+                    <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                    <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                    <div class="card-body">
+                        <%= link_to( event_path(event) ) do %>
+                        <%= event.title %>
+                        <%end%>
+                        <div class="extra-info">
+                            <%= event.start.strftime("%e %B %Y, %H:%M") %> - <%= event.end.strftime("%e %B %Y, %H:%M")%> <br>
+                            <%= event.where %>
                         </div>
                     </div>
-                    <% end %>
                 </div>
-                <% if @risposta[:content].empty? %>
-                <span class="text-muted"> There are no events found </span>
-                <%end%>
+                <% end %>
             </div>
+            <% if @risposta[:content].empty? %>
+            <span class="text-muted"> There are no events found </span>
+            <%end%>
         </div>
-    <% elsif @risposta[:type] == "users" %>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Users</h3>
-                <div class="card-deck d-flex flex-wrap justify-content-center">
-                    <% @risposta[:content].each do |user| %>
-                        <div class="card mx-3 mb-3" style="max-width:150px;min-width:150px;">
-                            <div class="card-body" style="text-align: center;">
-                            <%= image_tag user.avatar_thumbnail, class:"avatar mb-3" %><BR>
-                            <%= user.username %>
-                            </div>
+    </div>
+<% elsif @risposta[:type] == "users" %>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Users</h3>
+            <div class="card-deck d-flex flex-wrap justify-content-center">
+                <% @risposta[:content].each do |user| %>
+                    <div class="card mx-3 mb-3" style="max-width:150px;min-width:150px;">
+                        <div class="card-body" style="text-align: center;">
+                        <%= image_tag user.avatar_thumbnail, class:"avatar mb-3" %><BR>
+                        <%= user.username %>
                         </div>
-                    <% end %>
-                </div>
+                    </div>
+                <% end %>
             </div>
         </div>
-    <% else %>
-        <% @risposta[:content][:tags].each do |tag| %>
-            <%= tag.name %>
-        <% end %>
-        <% @risposta[:content][:events].each do |event| %>
-            <%= event.title %>
-        <% end %>
+    </div>
+<% else %>
+    <% @risposta[:content][:tags].each do |tag| %>
+        <%= tag.name %>
     <% end %>
-</div>
+    <% @risposta[:content][:events].each do |event| %>
+        <%= event.title %>
+    <% end %>
+<% end %>
