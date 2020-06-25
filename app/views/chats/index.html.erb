@@ -1,2 +1,15 @@
-<h1>Chats#index</h1>
-<p>Find me in app/views/chats/index.html.erb</p>
+<div class="card chats">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <%= render partial: 'chats' %>
+            </div>
+
+            <div class="col d-flex flex-column border-left">
+                <div class="m-auto">
+                    select a chat to start chating or use the navabar to find more users 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,2 +1,44 @@
-<h1>Chats#show</h1>
-<p>Find me in app/views/chats/show.html.erb</p>
+<div class="card chats">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <%= render partial: 'chats' %>
+            </div>
+
+            <div class="col d-flex flex-column border-left">
+                <h1>
+                    <%= receiver(@chat).username %>
+                </h1>
+
+                <% @messages.each do |message| %>
+                <div class="<%= getAlignment(message.user) %> mb-3">
+                    <div class="media">
+                        <% if message.user != current_user %>
+                        <%= image_tag message.user.avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
+                        <% end %>
+                        <div class="media-body comment">
+                            <%= message.user.username %> <br>
+                            <%= message.content %>
+                        </div>
+                        <% if message.user == current_user %>
+                        <%= image_tag message.user.avatar_thumbnail, class:"avatar align-self-center comments-avatar ml-3" %>
+                        <% end %>     
+                    </div>
+                </div>
+                <% end %>
+                <div class="mt-auto">
+                    <%= simple_form_for Message.new, url: chat_messages_path(@chat) do |form| %>
+                    <div class="input-group mb-3">
+                        <%= form.input :content, as: :string,
+                                 wrapper: false,
+                                 label: false %>
+                        <div class="input-group-append">
+                            <%= form.submit "Send", class: 'btn btn-primary chat-input' %>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

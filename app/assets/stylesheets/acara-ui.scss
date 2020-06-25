@@ -387,7 +387,7 @@ iframe {
 
 // border color
 div[class*="border"] {
-    border-color: var(--border);
+    border-color: var(--border) !important;
 }
 
 // comments 
@@ -438,3 +438,12 @@ backdrop-filter: blur(20px);
 .close { 
     color: var(--fg);
 }
+
+// chats 
+.chats {
+    height: 100%;
+    .row {
+        height: 100%;
+    }
+}
+
