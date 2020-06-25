@@ -43,7 +43,9 @@ gem 'simple_form'
 gem 'geocoder', '~> 1.2', '>= 1.2.9'
 # RestClient
 gem 'rest-client'
-
+# Admin Dashboard
+gem 'trestle'
+gem 'trestle-auth'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

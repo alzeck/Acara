@@ -28,7 +28,7 @@
                         <%= link_to 'My Profile', user_path(current_user), class: "dropdown-item"%>
                         <a class="dropdown-item" href="#">Chats</a>
                         <% if current_user.admin? %>
-                        <a class="dropdown-item" href="#">Check Flag</a>
+                        <%= link_to 'Dashboard', Trestle.config.path , class: "dropdown-item"%>
                         <% end %>
                         <div class="dropdown-divider"></div>
                         <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item"%>
