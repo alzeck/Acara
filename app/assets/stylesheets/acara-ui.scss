@@ -53,7 +53,7 @@ hr {
 }
 
 .container-body {
-    height: calc(100vh - 108px);
+    min-height: calc(100vh - 108px);
 }
 
 .navbar {
@@ -441,7 +441,7 @@ backdrop-filter: blur(20px);
 
 // chats 
 .chats {
-    height: 100%;
+    height: calc(100vh - 138px);;
     .row {
         height: 100%;
         .col { 

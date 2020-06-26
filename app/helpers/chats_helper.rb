@@ -15,6 +15,10 @@ module ChatsHelper
     end
   end
 
+  def messageRead(msg)
+    msg.user == current_user or msg.read?  
+  end
+
 
 
 end

@@ -19,7 +19,11 @@ class Chat < ApplicationRecord
   validate :usersOrder
 
   def lastMessage 
-    self.messages.order('created_at DESC')[0]
+    if self.messages.present?
+      self.messages.order('created_at DESC')[0]
+    else
+      Message.new content: ""
+    end
   end
 
   def updateMessagesRead(user)
