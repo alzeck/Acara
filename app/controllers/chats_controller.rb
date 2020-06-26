@@ -9,7 +9,6 @@ class ChatsController < ApplicationController
     end
   end
 
-
   #GET su /chats/:id
   def show
     if user_signed_in?
@@ -22,7 +21,6 @@ class ChatsController < ApplicationController
         else
           render_403
         end
-
       else
         render_404
       end
@@ -30,28 +28,42 @@ class ChatsController < ApplicationController
       render_401
     end
   end
-  
 
   #POST su /chats
   def create
     if user_signed_in?
-      par = params[:chat].permit(:user_id)
-      primo_id = par[:where] > current_user.id ? par[:where] : current_user.id
-      secondo_id = par[:where] < current_user.id ? par[:where] : current_user.id
-      @chat = Chat.new(user1_id: primo_id, user2_id: secondo_id)
+      par = params[:chat].present? ? params[:chat].permit(:user_id)[:user_id] : nil
+      # TODO check if this control is needed elsewhere
+      if par.present?
+        # verify if the needed param has been given ( avoid to)
+        user = par.to_i 
+        primo_id = user < current_user.id ? user : current_user.id
+        secondo_id = user > current_user.id ? user : current_user.id
 
-      if @chat.valid?
-        if @chat.save
-          redirect_to chats_path
+        # Check if the chat already exists ( case user tries to access from profile )
+        @chat = Chat.where(user1_id: primo_id, user2_id: secondo_id)[0]
+        if @chat.present?
+        # if the chat exists redirect to
+        redirect_to chat_path(@chat)
+      else
+        # else try to create it
+        @chat = Chat.new(user1_id: primo_id, user2_id: secondo_id)
+        @chat.save!
+        if @chat.valid?
+          if @chat.save
+            redirect_to chat_path(@chat)
+          else
+            render_500
+          end
         else
-          render_500
+          render_400
+        end
         end
       else
-        render_400
+        render_404
       end
     else
       render_401
     end
   end
-  
 end

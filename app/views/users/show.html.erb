@@ -21,8 +21,10 @@
                                 <button class="btn btn-danger mr-2"> <div class="flag-icon"></div> </button>
                             <% end %>
                         <% end %>
-                        <button class="btn btn-success mr-2"><div class="chat-icon"> </div> </button>
-                            
+                        <%= button_to( chats_path, method: :post, params: { chat: { user_id: @user.id }},
+                                    form_class: "d-inline-block", class:"btn btn-success mr-2" ) do %>
+                            <div class="chat-icon"> </div>
+                        <% end %>
                             <% if ! current_user.isFollowing(@user) %>
 
                                 <%= button_to( user_follows_path(@user), method: :post, 
