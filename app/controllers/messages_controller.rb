@@ -2,13 +2,14 @@ class MessagesController < ApplicationController
 
   #POST su /chats/:chat_id/messages
   def create
-    if user_signed_in?
+    if user_signed_in? && Chat.exists?(params[:chat_id])
       par = params[:message].permit(:content)
+      @chat = Chat.find(params[:chat_id])
       @message = Message.new(content: par[:content], chat_id: params[:chat_id], user_id: current_user.id)
 
       if @message.valid?
         if @message.save
-          redirect_to chat_path(id: params[:chat_id])
+          ChatChannel.broadcast_to @chat, @message
         else
           render_500
         end
