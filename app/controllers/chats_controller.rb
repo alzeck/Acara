@@ -17,6 +17,7 @@ class ChatsController < ApplicationController
         @chat = Chat.find(params[:id])
         @message = Message.new chat: @chat
         if @chat.user1_id == current_user.id || @chat.user2_id == current_user.id
+          @chat.updateMessagesRead(current_user) # Update all the received messages as read 
           @messages = Message.where(chat_id: params[:id]).sort_by(&:created_at)
         else
           render_403

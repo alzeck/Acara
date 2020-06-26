@@ -19,4 +19,9 @@ class Message < ApplicationRecord
   end
   validate :validChat
 
+  def updateRead
+    self.read = true
+    self.save
+  end
+
 end

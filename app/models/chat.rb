@@ -18,4 +18,14 @@ class Chat < ApplicationRecord
   end
   validate :usersOrder
 
+  def lastMessage 
+    self.messages.order('created_at DESC')[0]
+  end
+
+  def updateMessagesRead(user)
+    self.messages.where("user_id != #{user.id} AND read = false").each do |msg|
+      msg.updateRead
+    end
+  end
+  
 end

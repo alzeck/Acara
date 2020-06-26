@@ -14,7 +14,7 @@ $(function () {
 
 
         $element.animate({ scrollTop: $element.prop("scrollHeight") }, 1000);
-        consumer.subscriptions.create(
+        var channel = consumer.subscriptions.create(
             {
                 channel: "ChatChannel",
                 chat: chat_id
@@ -30,6 +30,7 @@ $(function () {
                     content.find('[data-role="message-date"]').text((new Date(data.created_at)).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric' }));
                     $element.append(content);
                     $element.animate({ scrollTop: $element.prop("scrollHeight") }, 1000);
+                    channel.send({"chat_id": chat_id});
                 }
             }
         );
