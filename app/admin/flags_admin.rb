@@ -3,24 +3,23 @@ Trestle.resource(:flags) do
     item :flags, icon: "fa fa-star"
   end
 
-  # Customize the table columns shown on the index view.
-  #
-  # table do
-  #   column :name
-  #   column :created_at, align: :center
-  #   actions
-  # end
+  table do
+    column :id, link: true
+    column :user, header: "Author"
+    column :flaggedUser, header: "Flagged User"
+    column :flaggedEvent, header: "Flagged Event"
+    column :flaggedComment, header: "Flagged Comment"
+    column :reason
+    column :description
+    column :created_at
+    column :updated_at
+  end
 
-  # Customize the form fields shown on the new/edit views.
-  #
-  # form do |flag|
-  #   text_field :name
-  #
-  #   row do
-  #     col { datetime_field :updated_at }
-  #     col { datetime_field :created_at }
-  #   end
-  # end
+  #vuoto perchè non ha senso che un admin lo possa modificare
+  form do |flag|
+    # text_field :reason
+    # text_area :description
+  end
 
   # By default, all parameters passed to the update and create actions will be
   # permitted. If you do not have full trust in your users, you should explicitly

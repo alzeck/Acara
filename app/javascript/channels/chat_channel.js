@@ -4,7 +4,7 @@ $(function () {
     $('[data-role="message-date"]').each(function (index, element) {
         var $element = $(element);
         var date = $element.text();
-        $element.text((new Date(date)).toLocaleString('it-IT', { day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric' }));
+        $element.text((new Date(date)).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric' }));
     });
     $('[data-channel-subscribe="chat"]').each(function (index, element) {
         var $element = $(element),

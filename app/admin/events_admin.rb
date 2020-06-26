@@ -3,24 +3,26 @@ Trestle.resource(:events) do
     item :events, icon: "fa fa-star"
   end
 
-  # Customize the table columns shown on the index view.
-  #
-  # table do
-  #   column :name
-  #   column :created_at, align: :center
-  #   actions
-  # end
-
-  # Customize the form fields shown on the new/edit views.
-  #
-  # form do |event|
-  #   text_field :name
-  #
-  #   row do
-  #     col { datetime_field :updated_at }
-  #     col { datetime_field :created_at }
-  #   end
-  # end
+  table do
+    column :id, link: true
+    column :user, header: "Author"
+    column :title
+    column :description
+    column :start
+    column :end
+    column :where
+    column :cords, header: "Coords"
+    column :modified
+  end
+  
+  form do |event|
+    text_field :title
+    text_area :description
+    # datetime_field :start
+    # datetime_field :end
+    # text_field :where
+    # text_field :cords
+  end
 
   # By default, all parameters passed to the update and create actions will be
   # permitted. If you do not have full trust in your users, you should explicitly

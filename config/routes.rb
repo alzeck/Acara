@@ -38,20 +38,12 @@ Rails.application.routes.draw do
 
 
   #REST API RESOURCES
-  # TODO vedere se togliere qualcosa?
   namespace :api, defaults: { format: "json" } do
-    resources :users, only: [:show] do
-      resources :follows, except: [:show, :new, :edit, :update]
-    end
+    resources :users, only: [:index, :show]
 
-    resources :tags, except: [:index, :show, :new, :edit, :update]
-
-    resources :events, except: [:index] do
-      resources :comments, except: [:index, :show, :new, :edit]
-      resources :participations, except: [:index, :show, :new, :edit]
+    resources :events, except: [:new, :edit] do
+      resources :comments, except: [:new, :edit]
     end
-    
-    resources :flags, only: [:new, :create]
   end
 
 end

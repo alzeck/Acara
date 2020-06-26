@@ -2,9 +2,9 @@ class Flag < ApplicationRecord
 
   #Controlli sulle chiavi esterne
   belongs_to :user
-  belongs_to :flaggedComment, optional: true, class_name: "Flag"
-  belongs_to :flaggedEvent, optional: true, class_name: "Flag"
-  belongs_to :flaggedUser, optional: true, class_name: "Flag"
+  belongs_to :flaggedComment, optional: true, class_name: "Comment"
+  belongs_to :flaggedEvent, optional: true, class_name: "Event"
+  belongs_to :flaggedUser, optional: true, class_name: "User"
 
 
   #Controlla che la ragione sia tra quelle accettate (e conseguentemente che non sia vuota)
