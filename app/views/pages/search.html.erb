@@ -32,12 +32,14 @@
             <h3 class="card-title">Users</h3>
             <div class="card-deck d-flex flex-wrap justify-content-center">
                 <% @risposta[:content].each do |user| %>
+                    <%= link_to user_path(user) do %>
                     <div class="card mx-3 mb-3" style="max-width:150px;min-width:150px;">
                         <div class="card-body" style="text-align: center;">
                         <%= image_tag user.avatar_thumbnail, class:"avatar mb-3" %><BR>
                         <%= user.username %>
                         </div>
                     </div>
+                    <% end %>
                 <% end %>
             </div>
         </div>
