@@ -444,6 +444,12 @@ backdrop-filter: blur(20px);
     height: 100%;
     .row {
         height: 100%;
+        .col { 
+            height: 100%;
+        }
     }
 }
 
+.chat {
+    overflow-y: auto;
+}
