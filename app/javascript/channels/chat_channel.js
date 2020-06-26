@@ -22,9 +22,6 @@ $(function () {
             {
                 received: function (data) {
                     var content = messageTemplate.children().clone(true, true);
-                    console.log(data);
-                    console.log(data.user);
-                    console.log(user_id);
                     if (data.user_id === user_id)
                         content.addClass("ml-auto");
                     else
