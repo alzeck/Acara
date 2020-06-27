@@ -10,6 +10,7 @@ class MessagesController < ApplicationController
       if @message.valid?
         if @message.save
           ChatChannel.broadcast_to @chat, @message
+          @chat.touch # Update timestamp update_at for order 
           render body: nil, status: 200
         else
           render_500
