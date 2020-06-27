@@ -31,23 +31,25 @@ gem 'bootsnap', '>= 1.4.2', require: false
 #fix irb errors
 gem 'irb', require: false
 
-# devise Login/Signup
+# Devise Login/Signup
 gem 'devise'
-# Login with facebook <3
+# Login with Facebook <3
 gem 'omniauth-facebook'
-# Sendgrid (EMAILS)
+# Sendgrid (Emails)
 gem 'sendgrid-ruby'
-#simple form
+# Simple Form
 gem 'simple_form'
-# geocoder
+# Geocoder
 gem 'geocoder', '~> 1.2', '>= 1.2.9'
 # RestClient
 gem 'rest-client'
 # Admin Dashboard
 gem 'trestle'
 gem 'trestle-auth'
-# Redis ( Chats )
+# Redis (Chats)
 gem 'redis'
+# Whenever
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

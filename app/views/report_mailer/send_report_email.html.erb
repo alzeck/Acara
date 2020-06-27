@@ -1,0 +1,50 @@
+<p>Welcome <%= @user.username %> to our weekly report!</p>
+
+<% if @hot_events.length > 0 %>
+    <p>Take a look at these exciting events you might be interested in taking place this week:</p>
+    <ul>
+        <% @hot_events.each do |event| %>
+            <li>
+                <%= link_to( event_url(event) ) do %>
+                    <%= event.title %>
+                <%end%>
+            </li>
+        <% end %>
+    </ul>
+<% else %>
+    <p>We were unable to find something to your liking, try to make up for it searching for something you might enjoy inside our delightful <%= link_to 'Home Page', root_url %>!</p>
+<% end %>
+
+<hr/>
+
+<% if @going.length > 0 %>
+    <p>Here it is the list of future events you're going to:</p>
+    <ul>
+        <% @going.each do |event| %>
+            <li>
+                <%= link_to( event_url(event) ) do %>
+                    <%= event.title %>
+                <%end%>
+            </li>
+        <% end %>
+    </ul>
+<% else %>
+    <p>It looks like you're not going to any event, try to make up for it searching for something you might enjoy inside our delightful <%= link_to 'Home Page', root_url %>!</p>
+<% end %>
+
+<hr/>
+
+<% if @interested.length > 0 %>
+    <p>Here it is the list of future events you're interested in:</p>
+    <ul>
+        <% @interested.each do |event| %>
+            <li>
+                <%= link_to( event_url(event) ) do %>
+                    <%= event.title %>
+                <%end%>
+            </li>
+        <% end %>
+    </ul>
+<% else %>
+    <p>It looks like you're not interested in any event, try to make up for it searching for something you might enjoy inside our delightful <%= link_to 'Home Page', root_url %>!</p>
+<% end %>

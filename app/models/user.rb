@@ -129,6 +129,13 @@ class User < ApplicationRecord
   end
   validate :validPosition
 
+  # Funzione chiamata da whenever per il resoconto settimanale
+  def self.send_report_email_all
+    for user in User.where(mailflag: true)
+        ReportMailer.send_report_email(user).deliver
+    end
+  end
+
   # dependent destroy for user
   has_many :child_chats1, :class_name => "Chat", :foreign_key => "user1_id", dependent: :destroy
   has_many :child_chats2, :class_name => "Chat", :foreign_key => "user2_id", dependent: :destroy
