@@ -1,2 +1,9 @@
-<h1>Flags#new</h1>
-<p>Find me in app/views/flags/new.html.erb</p>
+<%= simple_form_for @flag do |f| %>
+    <%= f.error_notification %>
+    <%= f.hidden_field :flaggedEvent,   :value => @flag.flaggedEvent_id %>
+    <%= f.hidden_field :flaggedComment, :value => @flag.flaggedComment_id %>
+    <%= f.hidden_field :flaggedUser,    :value => @flag.flaggedUser_id %>
+    <%= f.input :reason, collection: Flag::REASONS %>
+    <%= f.input :description %>
+    <%= f.button :submit, "Send Flag" ,class: "btn-warning" %>
+<% end %>
