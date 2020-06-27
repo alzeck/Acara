@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, 
+         :recoverable, :rememberable, :validatable, :confirmable
 
   devise :omniauthable, omniauth_providers: %i[facebook]
 
@@ -98,25 +98,36 @@ class User < ApplicationRecord
 
   # give api key only after user is verified
   validates_uniqueness_of  :secretkey , allow_blank: true
-  before_save :add_secretkey
+  
+  after_commit :add_secretkey, on: %i[create update]
 
   def add_secretkey
     if self.verification
       unless !self.secretkey.nil?
         self.secretkey = SecureRandom.urlsafe_base64(30,false)
+        self.save
       end
     else
-      self.secretkey = nil
+      unless self.secretkey.nil?
+        self.secretkey = nil
+        self.save
+      end
     end
   end
 
-  # TODO bisogna aggiungere un controllo sulla position che sia una stringa di coordinate valide, come fatto per gli eventi, o una stringa vuota se non ci sono:  
-  # def validPosition
-  #   if !position.match?(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/) && !position.match?(/^$/)
-  #     errors.add(:position, "Position is not valid")
-  #   end
-  # end
-  # validate :validPosition
+  after_commit :force_confirmation_email, on: :create
+
+  def force_confirmation_email
+    self.send_confirmation_instructions
+  end
+
+  # Controlla che la position sia una stringa di coordinate valide, come fatto per gli eventi, o una stringa vuota se non ci sono:  
+  def validPosition
+    if !position.match?(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/) && !position.match?(/^$/)
+      errors.add(:position, "Position is not valid")
+    end
+  end
+  validate :validPosition
 
   # dependent destroy for user
   has_many :child_chats1, :class_name => "Chat", :foreign_key => "user1_id", dependent: :destroy
