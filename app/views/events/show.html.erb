@@ -67,7 +67,12 @@
 <br>
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title"> Description </h6>
+        <div class="d-flex">
+            <h6 class="card-title mr-auto"> Description </h6>
+            <% if @event.modified? %>
+                <div class='text-muted'> modified </div>
+            <% end %>
+        </div>
         <%= @event.description %><br>
         <br>
         <h6 class="card-title"> Tags </h6>

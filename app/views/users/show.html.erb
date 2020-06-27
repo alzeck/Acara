@@ -57,7 +57,7 @@
         <h3 class="card-title">Events</h3>
         <div class="card-deck">
         <% @events.each do |event| %>
-        <div class="card card-event hover-info" style="min-height: 30vh" >
+        <div class="card mt-3 card-event hover-info" style="min-height: 30vh" >
                 <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
                 <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
             <div class="card-body">
