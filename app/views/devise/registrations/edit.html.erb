@@ -58,9 +58,11 @@
                     <label for="apikey">api key</label>
                     <input type="text" id="apikey" class="form-control" value="<%= current_user.secretkey %>" disabled>
                     </div>
-                    <button class="btn btn-warning"> Remove Verified </button>
+                    <%= button_to "Remove Verified", flags_path , params: { flag: { reason: "Verification", flaggedUser: current_user.id } },
+                                        method: :post, form_class: "d-inline-block", class:"btn btn-warning" %>
                 <% else %>
-                    <button class="btn btn-primary"> Get Verified </button>
+                    <%= button_to "Get Verified", flags_path , params: { flag: { reason: "Verification", flaggedUser: current_user.id } },
+                                        method: :post, form_class: "d-inline-block", class:"btn btn-primary" %>
                 <% end %>
             <hr>
             <h3>Cancel my account</h3>

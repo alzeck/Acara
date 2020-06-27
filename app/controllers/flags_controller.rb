@@ -46,6 +46,7 @@ class FlagsController < ApplicationController
       # TODO CHECK WITH MODALS 
       if @flag.valid?
         if @flag.save
+          #Set a success case 
           render body: nil, status: 200
         else
           render_500
