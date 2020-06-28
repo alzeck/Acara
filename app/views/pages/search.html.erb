@@ -42,6 +42,9 @@
                     <% end %>
                 <% end %>
             </div>
+            <% if @risposta[:content].empty? %>
+            <span class="text-muted"> There are no users found </span>
+            <%end%>
         </div>
     </div>
 <% else %>

@@ -17,10 +17,6 @@ class Comment < ApplicationRecord
     previous_id.nil?
   end
 
-  def isModified?
-    self.created_at != self.updated_at
-  end
-
 
   #Controlla che il commento abbia una reply valida
   def validReply
@@ -29,5 +25,11 @@ class Comment < ApplicationRecord
     end
   end
   validate :validReply, :unless => :previousNil?
+
+
+  #Funzione per vedere se il commento è stato modificato o meno
+  def isModified?
+    self.created_at != self.updated_at
+  end
 
 end

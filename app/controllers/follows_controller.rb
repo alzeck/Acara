@@ -2,9 +2,16 @@ class FollowsController < ApplicationController
 
   #GET su /users/:user_id/follows
   def index
-    @followers = Follow.where(followed_id: params[:user_id])
-    @following = Follow.where(follower_id: params[:user_id])
-    @tags = FollowsTag.where(user_id: params[:user_id])
+    id = params[:user_id]
+
+    if User.exists?(id)
+      @followers = Follow.where(followed_id: id)
+      @following = Follow.where(follower_id: id)
+      @tags = FollowsTag.where(user_id: id)
+
+    else
+      render_404
+    end   
   end
 
 

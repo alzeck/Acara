@@ -13,6 +13,10 @@ Trestle.resource(:flags) do
     column :description
     column :created_at
     column :updated_at
+
+    actions do |a|
+      a.delete
+    end
   end
 
   #vuoto perchè non ha senso che un admin lo possa modificare

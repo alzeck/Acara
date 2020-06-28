@@ -13,6 +13,10 @@ Trestle.resource(:events) do
     column :where
     column :cords, header: "Coords"
     column :modified
+
+    actions do |a|
+      a.delete
+    end
   end
   
   form do |event|

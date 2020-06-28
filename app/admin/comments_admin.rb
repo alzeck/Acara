@@ -11,6 +11,10 @@ Trestle.resource(:comments) do
     column :previous
     column :created_at
     column :updated_at
+
+    actions do |a|
+      a.delete
+    end
   end
   
   form do |comment|

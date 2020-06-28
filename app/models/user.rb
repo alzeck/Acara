@@ -28,6 +28,13 @@ class User < ApplicationRecord
   # Only allow letter, number, underscore and punctuation.
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
+  # Only allow passwords of 8 characters minumum with lower and upper case letters, numbers and punctuation.
+  def password_complexity
+    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+    errors.add :password, 'Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
+  end
+  validate :password_complexity
+
   # Prevent username to have someone else is email as username
   validate :validate_username
 
@@ -66,6 +73,7 @@ class User < ApplicationRecord
   after_commit :add_default_avatar, on: %i[create update]
 
   def avatar_thumbnail
+    # TODO da errore con alcuni formati immagine (tipo webp), si può provare a risolvere con begin-rescue-end
     avatar.variant(resize: "100x100!").processed
   end
 

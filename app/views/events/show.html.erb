@@ -15,6 +15,7 @@
             <div class="ml-auto">
                 <div class="text-right mb-2">
                     <span class="mr-2"><strong><%= @event.interested %></strong> Interested </span>
+                    ·
                     <strong><%= @event.going %></strong> Going </div>
                 <% if user_signed_in? %>
                 <div>
@@ -78,7 +79,9 @@
         <h6 class="card-title"> Tags </h6>
         <div class="text-primary">
             <% @event.tags.each do |t| %>
+            <%= link_to(search_path(q: "##{t}")) do%>
             <%= t %>
+            <% end %>
             <%end%>
         </div>
     </div>
@@ -98,25 +101,28 @@
 
     <div class="card">
         <div class="card-header">
-            <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap" do |f| %>
-            <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+            <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap", local: true do |f| %>
+            <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment", autocomplete: "off" %>
             <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
             <div class="send-comment-icon"></div>
             <% end %>
             <% end %>
         </div>
         <div class="card-body comments-container">
+
             <% @event.comments.each do |c| %>
             <div class="mb-3">
                 <div class="media" id="comment<%= c[:comment].id %>">
                     <%= image_tag c[:comment].user.avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
                     <div class="media-body comment">
                         <div class="d-flex">
-                            <strong class="mr-auto"> <%= c[:comment].user.username %>
-                                <% if c[:comment].user.verification %>
-                                <div class="verified-icon"></div>
-                                <% end %>
-                            </strong>
+                            <%= link_to(user_path(c[:comment].user)) do%>
+                                <strong class="mr-auto"> <%= c[:comment].user.username %>
+                                    <% if c[:comment].user.verification %>
+                                    <div class="verified-icon"></div>
+                                    <% end %>
+                                </strong>
+                            <% end %>
                             <% if c[:comment].isModified? %>
                             <span class="ml-auto text-muted"> Modified </span>
                             <% end %>
@@ -135,8 +141,8 @@
                     </a> ·
                     <%= link_to "delete", event_comment_path(@event, c[:comment]), data: { confirm: "Are you sure?" }, method: :delete , class:"text-danger" %>
                     <div class="collapse" id="modifyForm<%= c[:comment].id %>">
-                        <%= form_with model: c[:comment], url: event_comment_path(@event,c[:comment]), method: "patch", class: "form-inline flex-nowrap mb-3" do |f| %>
-                        <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+                        <%= form_with model: c[:comment], url: event_comment_path(@event,c[:comment]), method: "patch", class: "form-inline flex-nowrap mb-3", local: true do |f| %>
+                        <%= f.text_field :content, class: "form-control flex-grow-1 w-100", autocomplete: "off" %>
                         <%= button_tag(type: 'submit', class: "ml-3 btn btn-warning") do %>
                         <div class="modify-icon"></div>
                         <% end %>
@@ -151,11 +157,13 @@
                             <%= image_tag r.user.avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
                             <div class="media-body comment">
                                 <div class="d-flex">
-                                    <strong class="mr-auto"> <%= r.user.username %>
-                                        <% if r.user.verification %>
-                                        <div class="verified-icon"></div>
-                                        <% end %>
-                                    </strong>
+                                    <%= link_to(user_path(r.user)) do%>
+                                        <strong class="mr-auto"> <%= r.user.username %>
+                                            <% if r.user.verification %>
+                                            <div class="verified-icon"></div>
+                                            <% end %>
+                                        </strong>
+                                    <% end %>
                                     <% if r.isModified? %>
                                     <span class="ml-auto text-muted"> Modified </span>
                                     <% end %>
@@ -164,14 +172,14 @@
                             </div>
                         </div>
                         <div class="replies">
-                            <% if user_signed_in? && (current_user == c[:comment].user || current_user.admin )%>
+                            <% if user_signed_in? && (current_user == r.user || current_user.admin )%>
                             <a class="text-warning" data-toggle="collapse" href="#modifyForm<%= r.id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
                                 modify
                             </a> ·
                             <%= link_to "delete", event_comment_path(@event, r), data: { confirm: "Are you sure?" }, method: :delete , class:"text-danger" %>
                             <div class="collapse" id="modifyForm<%= r.id %>">
-                                <%= form_with model: r, url: event_comment_path(@event,r), method: "patch", class: "form-inline flex-nowrap mb-3" do |f| %>
-                                <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+                                <%= form_with model: r, url: event_comment_path(@event,r), method: "patch", class: "form-inline flex-nowrap mb-3", local: true do |f| %>
+                                <%= f.text_field :content, class: "form-control flex-grow-1 w-100", autocomplete: "off" %>
                                 <%= button_tag(type: 'submit', class: "ml-3 btn btn-warning") do %>
                                 <div class="modify-icon"></div>
                                 <% end %>
@@ -184,9 +192,9 @@
                     </div>
                     <%end%>
                     <div class="collapse" id="replyForm<%= c[:comment].id %>">
-                        <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap mb-3" do |f| %>
+                        <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap mb-3", local: true do |f| %>
                         <%= f.hidden_field :previous_id, :value => c[:comment].id %>
-                        <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment" %>
+                        <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment", autocomplete: "off" %>
                         <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
                         <div class="send-reply-icon"></div>
                         <% end %>
@@ -194,10 +202,11 @@
                     </div>
                 </div>
             </div>
-            <% end %>
+            <%end%>
+
             <% if @event.comments.empty? %>
             <span class="text-muted"> This event has no comments yet </span>
-            <%end%>
+            <% end %>
         </div>
     </div>
 </div>

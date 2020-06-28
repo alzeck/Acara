@@ -5,13 +5,18 @@ module PagesHelper
         if params.has_key?(:gl)
             loc = params[:gl]
 
-            if user_signed_in?
-                current_user.position = loc
+            if loc.nil?
+                return [-79.4063075, 0.3149312]     #coordinate Geocoder dell'Antartide
             end
 
             loc = loc.split(",")
             loc[0] = loc[0].to_d
             loc[1] = loc[1].to_d
+
+            if user_signed_in?
+                current_user.position = "#{loc[0]},#{loc[1]}"
+            end
+
             return loc
 
         else
@@ -19,7 +24,6 @@ module PagesHelper
 
             if rip == "127.0.0.1" || rip == "::1"
                 return [-79.4063075, 0.3149312]     #coordinate Geocoder dell'Antartide
-                #return [41.8933203, 12.4829321]    #coordinate Geocoder di Roma (Italia)
             else
                 loc = Geocoder.search(rip)
 

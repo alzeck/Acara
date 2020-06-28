@@ -13,7 +13,7 @@
                 <div class="media-body">
                     <div class="d-flex justify-content-between">
                         <div class="username"><%= receiver(chat).username %></div>
-                        <small data-role="message-notification" class="text-warning <%= "d-none" if messageRead(chat.lastMessage) %>"> unread </small>
+                        <small data-role="message-notification" class="text-warning <%= "d-none" if messageRead(chat.lastMessage) || noMessages(chat) %>"> unread </small>
                     </div>
                     <small data-role="message-text" class="text-muted d-inline-block text-truncate" style="max-width: 150px;"><%= chat.lastMessage.content %></small>
                 </div>

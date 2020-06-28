@@ -3,7 +3,7 @@ class ChatsController < ApplicationController
   #GET su /chats
   def index
     if user_signed_in?
-      @chats = Chat.where("chats.user1_id = #{current_user.id} OR chats.user2_id = #{current_user.id}").order("update_at DESC")
+      @chats = Chat.where("chats.user1_id = #{current_user.id} OR chats.user2_id = #{current_user.id}").order("updated_at DESC")
     else
       render_401
     end
@@ -12,7 +12,7 @@ class ChatsController < ApplicationController
   #GET su /chats/:id
   def show
     if user_signed_in?
-      @chats = Chat.where("chats.user1_id = #{current_user.id} OR chats.user2_id = #{current_user.id}").order("update_at DESC")
+      @chats = Chat.where("chats.user1_id = #{current_user.id} OR chats.user2_id = #{current_user.id}").order("updated_at DESC")
       if Chat.exists?(params[:id])
         @chat = Chat.find(params[:id])
         @message = Message.new chat: @chat

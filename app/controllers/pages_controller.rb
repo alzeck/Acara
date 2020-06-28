@@ -14,7 +14,7 @@ class PagesController < ApplicationController
 	def search
 		@hasGL = params.has_key?(:gl)
 
-		if !params.has_key?(:q)
+		if !params.has_key?(:q) || params[:q].nil?
 			@risposta = { type: "events", content: helpers.pagesGeneral(nil, nil, helpers.getLocation, nil, 0) }
 
 		else

@@ -18,18 +18,25 @@
 
 <div class="tab-content" id="pills-tabContent">
   <div class="tab-pane fade show active" id="pills-follower" role="tabpanel" aria-labelledby="pills-follower-tab">
-    <% @followers.each do |f| %>
-        <hr>
-        <div class="ml-4">
-        <%= link_to(user_path(f.follower))  do%>
-        <%= image_tag f.follower.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
-        <%= f.follower.username %>
-        <% end %>
-        </div>
+    <% if @followers.length > 0 %>
+      <% @followers.each do |f| %>
+          <hr>
+          <div class="ml-4">
+          <%= link_to(user_path(f.follower))  do%>
+          <%= image_tag f.follower.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
+          <%= f.follower.username %>
+          <% end %>
+          </div>
+      <% end %>
+    <% else %>
+      <div align="center">
+        This user has no followers yet
+      </div>
     <% end %>
   </div>
   <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">
-    <% @following.each do |f| %>
+    <% if @following.length > 0 %>
+      <% @following.each do |f| %>
         <hr>
         <div class="ml-4">
         <%= link_to(user_path(f.followed)) do%>
@@ -37,14 +44,27 @@
         <%= f.followed.username %>
         <% end %>
         </div>
+      <% end %>
+    <% else %>
+      <div align="center">
+        This user is not following anyone yet
+      </div>
     <% end %>
   </div>
   <div class="tab-pane fade" id="pills-tag" role="tabpanel" aria-labelledby="pills-tag-tab">
-    <% @tags.each do |t| %>
+    <% if @tags.length > 0 %>
+      <% @tags.each do |t| %>
         <hr>
         <div class="ml-4">
+        <%= link_to(search_path(q: "##{t.tag.name}")) do%>
         <%= t.tag.name %>
+        <% end %>
         </div>
+      <% end %>
+    <% else %>
+      <div align="center">
+        This user is not following any tag yet
+      </div>
     <% end %>
   </div>
 </div>

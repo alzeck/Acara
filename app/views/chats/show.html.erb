@@ -6,10 +6,10 @@
             </div>
 
             <div class="col d-flex flex-column border-left">
-                <h1>
+                <h2>
                     <%= image_tag receiver(@chat).avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
-                    <%= receiver(@chat).username %>
-                </h1>
+                    <%= link_to receiver(@chat).username, user_path(receiver(@chat)) %>
+                </h2>
 
                 <div id="chat-view" class="chat d-flex flex-column" data-channel-subscribe="chat" data-chat-id="<%= @chat.id %>" data-user-id="<%= current_user.id %>">
                     <% @messages.each do |message| %>
@@ -17,9 +17,7 @@
                         <div class="comment">
                             <p class="mb-1"> <%= message.content %> </p>
                             <div class="text-right">
-                                <small class="text-muted" data-role="message-date">
-                                    <%= message.created_at %>
-                                </small>
+                                <small class="text-muted" data-role="message-date"><%= JSON.parse(message.created_at.to_json) %></small>
                             </div>
                         </div>
                     </div>
@@ -31,7 +29,8 @@
                     <div class="input-group">
                         <%= form.input :content, as: :string,
                                  wrapper: false,
-                                 label: false %>
+                                 label: false,
+                                 input_html: { autocomplete: "off" } %>
                         <div class="input-group-append">
                             <%= form.submit "Send", class: 'btn btn-primary chat-input' %>
                         </div>

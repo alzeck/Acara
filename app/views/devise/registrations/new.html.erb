@@ -8,7 +8,7 @@
 
             <div class="form-inputs">
 
-                <%= f.input :username, required: true, autofocus: true, input_html: { autocomplete: "username" } %>
+                <%= f.input :username, required: true, autofocus: true, input_html: { autocomplete: "username", minlength: "5" } %>
 
                 <%= f.input :email, required: true, input_html: { autocomplete: "email" }%>
 

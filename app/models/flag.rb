@@ -6,9 +6,9 @@ class Flag < ApplicationRecord
   belongs_to :flaggedEvent, optional: true, class_name: "Event"
   belongs_to :flaggedUser, optional: true, class_name: "User"
 
-  REASONS = ["Dangerous Activity & Self Injury", "Harassment & Trolling", "Nudity & Pornography", "Bullying", "Misleading Event/User", "Spam", "Other...", "Verification"]
 
   #Controlla che la ragione sia tra quelle accettate (e conseguentemente che non sia vuota)
+  REASONS = ["Dangerous Activity & Self Injury", "Harassment & Trolling", "Nudity & Pornography", "Bullying", "Misleading Event/User", "Spam", "Other...", "Verification"]
   validates :reason, inclusion: { in: REASONS }
 
 

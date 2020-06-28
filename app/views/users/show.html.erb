@@ -43,9 +43,10 @@
                         </div>
                     <% end %>
                 </div>
-                <a onclick="return openFollowers('<%= user_follows_path(@user) %>','follower');">
+                <a style="cursor: pointer;" onclick="return openFollowers('<%= user_follows_path(@user) %>','follower');">
                     <strong><%= @user.followers %></strong> followers </a>
-                <a onclick="return openFollowers('<%= user_follows_path(@user) %>','following');"> 
+                ·
+                <a style="cursor: pointer;" onclick="return openFollowers('<%= user_follows_path(@user) %>','following');"> 
                     <strong><%= @user.following %></strong> following  </a> <br>
                 <%= @user.bio %>
             </div>

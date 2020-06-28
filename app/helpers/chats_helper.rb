@@ -19,6 +19,7 @@ module ChatsHelper
     msg.user == current_user or msg.read?  
   end
 
-
-
+  def noMessages(chat)
+    Message.where(chat_id: chat.id).length <= 0
+  end
 end
