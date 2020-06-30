@@ -162,6 +162,14 @@ class User < ApplicationRecord
     super(({only: %i[id username verification]}).merge(options))
   end
 
-  
+  def verificationIcon
+    if self.admin? 
+      "admin-icon"
+    elsif self.verification?
+      "verified-icon"
+    else
+      ""
+    end
+  end
 
 end

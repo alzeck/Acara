@@ -6,9 +6,7 @@
             <div>
                 <h4 class="m-0"><%= @event.title %></h4>
                 <%= link_to @event.user.username, user_path(@event.user) %>
-                <% if @event.user.verification %>
-                <div class="verified-icon"></div>
-                <% end %>
+                <div class="<%= @event.user.verificationIcon %>"></div>
                 <br>
                 <%= @event.start.strftime("%e %B %Y, %H:%M") %> - <%= @event.end.strftime("%e %B %Y, %H:%M")%>
             </div>
@@ -118,9 +116,7 @@
                         <div class="d-flex">
                             <%= link_to(user_path(c[:comment].user)) do%>
                             <strong class="mr-auto"> <%= c[:comment].user.username %>
-                                <% if c[:comment].user.verification %>
-                                <div class="verified-icon"></div>
-                                <% end %>
+                            <div class="<%= c[:comment].user.verificationIcon %>"></div>
                             </strong>
                             <% end %>
                             <% if c[:comment].isModified? %>
@@ -162,9 +158,7 @@
                                 <div class="d-flex">
                                     <%= link_to(user_path(r.user)) do%>
                                     <strong class="mr-auto"> <%= r.user.username %>
-                                        <% if r.user.verification %>
-                                        <div class="verified-icon"></div>
-                                        <% end %>
+                                    <div class="<%= r.user.verificationIcon %>"></div>
                                     </strong>
                                     <% end %>
                                     <% if r.isModified? %>
