@@ -1,16 +1,16 @@
 function updateColor() {
   if (document.body.hasAttribute('data-theme')) {
     document.body.removeAttribute('data-theme');
-    localStorage.removeItem('darkTheme')
+    localStorage.theme = 'light';
   }
   else {
       document.body.setAttribute('data-theme','dark');
-      localStorage.darkTheme = true;
+      localStorage.theme = 'dark';
   }
 }
 
 // check correct theme to use 
-if (localStorage.getItem('darkTheme') && (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ) {
+if (localStorage.getItem('theme') === 'dark' && (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ) {
   // check system preferences 
   document.body.setAttribute('data-theme','dark');
 }
