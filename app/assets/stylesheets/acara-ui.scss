@@ -431,6 +431,10 @@ div[class*="border"] {
 }
 
 // modals 
+.modal-header{
+    border-color: var(--border);
+}
+
 .modal-content {
 background-color: var(--bg-t);
 backdrop-filter: blur(20px);

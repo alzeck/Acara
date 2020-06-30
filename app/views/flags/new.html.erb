@@ -1,9 +1,26 @@
-<%= simple_form_for @flag do |f| %>
-    <%= f.error_notification %>
-    <%= f.hidden_field :flaggedEvent,   :value => @flag.flaggedEvent_id %>
-    <%= f.hidden_field :flaggedComment, :value => @flag.flaggedComment_id %>
-    <%= f.hidden_field :flaggedUser,    :value => @flag.flaggedUser_id %>
-    <%= f.input :reason, collection: Flag::REASONS[0..-2] %>
-    <%= f.input :description %>
-    <%= f.button :submit, "Send Flag" ,class: "btn-warning" %>
-<% end %>
+<div class="modal fade" id="modalFlag" tabindex="-1" role="dialog" aria-labelledby="modalCommLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+
+        <!--Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Flag</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div id="modalFlag-body" class="modal-body">
+                <%= simple_form_for @flag, remote: true do |f| %>
+                <%= f.hidden_field :flaggedEvent,   :value => @flag.flaggedEvent_id %>
+                <%= f.hidden_field :flaggedComment, :value => @flag.flaggedComment_id %>
+                <%= f.hidden_field :flaggedUser,    :value => @flag.flaggedUser_id %>
+                <%= f.input :reason, collection: Flag::REASONS[0..-2] %>
+                <%= f.input :description %>
+                <%= f.button :submit, "Send Flag" ,class: "btn-warning" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,6 +23,7 @@
         <%= yield %>
     </div>
     <%= render('layouts/footer') if has_navbar %>
+    <%= javascript_include_tag "newflag" %>
     <%= javascript_include_tag "dark-mode" %>
     <%= javascript_include_tag "modal-comms" %>
     <% if has_maps %>

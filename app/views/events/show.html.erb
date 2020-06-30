@@ -20,7 +20,7 @@
                 <% if user_signed_in? %>
                 <div>
                     <% if current_user != @event.user && !current_user.admin %>
-                    <button class="btn btn-danger">
+                    <button class="btn btn-danger" onclick="flag('event','<%= @event.id %>')">
                         <div class="flag-icon"></div>
                     </button>
 
@@ -71,7 +71,7 @@
         <div class="d-flex">
             <h6 class="card-title mr-auto"> Description </h6>
             <% if @event.modified? %>
-                <div class='text-muted'> modified </div>
+            <div class='text-muted'> modified </div>
             <% end %>
         </div>
         <%= @event.description %><br>
@@ -117,11 +117,11 @@
                     <div class="media-body comment">
                         <div class="d-flex">
                             <%= link_to(user_path(c[:comment].user)) do%>
-                                <strong class="mr-auto"> <%= c[:comment].user.username %>
-                                    <% if c[:comment].user.verification %>
-                                    <div class="verified-icon"></div>
-                                    <% end %>
-                                </strong>
+                            <strong class="mr-auto"> <%= c[:comment].user.username %>
+                                <% if c[:comment].user.verification %>
+                                <div class="verified-icon"></div>
+                                <% end %>
+                            </strong>
                             <% end %>
                             <% if c[:comment].isModified? %>
                             <span class="ml-auto text-muted"> Modified </span>
@@ -149,7 +149,10 @@
                         <% end %>
                     </div>
                     <% else %>
-                    flag
+                    ·
+                    <a class="text-danger" style="cursor: pointer;" onclick="flag('comment','<%= c[:comment].id %>')">
+                        flag
+                    </a>
                     <% end %>
                     <% c[:replies].each do |r| %>
                     <div class="my-2">
@@ -158,11 +161,11 @@
                             <div class="media-body comment">
                                 <div class="d-flex">
                                     <%= link_to(user_path(r.user)) do%>
-                                        <strong class="mr-auto"> <%= r.user.username %>
-                                            <% if r.user.verification %>
-                                            <div class="verified-icon"></div>
-                                            <% end %>
-                                        </strong>
+                                    <strong class="mr-auto"> <%= r.user.username %>
+                                        <% if r.user.verification %>
+                                        <div class="verified-icon"></div>
+                                        <% end %>
+                                    </strong>
                                     <% end %>
                                     <% if r.isModified? %>
                                     <span class="ml-auto text-muted"> Modified </span>
@@ -186,7 +189,10 @@
                                 <% end %>
                             </div>
                             <% else %>
-                            flag
+                            ·
+                            <a class="text-danger" style="cursor: pointer;"  onclick="flag('comment','<%= r.id %>')">
+                                flag
+                            </a>
                             <% end %>
                         </div>
                     </div>

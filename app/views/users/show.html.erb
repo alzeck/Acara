@@ -18,7 +18,7 @@
                             <% if current_user.admin %>
                                 <button class="btn btn-danger mr-2"> <div class="delete-icon"> </div> </button>
                             <% else %>
-                                <button class="btn btn-danger mr-2"> <div class="flag-icon"></div> </button>
+                                <button class="btn btn-danger mr-2" onclick="flag('user','<%= @user.id %>')"> <div class="flag-icon"></div> </button>
                             <% end %>
                         <% end %>
                         <%= button_to( chats_path, method: :post, params: { chat: { user_id: @user.id }},

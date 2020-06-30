@@ -52,7 +52,7 @@ class FlagsController < ApplicationController
           render_500
         end
       else
-        render :new
+        render :new, status: 400
       end
     else
       render_401
