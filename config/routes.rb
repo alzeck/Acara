@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
 
-  #Routes for tags
+  #Routes for tags (follows tag)
   resources :tags, except: [:index, :show, :new, :edit, :update]
 
 
