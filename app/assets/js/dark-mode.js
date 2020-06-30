@@ -10,7 +10,7 @@ function updateColor() {
 }
 
 // check correct theme to use 
-if (localStorage.getItem('theme') === 'dark' && (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ) {
+if (localStorage.getItem('theme') === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) && localStorage.getItem('theme') != 'light' ) {
   // check system preferences 
   document.body.setAttribute('data-theme','dark');
 }
