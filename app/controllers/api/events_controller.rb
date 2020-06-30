@@ -1,6 +1,20 @@
 class Api::EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  #GET su /api/events/:id 
+  def index
+    current_user = getUserBySK(params[:apiKey])
+    if !current_user.nil? && params.has_key?(:apiKey)
+        @event = Event.all
+        #get its partecipation info
+        #@part = Participation.where(user_id: current_user.id, event_id: id)[0]
+
+        render json: @event.as_json(methods: %i[organizer tags])
+    else
+      render body: nil, status: 401
+    end
+  end
+
   #GET su /api/events/:id
   def show
     current_user = getUserBySK(params[:apiKey])
@@ -12,7 +26,7 @@ class Api::EventsController < ApplicationController
         #get its partecipation info
         #@part = Participation.where(user_id: current_user.id, event_id: id)[0]
 
-        render json: @event
+        render json: @event.as_json.merge(organizer: @event.user.as_json )
       else
         render body: nil, status: 404
       end

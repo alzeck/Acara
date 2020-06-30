@@ -7,7 +7,6 @@ class Event < ApplicationRecord
   has_many :participations, dependent: :destroy
   has_many :child_flags, :class_name => "Flag", :foreign_key => "flaggedEvent_id", dependent: :destroy
 
-
   #Controlla che i seguenti campi non siano vuoti
   validates :where, presence: true
   validates :cords, presence: true
@@ -16,14 +15,11 @@ class Event < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
 
-
   #Immagine di Copertina
   has_one_attached :cover
 
-
   #Controlla che le coordinate siano effettivamente valide
   validates_format_of :cords, with: /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/, :multiline => true
-
 
   #Controlla che l'evento non finisca prima di cominciare
   def startBeforeEnd
@@ -31,8 +27,8 @@ class Event < ApplicationRecord
       errors.add(:start, "Event ends before it starts")
     end
   end
-  validate :startBeforeEnd
 
+  validate :startBeforeEnd
 
   #Controlla che la stringa di where corrisponda alle coordinate date
   def whereIsCords
@@ -46,30 +42,28 @@ class Event < ApplicationRecord
       loc[:lng] = loc[:lng].to_d
 
       for elem in herejson
-        if ( elem["position"]["lat"] == loc[:lat] ) && ( elem["position"]["lng"] == loc[:lng] )
+        if (elem["position"]["lat"] == loc[:lat]) && (elem["position"]["lng"] == loc[:lng])
           return
         end
       end
       errors.add(:where, "Event coordinates do not match with the specified place")
     end
   end
-  validate :whereIsCords
 
+  validate :whereIsCords
 
   #variabile indicante quanti utenti partecipano al dato evento
   def going
     Participation.where(event: self, value: "p").length
   end
 
-
   #variabile indicante quanti utenti sono interessati al dato evento
-  def interested 
+  def interested
     Participation.where(event: self, value: "i").length
   end
 
-
   #variabile indicante i nomi dei tag del dato evento
-  def tags 
+  def tags
     ht = HasTag.where(event: self)
 
     arr = []
@@ -79,7 +73,6 @@ class Event < ApplicationRecord
 
     return arr
   end
-
 
   #variabile indicante i commenti del dato evento (in ordine dentro una mappa)
   def comments
@@ -93,12 +86,10 @@ class Event < ApplicationRecord
     return comments
   end
 
-
   #variabile indicante separatamente le coordinate di un evento
   def coords
-    { lat: self.cords.split(',')[0], lng: self.cords.split(',')[1] }
+    { lat: self.cords.split(",")[0], lng: self.cords.split(",")[1] }
   end
-
 
   #Per aggiungere una cover di default ad eventi sprovvisti
   def add_default_cover
@@ -114,6 +105,16 @@ class Event < ApplicationRecord
       )
     end
   end
+
   after_commit :add_default_cover, on: %i[create update]
+
+  #Overwrite json for api
+  def as_json(options = {})
+    super(({ only: %i[id title description where start end tags], methods: :tags }).merge(options))
+  end
+
+  def organizer
+    self.user.as_json
+  end
 
 end

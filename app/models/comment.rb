@@ -32,4 +32,9 @@ class Comment < ApplicationRecord
     self.created_at != self.updated_at
   end
 
+  def as_json(options = {})
+    super(({only: %i[id content]}).merge(options)).merge({creator: self.user.as_json, modified: self.isModified?})
+  end
+
+
 end

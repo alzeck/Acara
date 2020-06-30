@@ -157,4 +157,11 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :participations, dependent: :destroy
 
+  # Overwrite json for api
+  def as_json(options = {})
+    super(({only: %i[id username verification]}).merge(options))
+  end
+
+  
+
 end
