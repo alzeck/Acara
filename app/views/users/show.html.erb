@@ -55,18 +55,20 @@
 <div class="card mt-4">
     <div class="card-body">
         <h3 class="card-title">Events</h3>
-        <div class="card-deck">
+        <div class="d-flex flex-wrap flex-sm-row flex-column">
         <% @events.each do |event| %>
-        <div class="card mt-3 card-event hover-info" style="min-height: 30vh" >
-                <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
-                <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
-            <div class="card-body">
-                <%= link_to( event_path(event) ) do %>
-                <%= event.title %>
-                <%end%>
-                <div class="extra-info">
-                     <%= event.start.strftime("%e %B %Y, %H:%M") %> - <%= event.end.strftime("%e %B %Y, %H:%M")%> <br>
-                     <%= event.where %>
+        <div class="col-sm-6 my-3">
+            <div class="card card-event hover-info" style="min-height: 30vh">
+                    <div id="cover" class="cover-bg-blur" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                    <div id="cover-noblur" class="cover-bg" style="background-image: url(<%=rails_blob_url( event.cover) %>)"></div>
+                <div class="card-body">
+                    <%= link_to( event_path(event) ) do %>
+                    <%= event.title %>
+                    <%end%>
+                    <div class="extra-info">
+                         <%= event.start.strftime("%e %B %Y, %H:%M") %> - <%= event.end.strftime("%e %B %Y, %H:%M")%> <br>
+                         <%= event.where %>
+                    </div>
                 </div>
             </div>
         </div>

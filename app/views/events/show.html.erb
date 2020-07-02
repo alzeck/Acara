@@ -88,7 +88,7 @@
 
 <div class="card-deck">
     <div class="card" style="overflow:hidden">
-        <div style="height: 300px" id="mapContainer" data-lat="<%= @event.coords[:lat] %>" data-lng="<%= @event.coords[:lng] %>"></div>
+        
         <div class="card-body d-flex border-top">
             <div id="mapEventInfo"><%= @event.where %></div>
             <a class="ml-auto btn btn-primary d-flex" href="https://share.here.com/l/<%= "#{@event.coords[:lat]},#{@event.coords[:lng]}" %>?z=13&t=traffic&p=yes" style=" border-radius: 100px; min-height: 62px; min-width: 62px;">
