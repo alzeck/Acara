@@ -26,6 +26,7 @@ class PagesController < ApplicationController
 	
 				if dove.match?(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/)
 					@w = dove
+					@p = params[:p]
 					dove = dove.split(",")
 					dove[0] = dove[0].to_d
 					dove[1] = dove[1].to_d

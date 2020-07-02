@@ -104,6 +104,10 @@ class User < ApplicationRecord
     !Follow.where(follower: self, followed: user).empty?
   end
 
+  def followsTag?(tag)
+    !FollowsTag.where(user: self, tag: tag).empty?
+  end
+
   # give api key only after user is verified
   validates_uniqueness_of  :secretkey , allow_blank: true
   
