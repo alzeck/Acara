@@ -7,7 +7,6 @@ class TagsController < ApplicationController
       if Tag.exists?(tag_id)
         tag = Tag.find(tag_id)
         follows_tag = FollowsTag.new(user_id: current_user.id, tag_id: tag_id)
-        logger.debug follows_tag
         if follows_tag.valid?
           if follows_tag.save
             redirect_to "/search?q=%23#{tag.name[1..]}"
