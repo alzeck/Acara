@@ -7,21 +7,6 @@ var defaultLayers = platform.createDefaultLayers();
 // Get an instance of the geocoding service:
 var service = platform.getSearchService();
 
-// Call the geocode method with the geocoding parameters,
-// the callback and an error callback function (called if a
-// communication error occurs):
-// service.geocode(
-//   {
-//     q: "via teofilo folengo 34, roma"
-//   },
-//   (result) => {
-//     result.items.forEach(
-//       (item) => {
-//         map.addObject(new H.map.Marker(item.position));
-//       });
-//     map.setCenter(result.items[0].position)
-//   },
-//   alert);
 // Instantiate (and display) a map object:
 var map = new H.Map(
   document.getElementById('mapContainer'),
