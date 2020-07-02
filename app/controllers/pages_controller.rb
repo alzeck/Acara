@@ -11,6 +11,9 @@ class PagesController < ApplicationController
 	#Restituisce un json {"type": X, "content": Y}
 	#Con X "users", "events", "tags"
 	#Con Y rispettivamente la lista di utenti, eventi e un json { "tags": lista_tags, "events": lista_events_tags }
+	#TODO pass cords, start and end as @vars 
+	#TODO use w=cords, es=start and ee=end as params 
+	#TODO update search function to use an interval instead of a day 
 	def search
 		@hasGL = params.has_key?(:gl)
 
