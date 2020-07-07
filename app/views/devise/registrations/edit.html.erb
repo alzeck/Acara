@@ -62,16 +62,30 @@
             <hr>
             <h3>Verify my account</h3>
                 <% if current_user.verification %>
-                    <div class="form-group">
+
                     <label for="apikey">api key</label>
-                    <input type="text" id="apikey" class="form-control" value="<%= current_user.secretkey %>" disabled>
+                    <div class="d-flex flex-wrap flex-md-row flex-column">
+                        <div class="flex-grow-1">
+                            <input type="text" id="apikey" class="form-control" value="<%= current_user.secretkey %>" disabled>
+                        </div>
+                        <div class="flex-grow-1 flex-md-grow-0 mt-2 mt-md-0 ml-md-3">
+                        <%= button_to "Remove Verified", flags_path , params: { flag: { reason: "Verification", flaggedUser: current_user.id } },
+                                        id: "submitVerification", method: :post, form:{id:"verificationForm"} ,
+                                        form_class: "d-inline-block w-100", class:"btn btn-block btn-warning", remote: true, 
+                                        disabled: current_user.verificationAsked? %>
+                        </div>
                     </div>
-                    <%= button_to "Remove Verified", flags_path , params: { flag: { reason: "Verification", flaggedUser: current_user.id } },
-                                        method: :post, form_class: "d-inline-block", class:"btn btn-warning" %>
                 <% else %>
                     <%= button_to "Get Verified", flags_path , params: { flag: { reason: "Verification", flaggedUser: current_user.id } },
-                                        method: :post, form_class: "d-inline-block", class:"btn btn-primary" %>
+                                        id: "submitVerification", method: :post, form:{id:"verificationForm"} , 
+                                        form_class: "d-inline-block w-100", class:"btn btn-block btn-primary", remote: true, 
+                                        disabled: current_user.verificationAsked?  %>
                 <% end %>
+                <div id="verficationInfo" class="text-muted">
+                    <%if current_user.verificationAsked? %>
+                        Your verification request is being processed, please wait for one of our admin to respond
+                    <% end %>
+                </div>
             <hr>
             <h3>Cancel my account</h3>
 
@@ -82,6 +96,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("#verificationForm").bind("ajax:complete", function(e) {
+        $('#submitVerification').attr("disabled", true);
+        $('#verficationInfo').html('Your verification request is being processed, please wait for one of our admin to respond');
+    });
+</script>
 
 <script>
     function readURL(input) {

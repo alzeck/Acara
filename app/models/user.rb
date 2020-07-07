@@ -128,6 +128,10 @@ class User < ApplicationRecord
     !FollowsTag.where(user: self, tag: tag).empty?
   end
 
+  def verificationAsked?
+    !Flag.where(user: self, reason: "Verification").empty?
+  end
+
   # give api key only after user is verified
   validates_uniqueness_of :secretkey, allow_blank: true
 
