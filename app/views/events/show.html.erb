@@ -88,7 +88,7 @@
 
 <div class="card-deck">
     <div class="card" style="overflow:hidden">
-        
+        <div style="height: 300px" id="mapContainer" data-lat="<%= @event.coords[:lat] %>" data-lng="<%= @event.coords[:lng] %>"></div>
         <div class="card-body d-flex border-top">
             <div id="mapEventInfo"><%= @event.where %></div>
             <a class="ml-auto btn btn-primary d-flex" href="https://share.here.com/l/<%= "#{@event.coords[:lat]},#{@event.coords[:lng]}" %>?z=13&t=traffic&p=yes" style=" border-radius: 100px; min-height: 62px; min-width: 62px;">
@@ -99,12 +99,18 @@
 
     <div class="card">
         <div class="card-header">
+        <% if user_signed_in? %>
             <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap", local: true do |f| %>
             <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment", autocomplete: "off" %>
             <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
             <div class="send-comment-icon"></div>
             <% end %>
             <% end %>
+        <% else %>
+            <span class="text-muted">
+                You are not logged in, please <%= link_to  "Log In", new_user_session_path %> or <%= link_to  "Register", new_user_registration_path %> to comment
+            </span>
+        <% end %>
         </div>
         <div class="card-body comments-container">
 
@@ -127,10 +133,11 @@
                     </div>
                 </div>
                 <div class="replies">
+                    <% if user_signed_in? %>
                     <a data-toggle="collapse" href="#replyForm<%= c[:comment].id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
                         reply
                     </a>
-                    <% if user_signed_in? && (current_user == c[:comment].user || current_user.admin )%>
+                    <% if current_user == c[:comment].user || current_user.admin %>
                     ·
                     <a class="text-warning" data-toggle="collapse" href="#modifyForm<%= c[:comment].id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
                         modify
@@ -149,6 +156,7 @@
                     <a class="text-danger" style="cursor: pointer;" onclick="flag('comment','<%= c[:comment].id %>')">
                         flag
                     </a>
+                    <% end %>
                     <% end %>
                     <% c[:replies].each do |r| %>
                     <div class="my-2">
@@ -169,7 +177,8 @@
                             </div>
                         </div>
                         <div class="replies">
-                            <% if user_signed_in? && (current_user == r.user || current_user.admin )%>
+                            <%if user_signed_in? %>
+                            <% if (current_user == r.user || current_user.admin )%>
                             <a class="text-warning" data-toggle="collapse" href="#modifyForm<%= r.id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
                                 modify
                             </a> ·
@@ -188,9 +197,11 @@
                                 flag
                             </a>
                             <% end %>
+                            <% end %>
                         </div>
                     </div>
                     <%end%>
+                    <%if user_signed_in? %>
                     <div class="collapse" id="replyForm<%= c[:comment].id %>">
                         <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap mb-3", local: true do |f| %>
                         <%= f.hidden_field :previous_id, :value => c[:comment].id %>
@@ -200,6 +211,7 @@
                         <% end %>
                         <% end %>
                     </div>
+                    <%end%>
                 </div>
             </div>
             <%end%>
