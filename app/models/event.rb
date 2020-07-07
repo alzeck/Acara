@@ -108,6 +108,14 @@ class Event < ApplicationRecord
 
   after_commit :add_default_cover, on: %i[create update]
 
+  validate :cover_format
+  def cover_format
+    if cover.attached? && !cover.content_type.in?(%w(image/jpeg image/png))
+      errors.add(:cover, "Image type is not supported try with jpeg or png")
+    end
+  end
+
+
   #Overwrite json for api
   def as_json(options = {})
     super(({ only: %i[id title description where start end tags], methods: :tags }).merge(options))
