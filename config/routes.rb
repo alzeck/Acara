@@ -15,9 +15,10 @@ Rails.application.routes.draw do
   resources :tags, except: [:index, :show, :new, :edit, :update]
 
 
-  #Routes for the pages (home, search)
+  #Routes for the pages (home, search, about us, contact us)
   root to: "pages#home"
   get "/search", to: "pages#search", as: "search"
+  get "/about-us", to: "pages#aboutus", as: "aboutus"
 
 
   #Routes for events (and comments, and participations)

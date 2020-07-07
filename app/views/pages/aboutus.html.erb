@@ -1,0 +1,67 @@
+<img class="card w-100" src="<%= image_path("logowbg.png") %>">
+
+<div class="card my-4">
+    <div class="card-body">
+        <h5 class="card-title"> About Us </h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempus eleifend libero, dignissim cursus nisi auctor ac. Integer mattis ipsum neque, non varius augue mollis vel. Sed congue, nulla a laoreet viverra, mauris eros vestibulum risus, et pretium sapien mi sit amet elit. In commodo, metus et rhoncus placerat, tellus risus lacinia metus, vitae volutpat mi augue at magna. Fusce vitae facilisis elit. Mauris nisi ipsum, elementum quis tortor eget, consequat volutpat nisi. Etiam lacinia tortor vel ultrices elementum. Duis eleifend dui massa, eget euismod elit feugiat a. Vivamus vel ligula vel neque vehicula eleifend.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras rutrum enim nec vestibulum maximus. Nunc quis aliquet ex, sit amet fermentum arcu. Donec non tellus vel nunc pulvinar lacinia non sit amet leo. Aliquam erat volutpat. Suspendisse lacus massa, dapibus vitae lobortis a, tempor sed ante. Vestibulum in ipsum neque. Cras eleifend magna vel turpis bibendum, eget finibus nibh rhoncus.</p>
+        Vivamus finibus sagittis ex, sit amet eleifend dui venenatis sed. Cras sagittis fringilla elit non sollicitudin. Vivamus in fermentum lectus, venenatis mattis nunc. In volutpat diam at risus pretium, non tincidunt turpis luctus. Mauris aliquet rhoncus ligula. Vestibulum ac consequat ligula. Cras ut nisi neque. Vestibulum neque quam, dictum vel leo at, porttitor vulputate dui. Pellentesque dictum velit vitae lacus tempus sodales. Vivamus nibh purus, lobortis sed feugiat vel, feugiat aliquet nibh. Phasellus ut pharetra nulla, ut dictum justo. Nunc sagittis auctor urna, non suscipit risus gravida id. Cras a condimentum tellus. Suspendisse potenti. Nam mauris felis, dapibus ut pellentesque nec, scelerisque eu lorem.
+    </div>
+</div>
+
+<div class="card my-4">
+    <div class="card-body">
+        <h5 class="card-title"> Meet our Team </h5>
+        <div class="d-flex flex-wrap flex-sm-row flex-column">
+            <div class="my-2 col">
+                <div class="card">
+                    <img src="https://avatars1.githubusercontent.com/u/35846576?s=460&u=b30d42dde33696c7fd5d81c71dcf44faaba028b0&v=4" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title"> Juan Sebastian Arboleda </h5>
+                        UI and Security
+                    </div>
+                </div>
+            </div>
+            <div class="my-2 col">
+                <div class="card">
+                    <img src="https://avatars3.githubusercontent.com/u/61871077?s=400&v=4" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title"> Andrea Cerone </h5>
+                        API and Testing
+                    </div>
+                </div>
+            </div>
+            <div class="my-2 col">
+                <div class="card">
+                    <img class="card-img-top" src="https://avatars3.githubusercontent.com/u/61872024?s=460&amp;u=759cfb8ac9427deb94f9b3547373ab84778547a3&amp;v=4">
+                    <div class="card-body">
+                        <h5 class="card-title"> Matteo Di Stadio </h5>
+                        Models and Controllers
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" id="contact-us">
+    <div class="card-body">
+        <h5 class="card-title"> Contact Us </h5>
+        You can contact us throught direct messages with our admin's accounts: 
+        <div class="d-flex flex-wrap justify-content-center">
+            <% @admins.each do |user| %>
+                <%= link_to user_path(user) do %>
+                <div class="card mx-3 my-3" style="max-width:150px;min-width:150px;">
+                    <div class="card-body" style="text-align: center;">
+                    <%= image_tag user.avatar_thumbnail, class:"avatar mb-3" %><BR>
+                    <%= user.username %>
+                    <div class="<%= user.verificationIcon %>" style="vertical-align: middle;"></div>
+                    </div>
+                </div>
+                <% end %>
+            <% end %>
+        </div>
+        <p>or alternatively an email: </p>
+        <a class="btn btn-primary" href="mailto:team@acara.com">Send us email</a>
+    </div>
+</div>

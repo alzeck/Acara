@@ -69,4 +69,9 @@ class PagesController < ApplicationController
 		end
 	end
 
+
+	#GET su /about-us
+	def aboutus
+		@admins = User.where(admin: true)
+	end
 end

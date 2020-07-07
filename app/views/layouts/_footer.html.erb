@@ -6,8 +6,8 @@
                 Copyright © 2020 Acara Italy. All rights reserved
             </div>
             <div class="ml-auto">
-                <a href="#">About Us</a>
-                <a class="ml-4" href="#">Contact Acara</a>
+                <%= link_to  "About Us", aboutus_path %>
+                <%= link_to  "Contact Acara", aboutus_path(anchor: "contact-us") ,  class: "ml-4" %>
             </div>
         </div>
     </div>
