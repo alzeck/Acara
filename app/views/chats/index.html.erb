@@ -1,11 +1,16 @@
+<%= javascript_include_tag "chatSidebar" %>
 <div class="card chats">
     <div class="card-body">
-        <div class="row">
-            <div class="col-12 col-md-3">
+        <div class="chat-row d-flex flex-row">
+            <div id="sideBar" class="sidebar px-0 px-md-3 col-12 col-md-5 col-lg-4">
                 <%= render partial: 'chats' %>
             </div>
 
-            <div class="col d-flex flex-column border-left">
+            <div id="chatCol" class="col px-0 px-md-3 d-flex flex-column">
+                <div class="sidebar-open" onclick="openNav()" style="cursor:pointer;">
+                    <div class="back-icon"></div>
+                    Open Chats
+                </div>
                 <div class="m-auto">
                     Select a chat to start chatting or use the navbar to find more users!
                 </div>

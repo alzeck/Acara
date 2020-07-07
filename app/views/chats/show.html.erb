@@ -1,17 +1,18 @@
+<%= javascript_include_tag "chatSidebar" %>
 <div class="card chats">
     <div class="card-body">
-        <div class="row">
-            <div class="col-12 col-md-3">
+        <div class="chat-row d-flex flex-row">
+            <div id="sideBar" class="sidebar px-0 px-md-3 col-12 col-md-5 col-lg-4">
                 <%= render partial: 'chats' %>
             </div>
 
-            <div class="col d-flex flex-column border-left">
-                <h2>
+            <div id="chatCol" class="col px-0 px-md-3 d-flex flex-column">
+                <h3>
+                    <a href="javascript:void(0)" class="sidebar-open" onclick="openNav()"><div class="back-icon"></div></a>  
                     <%= image_tag receiver(@chat).avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
                     <%= link_to receiver(@chat).username, user_path(receiver(@chat)) %>
                     <div class="<%= receiver(@chat).verificationIcon %>" style="vertical-align: middle;"></div>
-                </h2>
-
+                </h3>
                 <div id="chat-view" class="chat d-flex flex-column" data-channel-subscribe="chat" data-chat-id="<%= @chat.id %>" data-user-id="<%= current_user.id %>">
                     <% @messages.each do |message| %>
                     <div class="<%= getAlignment(message.user) %> mb-3 mr-1">

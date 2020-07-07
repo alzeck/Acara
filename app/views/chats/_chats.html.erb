@@ -1,24 +1,33 @@
 <div class="mb-3">
     <%= javascript_include_tag "search" %>
-    <input type="search" class="form-control" placeholder="Search for an existing Chat" 
-        onkeyup="return search('searchbar', 'chats', 'nav-link', 'username');" id="searchbar">
+
+    <div class="d-flex">
+        <div class="flex-grow-1">
+            <input type="search" class="form-control" placeholder="Search for an existing Chat" onkeyup="return search('searchbar', 'chats', 'nav-link', 'username');" id="searchbar">
+        </div>
+        <button type="button" class="close ml-2" onclick="closeNav()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 </div>
 
 <% if @chats.present? %>
 <nav id="chats" class="nav flex-column">
+
     <% @chats.each do |chat| %>
-        <%= link_to( chat_path(chat), class: "nav-link") do %>
-            <div class="border-bottom pb-3 media" data-channel-subscribe="chats" data-chat-id="<%= chat.id %>" data-user-id="<%= current_user.id %>">
-                <%= image_tag receiver(chat).avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
-                <div class="media-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="username"><%= receiver(chat).username %> <div class="<%= receiver(chat).verificationIcon %>"></div> </div>
-                        <small data-role="message-notification" class="text-warning <%= "d-none" if messageRead(chat.lastMessage) || noMessages(chat) %>"> unread </small>
-                    </div>
-                    <small data-role="message-text" class="text-muted d-inline-block text-truncate" style="max-width: 150px;"><%= chat.lastMessage.content %></small>
+    <%= link_to( chat_path(chat), class: "nav-link p-0") do %>
+    <div class="border-bottom pb-3 px-2 media" data-channel-subscribe="chats" data-chat-id="<%= chat.id %>" data-user-id="<%= current_user.id %>">
+        <%= image_tag receiver(chat).avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
+        <div class="media-body">
+            <div class="d-flex justify-content-between">
+                <div class="username"><%= receiver(chat).username %> <div class="<%= receiver(chat).verificationIcon %>"></div>
                 </div>
-            </div> 
-        <% end %>
+                <small data-role="message-notification" class="text-warning <%= "d-none" if messageRead(chat.lastMessage) || noMessages(chat) %>"> unread </small>
+            </div>
+            <small data-role="message-text" class="text-muted d-inline-block text-truncate" style="max-width: 150px;"><%= chat.lastMessage.content %></small>
+        </div>
+    </div>
+    <% end %>
     <% end %>
 </nav>
 <% else %>
