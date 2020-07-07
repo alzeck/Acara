@@ -9,6 +9,7 @@
                 <h2>
                     <%= image_tag receiver(@chat).avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
                     <%= link_to receiver(@chat).username, user_path(receiver(@chat)) %>
+                    <div class="<%= receiver(@chat).verificationIcon %>" style="vertical-align: middle;"></div>
                 </h2>
 
                 <div id="chat-view" class="chat d-flex flex-column" data-channel-subscribe="chat" data-chat-id="<%= @chat.id %>" data-user-id="<%= current_user.id %>">

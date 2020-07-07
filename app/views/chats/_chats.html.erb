@@ -12,7 +12,7 @@
                 <%= image_tag receiver(chat).avatar_thumbnail, class:"avatar align-self-center comments-avatar mr-3" %>
                 <div class="media-body">
                     <div class="d-flex justify-content-between">
-                        <div class="username"><%= receiver(chat).username %></div>
+                        <div class="username"><%= receiver(chat).username %> <div class="<%= receiver(chat).verificationIcon %>"></div> </div>
                         <small data-role="message-notification" class="text-warning <%= "d-none" if messageRead(chat.lastMessage) || noMessages(chat) %>"> unread </small>
                     </div>
                     <small data-role="message-text" class="text-muted d-inline-block text-truncate" style="max-width: 150px;"><%= chat.lastMessage.content %></small>
