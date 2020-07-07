@@ -1,7 +1,13 @@
 <div class="signup d-flex align-items-center justify-content-center">
     <div class="sign-form">
         <div class="m-4">
-            <h2><%= image_tag("/logo.png", size: "70x40", alt: "Homepage") %>Resend confirmation instructions</h2>
+            <h2>
+                <%= link_to( root_url, style:"text-decoration:none!important;" ) do%>
+                    <div class="back-icon"></div>
+                    <%= image_tag("/logo.png", size: "70x40", alt: "Homepage") %>
+                <% end %>
+                Resend confirmation instructions
+            </h2>
 
             <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
             <%= f.error_notification %>
