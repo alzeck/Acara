@@ -127,6 +127,15 @@ class User < ApplicationRecord
     !Flag.where(user: self, reason: "Verification").empty?
   end
 
+  def followingTags
+    ht = FollowsTag.where(user: self)
+    arr = []
+    for elem in ht
+      arr << Tag.find(elem.tag_id).name
+    end
+    return arr
+  end
+
   # give api key only after user is verified
   validates_uniqueness_of :secretkey, allow_blank: true
 
@@ -183,7 +192,7 @@ class User < ApplicationRecord
 
   # Overwrite json for api
   def as_json(options = {})
-    super(({ only: %i[id username verification] }).merge(options))
+    super(({ only: %i[id username verification bio] }).merge(options))
   end
 
   def verificationIcon

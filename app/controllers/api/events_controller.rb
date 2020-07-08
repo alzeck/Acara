@@ -1,15 +1,11 @@
 class Api::EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  #GET su /api/events/:id 
+  #GET su /api/events
   def index
-    current_user = getUserBySK(params[:apiKey])
-    if !current_user.nil? && params.has_key?(:apiKey)
+    if params.has_key?(:apiKey) && !getUserBySK(params[:apiKey]).nil?
         @event = Event.all
-        #get its partecipation info
-        #@part = Participation.where(user_id: current_user.id, event_id: id)[0]
-
-        render json: @event.as_json(methods: %i[organizer tags])
+        render json: @event.as_json(methods: %i[going interested organizer tags])
     else
       render body: nil, status: 401
     end
@@ -17,16 +13,12 @@ class Api::EventsController < ApplicationController
 
   #GET su /api/events/:id
   def show
-    current_user = getUserBySK(params[:apiKey])
-    if !current_user.nil? && params.has_key?(:apiKey)
+    if params.has_key?(:apiKey) && !getUserBySK(params[:apiKey]).nil?
       id = params[:id]
 
       if Event.exists?(id)
         @event = Event.find(id)
-        #get its partecipation info
-        #@part = Participation.where(user_id: current_user.id, event_id: id)[0]
-
-        render json: @event.as_json.merge(organizer: @event.user.as_json )
+        render json: @event.as_json(methods: %i[going interested tags organizer comments])
       else
         render body: nil, status: 404
       end
@@ -40,18 +32,17 @@ class Api::EventsController < ApplicationController
     current_user = getUserBySK(params[:apiKey])
     if !current_user.nil? && params.has_key?(:apiKey)
       par = params[:event].permit(:where, :cords, :start, :end, :title,
-                                  :description, :cover, :tags)
+                                  :description, :tags)
 
       tags = helpers.createTags(par[:tags])
 
       @event = Event.new(where: par[:where], cords: par[:cords], start: par[:start],
-                         end: par[:end], title: par[:title], description: par[:description],
-                         cover: par[:cover], user: current_user)
+                         end: par[:end], title: par[:title], description: par[:description], user: current_user)
 
       if @event.valid?
         if @event.save
           helpers.createHasTags(tags, @event)
-          render json: @event
+          render json: @event.as_json(methods: %i[going interested tags organizer comments])
         else
           render body: nil, status: 500
         end
@@ -75,23 +66,13 @@ class Api::EventsController < ApplicationController
         if current_user.id == @event.user_id || current_user.admin
           helpers.destroyHasTags(@event)
           par = params[:event].permit(:where, :cords, :start, :end, :title,
-                                      :description, :cover, :tags)
+                                      :description, :tags)
           tags = helpers.createTags(par[:tags])
-
-          if par[:cover].nil?
-            @event.assign_attributes(where: par[:where], cords: par[:cords], start: par[:start],
-                                     end: par[:end], title: par[:title], description: par[:description],
-                                     modified: true)
-          else
-            @event.assign_attributes(where: par[:where], cords: par[:cords], start: par[:start],
-                                     end: par[:end], title: par[:title], description: par[:description],
-                                     cover: par[:cover], modified: true)
-          end
 
           if @event.valid?
             if @event.save
               helpers.createHasTags(tags, @event)
-              render json: @event
+              render json: @event.as_json(methods: %i[going interested tags organizer comments])
             else
               render body: nil, status: 500
             end

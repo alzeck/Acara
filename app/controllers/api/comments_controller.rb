@@ -1,7 +1,7 @@
 class Api::CommentsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  #GET /api/api/events/:event_id/comments
+  #GET /api/events/:event_id/comments
   def index
     current_user = getUserBySK(params[:apiKey])
     if !current_user.nil? && params.has_key?(:apiKey)
@@ -9,9 +9,6 @@ class Api::CommentsController < ApplicationController
 
       if Event.exists?(id)
         @comments = Event.find(id).comments
-        #get its partecipation info
-        #@part = Participation.where(user_id: current_user.id, event_id: id)[0]
-
         render json: @comments
       else
         render body: nil, status: 404
@@ -21,7 +18,7 @@ class Api::CommentsController < ApplicationController
     end
   end
 
-  #GET /api/api/events/:event_id/comments/:id
+  #GET /api/events/:event_id/comments/:id
   def show
     current_user = getUserBySK(params[:apiKey])
     if !current_user.nil? && params.has_key?(:apiKey)
@@ -31,7 +28,7 @@ class Api::CommentsController < ApplicationController
       if Event.exists?(event_id) && Comment.exists?(id)
 				@comment = Comment.find(id)
 				if @comment.event_id == event_id.to_i
-					render json: @comment.as_json.merge(replies: @comment.child_comments.as_json)
+					render json: @comment.as_json
 				else
 					render body: nil, status: 400
 				end
@@ -57,8 +54,7 @@ class Api::CommentsController < ApplicationController
 
         if comment.valid?
           if comment.save
-            #success
-            render body: nil, status: 200
+            render json: comment.as_json
           else
             render body: nil, status: 500
           end
@@ -90,8 +86,7 @@ class Api::CommentsController < ApplicationController
           if comment.valid?
             #check the validity of the comments
             if comment.save
-              #success
-              render body: nil, status: 200
+              render json: comment.as_json
             else
               render body: nil, status: 500
             end
@@ -123,7 +118,6 @@ class Api::CommentsController < ApplicationController
           # check if the user is autorized to change the comment
 
           if comment.destroy
-            #success
             render body: nil, status: 200
           else
             render body: nil, status: 500
