@@ -81,10 +81,8 @@ class EventsController < ApplicationController
         @event = Event.find(id)
 
         if current_user.id == @event.user_id || current_user.admin
-          helpers.destroyHasTags(@event)
           par = params[:event].permit(:where, :cords, :start, :end, :title,
                                       :description, :cover, :tags)
-          tags = helpers.createTags(par[:tags])
 
           if par[:cover].nil?
             @event.assign_attributes(where: par[:where], cords: par[:cords], start: par[:start],
@@ -98,7 +96,10 @@ class EventsController < ApplicationController
 
           if @event.valid?
             if @event.save
+              helpers.destroyHasTags(@event)
+              tags = helpers.createTags(par[:tags])
               helpers.createHasTags(tags, @event)
+
               redirect_to event_path(@event)
             else
               render_500

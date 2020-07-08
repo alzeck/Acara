@@ -45,8 +45,8 @@ class Api::CommentsController < ApplicationController
     current_user = getUserBySK(params[:apiKey])
     if !current_user.nil? && params.has_key?(:apiKey)
       event_id = params[:event_id]
+      
       if Event.exists?(event_id)
-        # Check if event exists
         par = params[:comment].permit(:content, :previous_id)
 
         comment = Comment.new(content: par[:content], previous_id: par[:previous_id],

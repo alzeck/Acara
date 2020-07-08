@@ -31,24 +31,30 @@ class Api::EventsController < ApplicationController
   def create
     current_user = getUserBySK(params[:apiKey])
     if !current_user.nil? && params.has_key?(:apiKey)
-      par = params[:event].permit(:where, :cords, :start, :end, :title,
-                                  :description, :tags)
+      if helpers.hasAll(params[:event])
+        par = params[:event].permit(:where, :cords, :start, :end, :title,
+          :description, :tags)
 
-      tags = helpers.createTags(par[:tags])
+        tags = helpers.createTags(par[:tags])
 
-      @event = Event.new(where: par[:where], cords: par[:cords], start: par[:start],
-                         end: par[:end], title: par[:title], description: par[:description], user: current_user)
+        @event = Event.new(where: par[:where], cords: par[:cords], start: par[:start],
+                            end: par[:end], title: par[:title], description: par[:description], user: current_user)
 
-      if @event.valid?
-        if @event.save
-          helpers.createHasTags(tags, @event)
-          render json: @event.as_json(methods: %i[going interested tags organizer comments])
+        if @event.valid?
+          if @event.save
+            helpers.createHasTags(tags, @event)
+            render json: @event.as_json(methods: %i[going interested tags organizer comments])
+          else
+            render body: nil, status: 500
+          end
         else
-          render body: nil, status: 500
+          render body: nil, status: 400
         end
       else
         render body: nil, status: 400
       end
+
+      
     else
       render body: nil, status: 403
     end
@@ -64,17 +70,26 @@ class Api::EventsController < ApplicationController
         @event = Event.find(id)
 
         if current_user.id == @event.user_id || current_user.admin
-          helpers.destroyHasTags(@event)
-          par = params[:event].permit(:where, :cords, :start, :end, :title,
-                                      :description, :tags)
-          tags = helpers.createTags(par[:tags])
 
-          if @event.valid?
-            if @event.save
-              helpers.createHasTags(tags, @event)
-              render json: @event.as_json(methods: %i[going interested tags organizer comments])
+          if helpers.hasAll(params[:event])
+            par = params[:event].permit(:where, :cords, :start, :end, :title,
+              :description, :tags)
+
+            @event.assign_attributes(where: par[:where], cords: par[:cords], start: par[:start],
+              end: par[:end], title: par[:title], description: par[:description], modified: true)
+
+            if @event.valid?
+              if @event.save
+                helpers.destroyHasTags(@event)
+                tags = helpers.createTags(par[:tags])
+                helpers.createHasTags(tags, @event)
+
+                render json: @event.as_json(methods: %i[going interested tags organizer comments])
+              else
+                render body: nil, status: 500
+              end
             else
-              render body: nil, status: 500
+              render body: nil, status: 400
             end
           else
             render body: nil, status: 400

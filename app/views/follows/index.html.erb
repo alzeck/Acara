@@ -25,6 +25,7 @@
           <%= link_to(user_path(f.follower))  do%>
           <%= image_tag f.follower.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
           <%= f.follower.username %>
+          <div class="<%= f.follower.verificationIcon %>"></div>
           <% end %>
           </div>
       <% end %>
@@ -42,6 +43,7 @@
         <%= link_to(user_path(f.followed)) do%>
         <%= image_tag f.followed.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
         <%= f.followed.username %>
+        <div class="<%= f.followed.verificationIcon %>"></div>
         <% end %>
         </div>
       <% end %>
@@ -56,7 +58,7 @@
       <% @tags.each do |t| %>
         <hr>
         <div class="ml-4">
-        <%= link_to(search_path(q: "##{t.tag.name}")) do%>
+        <%= link_to(search_path(q: "#{t.tag.name}")) do%>
         <%= t.tag.name %>
         <% end %>
         </div>

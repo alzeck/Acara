@@ -1,2 +1,0 @@
-module Api::FlagsHelper
-end
