@@ -34,7 +34,6 @@ class ChatsController < ApplicationController
   def create
     if user_signed_in?
       par = params[:chat].present? ? params[:chat].permit(:user_id)[:user_id] : nil
-      # TODO check if this control is needed elsewhere
       if par.present?
         # verify if the needed param has been given ( avoid to)
         user = par.to_i
