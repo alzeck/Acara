@@ -50,14 +50,10 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.username = auth.info.email.split("@")[0] # FIXME there could be an user that already has this username
-      # user.name = auth.info.name   # assuming the user model has a name
-      # user.avatar = auth.info.image  # assuming the user model has an image
-      # If you are using confirmable and the provider(s) you use validate emails,
-      # uncomment the line below to skip the confirmation emails.
-      # in order to use the open() method with urls
+      user.username = auth.info.email.split("@")[0] + "_" + Time.now.strftime("%d%m%y%H%M%S") 
+      # Adds _timestamp to prevent users with same username
+      
       require "open-uri"
-
       # open the link
       downloaded_image = open(auth.info.image)
 

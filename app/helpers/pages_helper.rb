@@ -13,8 +13,9 @@ module PagesHelper
             loc[0] = loc[0].to_d
             loc[1] = loc[1].to_d
 
-            if user_signed_in?
+            if user_signed_in? && current_user.position != "#{loc[0]},#{loc[1]}"
                 current_user.position = "#{loc[0]},#{loc[1]}"
+                current_user.save
             end
 
             return loc
@@ -30,8 +31,9 @@ module PagesHelper
                 if loc != [] && loc.first.coordinates != [] && !loc.first.data["error"].nil?
                     loc = loc.first.coordinates
 
-                    if user_signed_in?
+                    if user_signed_in? && current_user.position != "#{loc[0]},#{loc[1]}"
                         current_user.position = "#{loc[0]},#{loc[1]}"
+                        current_user.save
                     end
 
                     return loc

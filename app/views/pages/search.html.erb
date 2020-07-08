@@ -59,7 +59,9 @@
             <div class="d-flex flex-wrap flex-sm-row flex-column">
             <% @risposta[:content][:tags].each do |tag| %>
                 <div class="d-flex p-3 col-sm-6 align-items-center">
-                    <%= tag.name %>
+                    <%= link_to(search_path(q: "#{tag.name}")) do%>
+                        <%= tag.name %>
+                    <% end %>
                     <% if user_signed_in? %>
                         <% if !current_user.followsTag?(tag) %>
                             <%= button_to( tags_path, params: { follows_tag: { tag_id: tag.id } }, 
