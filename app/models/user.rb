@@ -74,7 +74,6 @@ class User < ApplicationRecord
   after_commit :add_default_avatar, on: %i[create update]
 
   def avatar_thumbnail
-    # TODO da errore con alcuni formati immagine (tipo webp), si può provare a risolvere con begin-rescue-end
     begin 
       avatar.variant(resize: "100x100!").processed
     rescue

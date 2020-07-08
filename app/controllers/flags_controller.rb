@@ -43,7 +43,6 @@ class FlagsController < ApplicationController
       @flag = Flag.new(reason: par[:reason], description: par[:description],
                       flaggedEvent_id: par[:flaggedEvent], flaggedComment_id: par[:flaggedComment],
                       flaggedUser_id: par[:flaggedUser], user_id: current_user.id)
-      # TODO CHECK WITH MODALS 
       if @flag.valid?
         if @flag.save
           #Set a success case 
