@@ -1,13 +1,12 @@
 Trestle.resource(:users) do
   menu do
-    item :users, icon: "fa fa-star"
+    item :users, icon: "fa fa-users"
   end
 
   table do
     column :id, link: true
     column :username
     column :email
-    column :position
     column :bio
     column :verification
     column :admin
@@ -21,12 +20,11 @@ Trestle.resource(:users) do
   end
   
   form do |user|
-    text_field :username
-    email_field :email
+    static_field :username
+    static_field :email
     text_area :bio
     check_box :verification
     check_box :admin
-    check_box :mailflag
   end
 
   # By default, all parameters passed to the update and create actions will be

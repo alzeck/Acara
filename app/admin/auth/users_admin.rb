@@ -1,11 +1,11 @@
-Trestle.resource(:users, model: User, scope: Auth) do
+Trestle.resource(:users, model: User.where(admin: true), scope: Auth) do
   menu do
     group :configuration, priority: :last do
-      item :users, icon: "fa fa-users", label: "Admins"
+      item :users, icon: "fa fa-shield", label: "Admins"
     end
   end
 
-  table do
+  table do 
     # column :avatar, header: false do |administrator|
     #   avatar_for(administrator)
     # end
@@ -14,7 +14,6 @@ Trestle.resource(:users, model: User, scope: Auth) do
     column :id, link: true
     column :username
     column :email
-    column :position
     column :bio
     column :verification
     column :admin
@@ -27,14 +26,12 @@ Trestle.resource(:users, model: User, scope: Auth) do
     end
   end
 
-  #vuoto perchè non ha senso che un admin lo possa modificare
   form do |administrator|
-    # text_field :email
+    static_field :username
+    static_field :email
 
-    # row do
-    #   col(sm: 6) { password_field :password }
-    #   col(sm: 6) { password_field :password_confirmation }
-    # end
+    check_box :verification
+    check_box :admin
   end
 
   update_instance do |instance, attrs|
@@ -51,4 +48,5 @@ Trestle.resource(:users, model: User, scope: Auth) do
       login!(instance)
     end
   end
+
 end

@@ -13,7 +13,7 @@ Trestle.configure do |config|
 
   # Specify a custom image to be used for the collapsed/tablet navigation.
   #
-  
+
   config.site_logo_small = "logo-small.png"
 
   # Speficy a favicon to be used within the admin.
@@ -152,7 +152,7 @@ Trestle.configure do |config|
   # Customize the rendering of user avatars. Can be disabled by setting to false.
   # Defaults to the Gravatar based on the user's email address.
   #
-  # config.auth.avatar = ->(user) {
+  config.auth.avatar = false # ->(user) {
   #   avatar(fallback: user.initials) do
   #     image_tag(user.avatar_url, alt: user.name) if user.avatar_url?
   #   end

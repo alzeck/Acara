@@ -1,6 +1,6 @@
 Trestle.resource(:flags) do
   menu do
-    item :flags, icon: "fa fa-star"
+    item :flags, icon: "fa fa-flag"
   end
 
   table do
@@ -19,10 +19,12 @@ Trestle.resource(:flags) do
     end
   end
 
-  #vuoto perchè non ha senso che un admin lo possa modificare
+  
   form do |flag|
-    # text_field :reason
-    # text_area :description
+    username = User.find(flag.user.id).username
+    static_field :user, username
+    static_field :reason
+    static_field :description
   end
 
   # By default, all parameters passed to the update and create actions will be

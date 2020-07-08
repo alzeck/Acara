@@ -1,6 +1,6 @@
 Trestle.resource(:comments) do
   menu do
-    item :comments, icon: "fa fa-star"
+    item :comments, icon: "fa fa-comment"
   end
 
   table do
@@ -18,6 +18,10 @@ Trestle.resource(:comments) do
   end
   
   form do |comment|
+    username = User.find(comment.user.id).username
+    static_field :user, username
+    eventname = Event.find(comment.event.id).title
+    static_field :event, eventname
     text_area :content
   end
 

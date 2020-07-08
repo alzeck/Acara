@@ -11,3 +11,11 @@
 //     "primary":   #337ab7,
 //     "secondary": #b3b53d
 //   );
+
+$theme-colors: (
+  "primary": #3b3b3b,
+  "links": #bf003f
+);
+
+$sidebar-active-border-color: theme-color("links");
+
