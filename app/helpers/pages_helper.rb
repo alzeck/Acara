@@ -38,7 +38,7 @@ module PagesHelper
 
                     return loc
                 else
-                    render_500
+                    return [-79.4063075, 0.3149312]     #coordinate Geocoder dell'Antartide
                 end
             end
         end
