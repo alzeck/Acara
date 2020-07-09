@@ -47,8 +47,8 @@
 <div class="card" id="contact-us">
     <div class="card-body">
         <h5 class="card-title"> Contact Us </h5>
-        You can contact us throught direct messages with our admin's accounts: 
-        <div class="d-flex flex-wrap justify-content-center">
+        You can <a href="mailto:team@acara.com">send us an email</a> or, if you're logged in, you can contact us throught direct messages to our admin's accounts: 
+        <div class="d-flex flex-wrap">
             <% @admins.each do |user| %>
                 <%= link_to user_path(user) do %>
                 <div class="card mx-3 my-3" style="max-width:150px;min-width:150px;">
@@ -61,7 +61,8 @@
                 <% end %>
             <% end %>
         </div>
-        <p>or alternatively an email: </p>
-        <a class="btn btn-primary" href="mailto:team@acara.com">Send us email</a>
+        <% if @admins.empty? %>
+        <span class="text-muted"> OPS, it looks like there's no available admin account at the moment </span>
+        <%end%>
     </div>
 </div>

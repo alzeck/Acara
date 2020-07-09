@@ -69,7 +69,7 @@
                                 Follow
                             <% end %>
                         <% else %>
-                            <%= button_to( tag_path(tag), method: :delete, form_class: "d-inline-block ml-auto", 
+                            <%= button_to( tag_path(FollowsTag.where(user: current_user, tag: tag)[0]), method: :delete, form_class: "d-inline-block ml-auto", 
                                             class:"btn btn-danger" ) do %>
                                 Unfollow
                             <% end %>
@@ -78,6 +78,9 @@
                 </div>
             <% end %>
             </div>
+            <% if @risposta[:content][:tags].empty? %>
+            <span class="text-muted"> There are no similar tags found </span>
+            <%end%>
         </div>
     </div>
     <%= render partial: 'filters' %>
