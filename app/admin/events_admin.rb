@@ -20,7 +20,7 @@ Trestle.resource(:events) do
   end
   
   form do |event|
-    username = User.find(event.user.id).username
+    username = ( event.user.present? && User.find(event.user.id)) ? User.find(event.user.id).username : ""
     tags = HasTag.where(event_id: event.id).to_a.map {|elem| elem.tag.name}.join(' ')
     text_field :title
     static_field :user, username

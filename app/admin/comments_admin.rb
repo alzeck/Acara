@@ -18,9 +18,9 @@ Trestle.resource(:comments) do
   end
   
   form do |comment|
-    username = User.find(comment.user.id).username
+    username = (comment.user.present? && User.find(comment.user.id)) ? User.find(comment.user.id).username : ""
     static_field :user, username
-    eventname = Event.find(comment.event.id).title
+    eventname = (comment.event.present? && Event.find(comment.event.id)) ? Event.find(comment.event.id).title : ""
     static_field :event, eventname
     text_area :content
   end

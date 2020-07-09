@@ -21,7 +21,7 @@ Trestle.resource(:flags) do
 
   
   form do |flag|
-    username = User.find(flag.user.id).username
+    username = (flag.user.present? && User.find(flag.user.id)) ? User.find(flag.user.id).username : ""
     static_field :user, username
     static_field :reason
     static_field :description

@@ -21,6 +21,7 @@
     <%= render('layouts/modals') %>
     <!--   <%= render 'layouts/alerts'%> -->
     <div id="pageContent" class="<%= 'container container-body py-4' if has_navbar %>">
+        <%= render('layouts/alerts') %>
         <%= yield %>
     </div>
     <%= render('layouts/footer') if has_navbar %>

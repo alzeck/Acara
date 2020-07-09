@@ -7,8 +7,7 @@ function redirectGL(geolog) {
         str = "?" + str
 
     location.href+=str;
-    
 }
 
-
-navigator.geolocation.getCurrentPosition(redirectGL);
+if( document.getElementsByClassName("alert").length == 0 )
+    navigator.geolocation.getCurrentPosition(redirectGL);
