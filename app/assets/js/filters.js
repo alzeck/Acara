@@ -6,20 +6,29 @@ var platform = new H.service.Platform({
 var service = platform.getSearchService();
 
 function searchPlaces() {
+    $("#searchPlacesInput").removeClass("is-invalid");
+    $("#searchPlacesInput").removeClass("is-valid");
     const query = document.getElementById("searchPlacesInput").value;
     const list = document.getElementById("selectSpecificPlace");
     list.innerHTML = "";
-    service.geocode(
-        {
-            q: query
-        },
-        (result) => {
-            result.items.forEach(
-                (item) => {
-                    list.innerHTML += `<option data-cords="${item.position.lat},${item.position.lng}">${item.address.label}</option>`
-                });
-        },
-        () => { });
+    if (query != "") {
+        service.geocode(
+            {
+                q: query
+            },
+            (result) => {
+                result.items.forEach(
+                    (item) => {
+                        list.innerHTML += `<option data-cords="${item.position.lat},${item.position.lng}">${item.address.label}</option>`
+                    });
+
+                $("#searchPlacesInput").addClass("is-valid");
+            },
+            () => { });
+    }
+    else {
+        $("#searchPlacesInput").addClass("is-invalid");
+    }
 }
 
 function verifyDate() {
@@ -53,7 +62,7 @@ function addFilters() {
         const placeLabel = encodeURIComponent(place.options[place.selectedIndex].innerHTML);
         params = params.concat([`w=${cords}`, `p=${placeLabel}`])
     }
-    if (dateEnd != undefined || dateStart != undefined) {
+    if (dateEnd != "" || dateStart != "") {
         if (!verifyDate())
             return;
         params = params.concat([`es=${dateStart}`, `ee=${dateEnd}`])
