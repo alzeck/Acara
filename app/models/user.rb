@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
   # Only allow passwords of 8 characters minumum with lower and upper case letters, numbers and punctuation.
   def password_complexity
-    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s])/
     errors.add :password, "Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character"
   end
 
@@ -40,7 +40,7 @@ class User < ApplicationRecord
   validate :validate_username
 
   def validate_username
-    if User.where(email: username).exists?
+    if User.default_scoped.where(email: username).exists?
       errors.add(:username, :invalid)
     end
   end
@@ -55,7 +55,7 @@ class User < ApplicationRecord
       
       require "open-uri"
       # open the link
-      downloaded_image = open(auth.info.image)
+      downloaded_image = URI.open(auth.info.image)
 
       # upload via ActiveStorage
       # be careful here! the type may be png or other type!
