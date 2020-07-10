@@ -13,13 +13,9 @@
                     <% if user_signed_in? && @user != current_user %>
                         <br>
                         <div>
-                        <% if !@user.admin %>
-                            <% if current_user.admin %>
-                                <button class="btn btn-danger mr-2"> <div class="delete-icon"> </div> </button>
-                            <% else %>
-                                <button class="btn btn-danger mr-2" onclick="flag('user','<%= @user.id %>')"> <div class="flag-icon"></div> </button>
-                            <% end %>
-                        <% end %>
+
+                        <button class="btn btn-danger mr-2" onclick="flag('user','<%= @user.id %>')"> <div class="flag-icon"></div> </button>
+
                         <%= button_to( chats_path, method: :post, params: { chat: { user_id: @user.id }},
                                     form_class: "d-inline-block", class:"btn btn-success mr-2" ) do %>
                             <div class="chat-icon"> </div>
