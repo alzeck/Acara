@@ -36,22 +36,12 @@ class User < ApplicationRecord
 
   validate :password_complexity
 
-  # Prevent username to have someone else is email as username
-  validate :validate_username
-
-  def validate_username
-    if User.default_scoped.where(email: username).exists?
-      errors.add(:username, :invalid)
-    end
-  end
-
   # Oauth
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.username = auth.info.email.split("@")[0] + "_" + Time.now.strftime("%d%m%y%H%M%S") 
-      # Adds _timestamp to prevent users with same username
+      user.username = auth.info.email.split("@")[0]
       
       require "open-uri"
       # open the link
