@@ -30,32 +30,22 @@ class User < ApplicationRecord
 
   # Only allow passwords of 8 characters minumum with lower and upper case letters, numbers and punctuation.
   def password_complexity
-    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
+    return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s])/
     errors.add :password, "Complexity requirement not met. Please use: 1 uppercase, 1 lowercase, 1 digit and 1 special character"
   end
 
   validate :password_complexity
-
-  # Prevent username to have someone else is email as username
-  validate :validate_username
-
-  def validate_username
-    if User.where(email: username).exists?
-      errors.add(:username, :invalid)
-    end
-  end
 
   # Oauth
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.username = auth.info.email.split("@")[0] + "_" + Time.now.strftime("%d%m%y%H%M%S") 
-      # Adds _timestamp to prevent users with same username
+      user.username = auth.info.email.split("@")[0]
       
       require "open-uri"
       # open the link
-      downloaded_image = open(auth.info.image)
+      downloaded_image = URI.open(auth.info.image)
 
       # upload via ActiveStorage
       # be careful here! the type may be png or other type!
@@ -153,12 +143,6 @@ class User < ApplicationRecord
         self.save
       end
     end
-  end
-
-  after_commit :force_confirmation_email, on: :create
-
-  def force_confirmation_email
-    self.send_confirmation_instructions
   end
 
   # Controlla che la position sia una stringa di coordinate valide, come fatto per gli eventi, o una stringa vuota se non ci sono:

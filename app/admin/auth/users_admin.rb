@@ -1,4 +1,4 @@
-Trestle.resource(:users, model: (defined? User) ? User.where(admin: true) : User , scope: Auth) do
+Trestle.resource(:users, model: (ActiveRecord::Migration.table_exists?('users')) ? User.where(admin: true) : User , scope: Auth) do
   menu do
     group :configuration, priority: :last do
       item :users, icon: "fa fa-shield", label: "Admins"
