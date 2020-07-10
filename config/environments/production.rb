@@ -46,6 +46,11 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
 
+  #	fix error with https authentication key
+  config.action_controller.allow_forgery_protection = false
+
+
+
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :debug
@@ -63,7 +68,7 @@ Rails.application.configure do
   #MAIL
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+  config.action_mailer.default_url_options = { protocol: 'https', :host => "acara.it" }
   config.action_mailer.smtp_settings = {
     :user_name => ENV["SENDGRID_USERNAME"],
     :password => ENV["SENDGRID_PASSWORD"],
