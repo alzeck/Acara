@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: Acara_production
-  username: Acara
-  password: <%= ENV['ACARA_DATABASE_PASSWORD'] %>
+  database: Acara
