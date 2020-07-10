@@ -102,7 +102,7 @@
         <% if user_signed_in? %>
             <%= form_with model: Comment.new, url: event_comments_path(@event), class: "form-inline flex-nowrap", local: true do |f| %>
             <%= f.text_field :content, class: "form-control flex-grow-1 w-100", placeholder: "Write a comment", autocomplete: "off" %>
-            <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary") do %>
+            <%= button_tag(type: 'submit', class: "ml-3 btn btn-primary", id: "comment_submit") do %>
             <div class="send-comment-icon"></div>
             <% end %>
             <% end %>

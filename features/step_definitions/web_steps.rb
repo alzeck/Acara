@@ -261,8 +261,9 @@ Given /^I am a new user$/ do
   email = 'testing@man.net'
   password = 'Cucumber1!'
   username = 'Cucumber'
+  verification = true
 
-  @u = User.new(:email => email, :password => password, :username => username)
+  @u = User.new(:email => email, :password => password, :username => username, verification: verification)
   @u.skip_confirmation!
   @u.save!
 end
@@ -276,4 +277,13 @@ Given /^I have an event$/ do
   cords = "42.14621,13.73623"
 
   @e = Event.create(user_id: @u.id, title: title, description: description, start: start, end: fine, where: where, cords: cords)
+end
+
+When /^I fill in the comment section with "Nice Event!"$/ do
+  content = "Nice Event!"
+  find('#comment_content').set(content)
+end
+
+And /^I press the send comment button$/ do
+  find('#comment_submit').click
 end

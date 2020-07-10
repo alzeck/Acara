@@ -25,6 +25,9 @@ module NavigationHelpers
     when /^the updating an event page$/
       edit_event_path(@e)
 
+    when /^the users api page$/
+      api_users_path({apiKey: "#{@u.secretkey}"})
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
