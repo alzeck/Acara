@@ -252,3 +252,28 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+
+######################################################################################################
+
+
+Given /^I am a new user$/ do
+  email = 'testing@man.net'
+  password = 'Cucumber1!'
+  username = 'Cucumber'
+
+  @u = User.new(:email => email, :password => password, :username => username)
+  @u.skip_confirmation!
+  @u.save!
+end
+
+Given /^I have an event$/ do
+  title = "Sagra Molinese"
+  description = "Una buona festa"
+  start = "12/07/2020"
+  fine = "13/07/2020"
+  where = "Molina Aterno, Abruzzo, Italia"
+  cords = "42.14621,13.73623"
+
+  @e = Event.create(user_id: @u.id, title: title, description: description, start: start, end: fine, where: where, cords: cords)
+end

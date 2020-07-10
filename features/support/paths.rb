@@ -13,8 +13,17 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
 
-    when /^the home\s?page$/
-      '/'
+    when /^the Acara home page$/
+      root_path
+
+    when /^the log in page$/
+      new_user_session_path
+
+    when /^the event page$/
+      event_path(@e)
+
+    when /^the updating an event page$/
+      edit_event_path(@e)
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
