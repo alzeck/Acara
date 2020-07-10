@@ -320,6 +320,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    sendgrid-actionmailer (3.0.2)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.0)
     sendgrid-ruby (6.3.2)
       ruby_http_client (~> 3.4)
     simple_form (5.0.2)
@@ -408,6 +411,7 @@ DEPENDENCIES
   rest-client
   rspec-rails
   sass-rails (>= 6)
+  sendgrid-actionmailer
   sendgrid-ruby
   simple_form
   spring

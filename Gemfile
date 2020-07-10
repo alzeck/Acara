@@ -37,6 +37,7 @@ gem 'devise'
 gem 'omniauth-facebook'
 # Sendgrid (Emails)
 gem 'sendgrid-ruby'
+gem 'sendgrid-actionmailer'
 # Simple Form
 gem 'simple_form'
 # Geocoder
