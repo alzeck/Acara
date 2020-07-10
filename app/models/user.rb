@@ -145,6 +145,14 @@ class User < ApplicationRecord
     end
   end
 
+  after_commit :force_confirmation_email, on: %i[create update] 
+
+  def force_confirmation_email
+    unless self.confirmed? 
+      self.send_confirmation_instructions
+    end
+  end
+
   # Controlla che la position sia una stringa di coordinate valide, come fatto per gli eventi, o una stringa vuota se non ci sono:
   def validPosition
     if !position.match?(/^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/) && !position.match?(/^$/)
