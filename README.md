@@ -4,7 +4,7 @@
 
 **Acara** allows to look for and read the published events content and the registered users profiles, contact the developers and create an account.
 
-If the user's already registered, **Acara** also offers the possibility to create, modify and interact with the events, manage their account, flag other content, ask for verification and receive a weekly report email.
+If the user's already registered, **Acara** also offers the possibility to create, modify and interact with the events, manage their account, flag other content, ask for verification and receive a weekly newsletter.
 A wide new world full of possibilities unfolds with Acara, where there are not just events, but real strong experiences and emotions.
 
 You can try it live at https://acara.it
@@ -125,24 +125,34 @@ To launch them all with RSpec, FactoryBot and Rake_session_access, run in the ma
   bundle exec rspec ./spec/*_spec.rb
   ```
 
-
 ## Deployment
 
 1. Install the dependencies, plus [passenger](https://www.phusionpassenger.com/),  we recommend using it in combination with nginx.
 
     You will need to set up SSL certificates, to use this app. 
 
-2. Set up your deployment user and save the api keys as environment variables (usually it can be done adding them to `.profile`) and also your database url
+2. Create a database on postgres for your user 
+
+3. Set up your deployment user and save the api keys as environment variables (usually it can be done adding them to `.profile`) and also your database url
     ```sh
     export DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1/DATABASE_NAME"
     ```
 
-3. Edit [deploy.rb](config/deploy.rb) and [production.rb](config/deploy/production.rb) to match with your server info
+4. Edit [deploy.rb](config/deploy.rb) and [production.rb](config/deploy/production.rb) to match with your server info
 
-4. Run on your local machine
+5. Run on your local machine
     ```sh
-        cap production deploy
+    export DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1/DATABASE_NAME"
+    cap production deploy
     ```
+
+6. Set up crontab for weekly newsletter on your server:
+    ```sh
+    cd "MyAPP"/current/
+    whenever --update-crontab
+    ```
+
+
 
 For more information you can consult this [GoRails Guide](https://gorails.com/deploy/ubuntu/18.04)
 
