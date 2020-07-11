@@ -39,7 +39,9 @@ namespace :deploy do
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 
 # Default value for default_env is {}
-# set :default_env, {}
+set :default_env, {
+  DATABASE_URL: ENV['DATABASE_URL']
+}
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
