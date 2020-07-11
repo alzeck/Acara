@@ -1,7 +1,9 @@
-# ACARA
+![Logo](public/logo.png)
 
 **Acara** is a website that allows its users to find and share events according to their preferences and location, managing their feed with the help of tags and followings, with the possibility to mark the partecipation and leave a comment.
+
 **Acara** allows to look for and read the published events content and the registered users profiles, contact the developers and create an account.
+
 If the user's already registered, **Acara** also offers the possibility to create, modify and interact with the events, manage their account, flag other content, ask for verification and receive a weekly report email.
 A wide new world full of possibilities unfolds with Acara, where there are not just events, but real strong experiences and emotions.
 
@@ -60,6 +62,12 @@ To build and run the Rails app, go into the root folder of the repo and run the 
   export SENDGRID_API_KEY='<your-sendgrid-api-key>'
   export HERE_API_KEY='<your-here-api-key>'
   ```
+  Update [filters.js](app/assets/js/filters.js) and [maps.js](app/assets/js/maps.js) with your own here api keys
+    ``` javascript
+    var platform = new H.service.Platform({
+       'apikey': "<your-here-api-key>"
+    });
+    ```
   If you are planing on deploying this app read the **Deployment** section
 
 - With postgresql service running inizialize the database:
@@ -125,16 +133,16 @@ To launch them all with RSpec, FactoryBot and Rake_session_access, run in the ma
     You will need to set up SSL certificates, to use this app. 
 
 2. Set up your deployment user and save the api keys as environment variables (usually it can be done adding them to `.profile`) and also your database url
- ```sh
-  export DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1/DATABASE_NAME"
- ```
+    ```sh
+    export DATABASE_URL="postgresql://USER:PASSWORD@127.0.0.1/DATABASE_NAME"
+    ```
 
 3. Edit [deploy.rb](config/deploy.rb) and [production.rb](config/deploy/production.rb) to match with your server info
 
 4. Run on your local machine
-  ```sh
-    cap production deploy
-  ```
+    ```sh
+        cap production deploy
+    ```
 
 For more information you can consult this [GoRails Guide](https://gorails.com/deploy/ubuntu/18.04)
 
