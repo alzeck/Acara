@@ -92,7 +92,7 @@ class ReportMailer < ApplicationMailer
         @interested = Event.joins("JOIN participations ON participations.user_id = #{@user.id} AND events.id = participations.event_id AND participations.value = 'i' AND events.end >= '#{DateTime.now}'")
         @hot_events = takeHotEvents(@user)
 
-        mail(to: @user.email, subject: 'Your weekly ACARA report is here!') #:from => "team@acara.it"
+        mail(to: @user.email, subject: 'Your weekly ACARA Newsletter is here!') #:from => "team@acara.it"
     end
 
 end

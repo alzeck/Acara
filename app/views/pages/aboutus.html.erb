@@ -20,6 +20,12 @@
                         <h5 class="card-title"> Juan Sebastian Arboleda </h5>
                         UI and Security
                     </div>
+                    <div class="card-footer">
+                        <a class="btn btn-block btn-primary" href="https://github.com/AlZeck">
+                            <div class="git-icon"></div>
+                            Github
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="my-2 col">
@@ -29,6 +35,12 @@
                         <h5 class="card-title"> Andrea Cerone </h5>
                         API and Testing
                     </div>
+                    <div class="card-footer">
+                        <a class="btn btn-block btn-primary" href="https://github.com/andrea-cerone">
+                            <div class="git-icon"></div>
+                            Github
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="my-2 col">
@@ -37,6 +49,12 @@
                     <div class="card-body">
                         <h5 class="card-title"> Matteo Di Stadio </h5>
                         Models and Controllers
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-block btn-primary" href="https://github.com/matteo-ds">
+                            <div class="git-icon"></div>
+                            Github
+                        </a>
                     </div>
                 </div>
             </div>
@@ -48,7 +66,7 @@
     <div class="card-body">
         <h5 class="card-title"> Contact Us </h5>
         You can <a href="mailto:team@acara.com">send us an email</a> or, if you're logged in, you can contact us throught direct messages to our admin's accounts: 
-        <div class="d-flex flex-wrap">
+        <div class="d-flex flex-wrap justify-content-center">
             <% @admins.each do |user| %>
                 <%= link_to user_path(user) do %>
                 <div class="card mx-3 my-3" style="max-width:150px;min-width:150px;">
