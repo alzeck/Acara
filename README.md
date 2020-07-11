@@ -146,14 +146,6 @@ To launch them all with RSpec, FactoryBot and Rake_session_access, run in the ma
     cap production deploy
     ```
 
-6. Set up crontab for weekly newsletter on your server:
-    ```sh
-    cd "MyAPP"/current/
-    whenever --update-crontab
-    ```
-
-
-
 For more information you can consult this [GoRails Guide](https://gorails.com/deploy/ubuntu/18.04)
 
 ## Known issues
