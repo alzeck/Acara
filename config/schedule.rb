@@ -19,8 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :environment, :development
-
 #ad ogni mezzanotte tra domenica e lunedì
 #every 1.minutes do
 every :monday, :at => '12am' do
