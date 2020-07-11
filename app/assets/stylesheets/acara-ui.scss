@@ -475,10 +475,10 @@ div[class*="border"] {
 // chats 
 .chats {
     height: calc(100vh - 156px);
-    ;
     .chat-row {
-        height: 100%;
+        height: calc(100vh - 199px);
         .col {
+            // height: calc(100vh - 156px);
             height: 100%;
         }
     }

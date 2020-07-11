@@ -5,7 +5,8 @@
         <!--Content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Flag</h5>
+                <h5 class="modal-title">
+                <%= image_tag("/logo.png", size: "70x40") %> Report Content</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,7 +19,7 @@
                 <%= f.hidden_field :flaggedUser,    :value => @flag.flaggedUser_id %>
                 <%= f.input :reason, collection: Flag::REASONS[0..-2] %>
                 <%= f.input :description %>
-                <%= f.button :submit, "Send Flag" ,class: "btn-warning" %>
+                <%= f.button :submit, "Send Flag" ,class: "btn-warning btn-block" %>
                 <% end %>
             </div>
         </div>

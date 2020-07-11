@@ -39,13 +39,7 @@ namespace :deploy do
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 
 # Default value for default_env is {}
-set :default_env, { 
-  FACEBOOK_APP_ID: ENV['FACEBOOK_APP_ID'],
-  FACEBOOK_APP_SECRET: ENV['FACEBOOK_APP_SECRET'],
-  SENDGRID_API_KEY: ENV['SENDGRID_API_KEY'],
-  HERE_API_KEY: ENV['HERE_API_KEY'],
-  DATABASE_URL: ENV['DATABASE_URL']
-}
+# set :default_env, {}
 
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
