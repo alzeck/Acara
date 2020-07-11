@@ -53,3 +53,5 @@ set :keep_releases, 5
 # set :ssh_options, verify_host_key: :secure
 
 set :passenger_in_gemfile, true
+
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
