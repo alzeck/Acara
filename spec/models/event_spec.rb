@@ -40,8 +40,8 @@ RSpec.describe Event, :type => :model do
     expect(event2).to_not be_valid
   end
 
-  it "is not valid without ends" do 
-    event2 = build(:event, ends: nil)
+  it "is not valid without end" do 
+    event2 = build(:event, self.end: nil)
     expect(event2).to_not be_valid
   end
 

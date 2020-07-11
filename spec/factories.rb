@@ -6,6 +6,7 @@
 #user2 = create(:user, username: "Cucumber")
 #user2 attributes will be username: Cucumber, email: example@mail.com, password: Rspec1!!!, verification: true
 
+
 FactoryBot.define do
     factory :user do
         id              {1}
@@ -21,7 +22,7 @@ FactoryBot.define do
         title           {"Sagra Molinese"}
         description     {"Una buona festa"}
         start           {"Sun, 12 Jul 2020 00:00:00 +0000".to_datetime}
-        ends            {"Mon, 13 Jul 2020 00:00:00 +0000".to_datetime}
+        self.end        {"Mon, 13 Jul 2020 00:00:00 +0000".to_datetime}
         where           {"Molina Aterno, Abruzzo, Italia"}
         cords           {"42.14621,13.73623"}
         modified        {false}
@@ -34,5 +35,4 @@ FactoryBot.define do
         user_id         {1}
         event_id        {1}
     end
-
 end

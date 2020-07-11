@@ -19,7 +19,7 @@ RSpec.describe Comment, :type => :model do
         title: "Titolo",
         description: "Descrizione",
         start: "Sun, 12 Jul 2020 00:00:00 +0000".to_datetime,
-        ends: "Mon, 13 Jul 2020 00:00:00 +0000".to_datetime,
+        self.end: "Mon, 13 Jul 2020 00:00:00 +0000".to_datetime,
         where: "Molina Aterno, Abruzzo, Italia",
         cords: "42.14621,13.73623",
         modified: "false"
