@@ -6,7 +6,9 @@
             <div>
                 <h4 class="m-0"><%= @event.title %></h4>
                 <%= link_to @event.user.username, user_path(@event.user) %>
+                <% if @event.user.verification || @event.user.admin %>
                 <div class="<%= @event.user.verificationIcon %>"></div>
+                <% end %>
                 <br>
                 <%= @event.start.strftime("%e %B %Y, %H:%M") %> - <%= @event.end.strftime("%e %B %Y, %H:%M")%>
             </div>
