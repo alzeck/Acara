@@ -16,12 +16,11 @@
   </li>
 </ul>
 
-<div class="tab-content" id="pills-tabContent">
+<div class="tab-content border-top" id="pills-tabContent" style="overflow: auto; height: 426px;">
   <div class="tab-pane fade show active" id="pills-follower" role="tabpanel" aria-labelledby="pills-follower-tab">
     <% if @followers.length > 0 %>
       <% @followers.each do |f| %>
-          <hr>
-          <div class="ml-4">
+          <div class="pl-4 py-3 border-bottom">
           <%= link_to(user_path(f.follower))  do%>
           <%= image_tag f.follower.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
           <%= f.follower.username %>
@@ -38,8 +37,7 @@
   <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">
     <% if @following.length > 0 %>
       <% @following.each do |f| %>
-        <hr>
-        <div class="ml-4">
+        <div class="pl-4 py-3 border-bottom">
         <%= link_to(user_path(f.followed)) do%>
         <%= image_tag f.followed.avatar_thumbnail, class:"avatar align-self-center navbar-avatar mr-3" %>
         <%= f.followed.username %>
@@ -56,8 +54,7 @@
   <div class="tab-pane fade" id="pills-tag" role="tabpanel" aria-labelledby="pills-tag-tab">
     <% if @tags.length > 0 %>
       <% @tags.each do |t| %>
-        <hr>
-        <div class="ml-4">
+        <div class="pl-4 py-3 border-bottom">
         <%= link_to(search_path(q: "#{t.tag.name}")) do%>
         <%= t.tag.name %>
         <% end %>
