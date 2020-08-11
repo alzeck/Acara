@@ -53,7 +53,8 @@ gem 'redis'
 gem 'whenever', require: false
 # Passenger
 gem 'passenger'
-
+# google cloud for active storage in production
+gem 'google-cloud-storage'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
