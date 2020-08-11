@@ -41,7 +41,7 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
-  config.action_cable.allowed_request_origins = [ 'http://acara.it', 'https://acara.it' ]
+  config.action_cable.allowed_request_origins = [ 'http://www.acara.it', 'https://www.acara.it' ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
@@ -64,7 +64,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "Acara_production"
 
   #MAIL
-  config.action_mailer.default_url_options = { :host => "acara.it" }
+  config.action_mailer.default_url_options = { :host => "www.acara.it" }
   config.action_mailer.delivery_method = :sendgrid_actionmailer
   config.action_mailer.sendgrid_actionmailer_settings = {
     api_key: ENV['SENDGRID_API_KEY'],

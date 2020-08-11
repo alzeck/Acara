@@ -7,7 +7,7 @@
 If the user's already registered, **Acara** also offers the possibility to create, modify and interact with the events, manage their account, flag other content, ask for verification and receive a weekly newsletter.
 A wide new world full of possibilities unfolds with Acara, where there are not just events, but real strong experiences and emotions.
 
-You can try it live at https://acara.it
+You can try it live at https://www.acara.it
 
 ## Authors
 
