@@ -19,7 +19,7 @@ local:
 #   bucket: your_own_bucket
 
 # Remember not to checkin your GCS keyfile to a repository
-google:
+production:
   service: GCS
   project: Acara
   credentials: <%= ENV['GOOGLE_APPLICATION_CREDENTIALS'].as_json %>
