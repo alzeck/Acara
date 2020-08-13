@@ -24,7 +24,7 @@ You can try it live at https://www.acara.it
 - **Here Maps** - for maps and geocoding stuff
 - **Sendgrid** - to handle emails
 - **Redis Server** - to handle websockets
-- **Linode** - in order to host the website
+- **Heroku** - in order to host the website
 - **Swagger** - REST API documentation
 
 
