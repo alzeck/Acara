@@ -7,13 +7,13 @@
 If the user's already registered, **Acara** also offers the possibility to create, modify and interact with the events, manage their account, flag other content, ask for verification and receive a weekly newsletter.
 A wide new world full of possibilities unfolds with Acara, where there are not just events, but real strong experiences and emotions.
 
-You can try it live at https://www.acara.it
+
 
 ## Authors
 
-- **Juan Sebastian Arboleda Polo, 1805920**
-- **Andrea Cerone, 1770688**
-- **Matteo Di Stadio, 1794111**
+- **Juan Sebastian Arboleda Polo**
+- **Andrea Cerone**
+- **Matteo Di Stadio**
 
 
 ## Technologies used
